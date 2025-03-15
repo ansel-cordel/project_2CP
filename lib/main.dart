@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'pages/log_in_page.dart';
-import 'pages/sign_up.dart';
-import 'pages/sign_up_as.dart';
+import 'features/auth/presentation/log_in_page.dart';
+import 'features/auth/presentation/sign_up.dart';
+import 'features/auth/presentation/sign_up_as.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

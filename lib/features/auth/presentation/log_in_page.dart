@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import 'package:project_2cp/widgets/text_field.dart';
-import 'package:project_2cp/pages/sign_up_as.dart'; // Import the signup screen
+import 'package:project_2cp/core/widgets/text_field.dart';
+import 'package:project_2cp/features/auth/presentation/sign_up_as.dart'; // Import the signup screen
 
 class LoginScreen extends StatefulWidget {
   @override

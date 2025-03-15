@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_2cp/pages/sign_up.dart';
-import 'package:project_2cp/pages/log_in_page.dart';
+import 'package:project_2cp/features/auth/presentation/sign_up.dart';
+import 'package:project_2cp/features/auth/presentation/log_in_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/sign_up_as_provider.dart';
 
-class SignUpAs extends StatefulWidget {
+class SignUpAs extends ConsumerWidget {
   const SignUpAs({super.key});
 
   @override
-  State<SignUpAs> createState() => _SignUpAsState();
-}
+  Widget build(BuildContext context, WidgetRef ref) { 
+    final selectedOption = ref.watch(toggleNotifierProvider); 
 
-class _SignUpAsState extends State<SignUpAs> {
-  String? selectedOption;
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          onPressed: () {Get.to(() => LoginScreen(), transition: Transition.leftToRight);},
+          onPressed: () {
+            Get.to(() =>  LoginScreen(), transition: Transition.leftToRight);
+          },
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
         ),
         centerTitle: true,
@@ -44,6 +43,7 @@ class _SignUpAsState extends State<SignUpAs> {
               children: [
                 Expanded(
                   child: buildOption(
+                    ref: ref, // Fixed: Pass ref
                     title: "A Client",
                     description:
                         "Find a selection of the many menus we offer with the restaurants that are signed up in our app!",
@@ -57,6 +57,7 @@ class _SignUpAsState extends State<SignUpAs> {
                 ),
                 Expanded(
                   child: buildOption(
+                    ref: ref,
                     title: "A Restaurant",
                     description:
                         "Advertise your food and get new clients from all around town ordering from you!",
@@ -70,6 +71,7 @@ class _SignUpAsState extends State<SignUpAs> {
                 ),
                 Expanded(
                   child: buildOption(
+                    ref: ref,
                     title: "A Deliverer",
                     description:
                         "Join our team of talented deliverers and work as a part-timer with us!",
@@ -86,15 +88,15 @@ class _SignUpAsState extends State<SignUpAs> {
                   child: TextButton(
                     onPressed: () {
                       if (selectedOption != null) {
-                        Get.to(() => SignUpScreen(), transition: Transition.rightToLeft);
+                        Get.to(() => const SignUpScreen(),
+                            transition: Transition.rightToLeft);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text("Please choose your sign-up method"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      
                       }
                     },
                     child: Text(
@@ -103,7 +105,7 @@ class _SignUpAsState extends State<SignUpAs> {
                         fontSize: titleFontSize,
                         fontWeight: FontWeight.w400,
                         color: selectedOption != null
-                            ? Color(0xFFFF7700)
+                            ? const Color(0xFFFF7700)
                             : Colors.grey,
                       ),
                     ),
@@ -116,8 +118,8 @@ class _SignUpAsState extends State<SignUpAs> {
       ),
     );
   }
-
-  Widget buildOption({
+   Widget buildOption({
+    required WidgetRef ref,
     required String title,
     required String description,
     required String imagePath,
@@ -132,7 +134,7 @@ class _SignUpAsState extends State<SignUpAs> {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () => setState(() => selectedOption = optionType),
+        onTap: () => ref.read(toggleNotifierProvider.notifier).toggle(optionType),
         child: Padding(
           padding:
               EdgeInsets.symmetric(vertical: 16, horizontal: imageSize * 0.5),
