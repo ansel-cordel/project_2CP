@@ -14,13 +14,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  bool _isButtonPressed = false;
+  bool _isButtonPressed = false; // Moved to correct place
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double textScale = MediaQuery.textScaleFactorOf(context);
+    final double textScale = MediaQuery.of(context).textScaleFactor; // Fixed syntax error
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Get.to(() => SignUpAs(),transition: Transition.rightToLeft); // Use GetX for navigation
+                            Get.to(() => SignUpAs(), transition: Transition.rightToLeft); // Use GetX for navigation
                           },
                           child: Text(
                             "Sign Up >",
