@@ -6,7 +6,7 @@ class CustomFormText extends StatefulWidget {
   final TextEditingController controller;
   final bool isEmail;
 
-  CustomFormText({
+  const CustomFormText({
     super.key,
     required this.isEmail,
     required this.hintText,

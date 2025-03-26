@@ -2,84 +2,115 @@ import 'package:flutter/material.dart';
 
 class OrderTracking extends StatelessWidget {
   final int currentStep;
-  OrderTracking({super.key,this.currentStep = 0});
+   OrderTracking({super.key, this.currentStep = 0});
 
-  
-  final List<String> current = ["Order Placed", "Picked Up", "Delivered", "Received"];
+  final List<String> current = ["Ordered", "Picked Up", "Delivered", "Received"];
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        4,
-        (index) => Expanded(child: buildStep(index, context, index < 3, current)),
+    double screenWidth = MediaQuery.of(context).size.width;
+    double stepCircleSize = screenWidth * 0.08; // Responsive step size
+    double lineHeight = screenWidth * 0.015; // Responsive line height
+    double textSize = screenWidth * 0.025; // Responsive text size
+
+    return Padding(
+      padding: EdgeInsets.only(left: 35),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: List.generate(
+          4,
+          (index) => Flexible(
+            child: buildStep(index, context, index < 3, stepCircleSize, lineHeight, textSize),
+          ),
+        ),
       ),
     );
   }
 
-  Widget buildStep(int index, BuildContext context, bool showLine, List<String> current) {
-    bool isCompleted = index < currentStep;
-    bool isGradientLine = index == currentStep - 1;
+  Widget buildStep(int index, BuildContext context, bool showLine, double stepSize, double lineHeight, double textSize) {
+  bool isCompleted = index < currentStep;
+  bool isGradientLine = index == currentStep - 1;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  return SizedBox(
+    height: 55, // Adjusted height to prevent overflow
+    child: Stack(
+      clipBehavior: Clip.none, // Ensures elements are not clipped
       children: [
-        Row(
+        Column(
           children: [
-            // Step Circle with Shadow
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2), // Soft shadow
-                    blurRadius: 6,
-                    offset: Offset(2, 3),
+            Row(
+              children: [
+                // Step Circle
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 6,
+                        offset: Offset(2, 3),
+                      ),
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    radius: stepSize / 2,
+                    backgroundColor: isCompleted ? const Color(0xFFFF7700) : const Color(0xFFD9D9D9),
+                    child: isCompleted
+                        ? Icon(Icons.check, color: Colors.black, size: stepSize * 0.6)
+                        : null,
+                  ),
+                ),
+
+                // Connecting Line
+                if (showLine)
+                  Expanded(
+                   child: Container(
+  height: lineHeight,
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      colors: isGradientLine
+          ? [Color(0xFFFF7700), Color(0xFFD9D9D9)] // Transition from orange to gray
+          : isCompleted
+              ? [Color(0xFFFF7700), Color(0xFFFF7700)] // Solid orange for completed steps
+              : [Color(0xFFD9D9D9), Color(0xFFD9D9D9)], // Solid gray for incomplete steps
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+    ),
+  ),
+),
+
+                  ),
+              ],
+            ),
+
+            SizedBox(height: stepSize * 0.2), // Space for text
+          ],
+        ),
+
+        // Status Text positioned below the step
+         Positioned(
+          left: -10,
+            right:stepSize * 0.5, // Adjust positioning
+            top: stepSize +5, // Position below the step
+            child: Text(
+              current[index],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: textSize,
+                color: Colors.grey,
+                shadows: [
+                  Shadow(
+                    blurRadius: 3.0,
+                    color: Colors.black.withOpacity(0.2),
+                    offset: const Offset(2, 2),
                   ),
                 ],
               ),
-              child: CircleAvatar(
-                radius: 20,
-                backgroundColor: isCompleted ? Color(0xFFFF7700) : Color(0xFFD9D9D9),
-                child: isCompleted
-                    ? Icon(Icons.check, color: Colors.black, size: 22) // Bolder checkmark
-                    : null,
-              ),
             ),
-
-            // Connecting Line with Rounded Edges
-            if (showLine)
-              Expanded(
-                child: Container(
-                  height: 7,
-                   // Better spacing
-                  decoration: BoxDecoration(
-                    
-                    gradient: isGradientLine
-                        ? LinearGradient(
-                            colors: [Color(0xFFFF7700), Color(0xFFD9D9D9)],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          )
-                        : null,
-                    color: isGradientLine ? null : Color(0xFFFF7700),
-                  ),
-                ),
-              ),
-          ],
-        ),
+          ),
         
-        // Status Text Below Circle
-        SizedBox(height: 6), // Spacing
-        Text(
-          current[index],
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, color: Colors.grey,shadows: [Shadow( blurRadius: 3.0, // Softness of the shadow
-        color: Colors.black.withOpacity(0.2), // Shadow color
-        offset: Offset(2, 2), )])
-        ),
       ],
-    );
-  }
+    ),
+  );
+}
 }

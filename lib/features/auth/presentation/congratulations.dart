@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-class Congratulations extends StatelessWidget { 
+class Congratulations extends StatelessWidget {
+  const Congratulations({super.key});
+ 
    
  
   @override 
