@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project_2cp/features/orders/presentation/orderhistory.dart';
+import 'package:project_2cp/features/orderhisyory/presentation/orderhistory.dart';
+import 'package:project_2cp/features/orderlist/presentation/orderlistpage.dart';
+
 import 'package:get/get.dart';
 
 class TodaysMenu_text extends StatelessWidget {
@@ -113,7 +115,7 @@ class _TodaysMenu_widgetState extends State<TodaysMenu_widget> {
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    num1 = num1 - 1;
+                                    Get.to(OrderHistoryPage());
                                   },
                                   icon: Icon(Icons.arrow_back_ios,
                                       color: Colors.black),
@@ -189,7 +191,7 @@ class _TodaysMenu_widgetState extends State<TodaysMenu_widget> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40)),
               onPressed: () {
-                Get.to(() => OrderHistoryPage());
+                Get.to(() => OrderListPage());
               },
               backgroundColor: Colors.orange[800],
               child: Icon(

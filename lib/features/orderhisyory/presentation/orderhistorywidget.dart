@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:project_2cp/features/orders/presentation/track.dart';
+import 'package:project_2cp/features/orderhisyory/presentation/track.dart';
 
-class OrderCard {
-  static Widget addOrder(
-      {required String date,
-      required String time,
-      required int state,
-      required BuildContext context}) {
+class OrderHistoryCard extends StatelessWidget {
+  final String date;
+  final String time;
+  final int state;
+  final int price;
+  OrderHistoryCard(
+      {super.key, required this.date, required this.time, required this.state,required this.price});
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -78,7 +81,7 @@ class OrderCard {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Price: 1500DA",
+                    "Price: $price DA",
                     style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.04,
                       fontWeight: FontWeight.bold,
