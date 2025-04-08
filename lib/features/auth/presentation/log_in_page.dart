@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:project_2cp/core/widgets/text_field.dart';
 import 'package:project_2cp/features/auth/presentation/sign_up_as.dart'; // Import the signup screen
-
+import '../presentation/forgotpassword.dart';
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -20,7 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double textScale = MediaQuery.of(context).textScaleFactor; // Fixed syntax error
+    final double textScale =
+        MediaQuery.of(context).textScaleFactor; // Fixed syntax error
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -135,16 +138,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               offset: Offset(4, 4),
                             ),
                           ],
-                          color: _isButtonPressed ? Colors.white : Color(0xFFFF7700),
+                          color: _isButtonPressed
+                              ? Colors.white
+                              : Color(0xFFFF7700),
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Color(0xFFFF7700), width: 2),
+                          border:
+                              Border.all(color: Color(0xFFFF7700), width: 2),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           "Login",
                           style: TextStyle(
                             fontSize: screenHeight * 0.03 * textScale,
-                            color: _isButtonPressed ? Color(0xFFFF7700) : Colors.white,
+                            color: _isButtonPressed
+                                ? Color(0xFFFF7700)
+                                : Colors.white,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -153,7 +161,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     // Forgot Password
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(ForgotPasswordPage());
+                      },
                       child: Text(
                         "Forgot Password?",
                         style: TextStyle(
@@ -176,11 +186,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           "New to our App?",
-                          style: TextStyle(fontSize: screenHeight * 0.025 * textScale),
+                          style: TextStyle(
+                              fontSize: screenHeight * 0.025 * textScale),
                         ),
                         TextButton(
                           onPressed: () {
-                            Get.to(() => SignUpAs(), transition: Transition.rightToLeft); // Use GetX for navigation
+                            Get.to(() => SignUpAs(),
+                                transition: Transition
+                                    .rightToLeft); // Use GetX for navigation
                           },
                           child: Text(
                             "Sign Up >",

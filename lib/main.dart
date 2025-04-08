@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_2cp/features/home/presentation/main_home.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'features/auth/presentation/log_in_page.dart';
@@ -10,12 +11,15 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       getPages: [
+        GetPage(name: '/home', page: () => HomeScreen()),
         GetPage(name: '/login', page: () => LoginScreen()),
         GetPage(name: '/signup', page: () => SignUpScreen()),
         GetPage(name: '/signupas', page: () => SignUpAs()),
