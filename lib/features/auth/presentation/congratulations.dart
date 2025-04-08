@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:project_2cp/features/home/presentation/main_home.dart';
 class Congratulations extends StatelessWidget {
   const Congratulations({super.key});
  
@@ -34,10 +36,30 @@ class Congratulations extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 50), 
                   child: Text("You Have Successfully Created an Account" 
                   ,style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 23),textAlign: TextAlign.center,)), 
-              ) 
+              ),
+               Padding(
+              padding: const EdgeInsets.only(bottom: 20, right: 8),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: TextButton(
+                  onPressed: () {
+                    Get.to(HomeScreen());
+                  },
+                  child: Text(
+                    "Next >",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xFFFF7700),
+                    ),
+                  ),
+                ),
+              ),
+            ), 
             ], 
           ), 
-        ) 
+        )
+        
       ), 
     ); 
   } 

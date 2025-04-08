@@ -12,7 +12,7 @@ OrderHistory(date: "DD-MM-YYYY", price: 3500, state: 3, time: "HH-MM-SS")
 
   void addOrders(List<Order> newOrders) {
     List<OrderHistory> convertedOrders = newOrders.map((order) => OrderHistory.fromOrder(order)).toList();
-    state = [...state, ...convertedOrders]; // Append converted orders
+    state = [...convertedOrders, ...state]; // Append converted orders
   }
 }
 
