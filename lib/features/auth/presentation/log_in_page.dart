@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  bool _isButtonPressed = false; // Moved to correct place
+  bool _isButtonPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Top Image with Gradient Overlay
-            SizedBox(
+           SizedBox(
               height: screenHeight * 0.4,
               width: screenWidth,
               child: Stack(

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_2cp/features/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/orderlist/providers/addorderidprovider.dart';
+import 'package:project_2cp/features/orderlist/providers/listprovider.dart';
 
-class OrderDetail extends StatelessWidget {
+class OrderDetail extends ConsumerWidget {
   final String image;
   final String name;
   final String resto;
@@ -8,16 +12,20 @@ class OrderDetail extends StatelessWidget {
   final String description;
   final int price;
 
-  const OrderDetail({super.key,
-  required this.name
-  ,required this.resto
-  ,required this.price
-  ,required this.amount
-  ,required this.description
-  ,required this.image});
+  const OrderDetail({
+    super.key,
+    required this.name,
+    required this.resto,
+    required this.price,
+    required this.amount,
+    required this.description,
+    required this.image,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentId = ref.read(idcountprovider).toString();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -26,17 +34,19 @@ class OrderDetail extends StatelessWidget {
             Stack(
               children: [
                 SizedBox(
-                    height: 250,
-                    width: double.infinity,
-                    child: Image.asset("images/pizza.png",
-                        width: double.infinity, fit: BoxFit.cover)),
+                  height: 250,
+                  width: double.infinity,
+                  child: Image.asset(image, fit: BoxFit.cover),
+                ),
                 Positioned(
                   left: 10,
                   top: 40,
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back_ios,
                         color: Colors.deepOrangeAccent),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
                 ),
               ],
@@ -45,18 +55,20 @@ class OrderDetail extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text("Fish Au Chocolat",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  Icon(Icons.location_on, color: Colors.deepOrangeAccent),
+                children: [
+                  Text(name,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
+                  const Icon(Icons.location_on, color: Colors.deepOrangeAccent),
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child:
-                  Text("Fish Brother Fr", style: TextStyle(color: Colors.grey)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                resto,
+                style: const TextStyle(color: Colors.grey),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -69,33 +81,43 @@ class OrderDetail extends StatelessWidget {
                   SizedBox(width: 16),
                   Icon(Icons.shopping_bag_outlined, size: 18),
                   SizedBox(width: 4),
-                  Text("7000+ Order",
+                  Text("7000+ Orders",
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: const Text(
-                "Beautiful Fish Made with chocolate and spices. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut consequat tortor. Pellentesque pretium eros neque, vel tempor mauris volutpat sed.",
-                style: TextStyle(color: Colors.black54),
+              child: Text(
+                description,
+                style: const TextStyle(color: Colors.black54),
               ),
             ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 160,
+        child: Column(
+          children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("700DA",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text(
+                    "$price DA",
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
                   Row(
                     children: [
                       IconButton(
                         icon: const Icon(Icons.remove, color: Colors.orange),
                         onPressed: () {},
                       ),
-                      const Text("1", style: TextStyle(fontSize: 18)),
+                      Text(amount.toString(),
+                          style: const TextStyle(fontSize: 18)),
                       IconButton(
                         icon: const Icon(Icons.add, color: Colors.orange),
                         onPressed: () {},
@@ -114,7 +136,15 @@ class OrderDetail extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   minimumSize: const Size(double.infinity, 50),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(orderListProvider.notifier).addorder(Order(
+                        id: currentId,
+                        image: image,
+                        name: name,
+                        price: price,
+                        resto: resto,
+                      ));
+                },
                 child: const Text("Add To Cart",
                     style: TextStyle(
                         color: Colors.white,

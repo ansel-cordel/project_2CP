@@ -32,7 +32,7 @@ class EmailSent extends StatelessWidget {
                     flex: 2,
                     child: Container(
                       alignment: Alignment.center,
-                      child: Container(
+                      child: SizedBox(
                           width: 250,
                           child: Column(
                             children: [

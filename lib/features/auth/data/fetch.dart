@@ -6,11 +6,15 @@ final loginProvider = Provider((ref) => Auth());
 
 class Auth {
   Future<http.Response> signup({
+    required String username,
+    required int phone_number,
     required String name,
-    required String lastname,
+    required String last_name,
     required String password,
     required String email,
-    required String role,
+    required String adress,
+
+    
   }) async {
     const String url = "https://curvy-icons-fix.loca.lt/api/register/";
     final response = await http.post(
@@ -18,10 +22,13 @@ class Auth {
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "email": email,
-        "username": name,
-        "last_name": lastname,
+        "username": username,
+        "name":name,
+        "last_name": last_name,
         "password": password,
-        "role": role,
+        "phone_number":phone_number,
+        "adress":adress,
+
       }),
     );
     return response;
