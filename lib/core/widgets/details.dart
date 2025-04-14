@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 
 class OrderDetail extends StatelessWidget {
-  const OrderDetail({super.key});
+  final String image;
+  final String name;
+  final String resto;
+  final int amount;
+  final String description;
+  final int price;
+
+  const OrderDetail({super.key,
+  required this.name
+  ,required this.resto
+  ,required this.price
+  ,required this.amount
+  ,required this.description
+  ,required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -10,18 +23,19 @@ class OrderDetail extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Stack(
               children: [
                 SizedBox(
-                  height: 250,
-                  width: double.infinity,
-                  child: Image.asset("images/pizza.png", width: double.infinity, fit: BoxFit.cover)),
+                    height: 250,
+                    width: double.infinity,
+                    child: Image.asset("images/pizza.png",
+                        width: double.infinity, fit: BoxFit.cover)),
                 Positioned(
                   left: 10,
                   top: 40,
                   child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, color: Colors.deepOrangeAccent),
+                    icon: const Icon(Icons.arrow_back_ios,
+                        color: Colors.deepOrangeAccent),
                     onPressed: () {},
                   ),
                 ),
@@ -32,14 +46,17 @@ class OrderDetail extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  Text("Fish Au Chocolat", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text("Fish Au Chocolat",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   Icon(Icons.location_on, color: Colors.deepOrangeAccent),
                 ],
               ),
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text("Fish Brother Fr", style: TextStyle(color: Colors.grey)),
+              child:
+                  Text("Fish Brother Fr", style: TextStyle(color: Colors.grey)),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -47,11 +64,13 @@ class OrderDetail extends StatelessWidget {
                 children: const [
                   Icon(Icons.star, color: Colors.deepOrangeAccent, size: 18),
                   SizedBox(width: 4),
-                  Text("4.8 Rating", style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text("4.8 Rating",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   SizedBox(width: 16),
                   Icon(Icons.shopping_bag_outlined, size: 18),
                   SizedBox(width: 4),
-                  Text("7000+ Order", style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text("7000+ Order",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -67,7 +86,9 @@ class OrderDetail extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("700DA", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  const Text("700DA",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   Row(
                     children: [
                       IconButton(
@@ -89,18 +110,21 @@ class OrderDetail extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepOrangeAccent,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 onPressed: () {},
-                child: const Text("Add To Cart", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                child: const Text("Add To Cart",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold)),
               ),
             ),
           ],
         ),
       ),
     );
-
-    
   }
 }

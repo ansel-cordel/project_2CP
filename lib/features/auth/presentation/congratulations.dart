@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_2cp/features/home/presentation/main_home.dart';
+import 'package:project_2cp/main.dart';
 class Congratulations extends StatelessWidget {
   const Congratulations({super.key});
  
@@ -43,7 +43,7 @@ class Congratulations extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(HomeScreen());
+                    Get.to(HomePage());
                   },
                   child: Text(
                     "Next >",
