@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:project_2cp/core/widgets/details.dart';
+
 
 class FindWhatYouLike_text extends StatelessWidget{
   const FindWhatYouLike_text({super.key});
@@ -34,11 +37,11 @@ class _FindWhatYouLike_widgetState extends State<FindWhatYouLike_widget>{
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          finds(),
-          finds(),
-          finds(),
-          finds(),
-          finds(),
+          finds(name:"Turksish BBQ",image:"assets/BBQ.jpg"),
+          finds(name:"Pasta Salad",image:"assets/pasta_salad.jpg"),
+          finds(name:"Salad",image:"assets/salamon.jpg"),
+          finds(name:"cheese Pizza",image:"assets/pizza2.jpg"),
+          finds(name:"Salamon",image:"assets/salamon.jpg"),
         ],
       ),
     );
@@ -46,7 +49,12 @@ class _FindWhatYouLike_widgetState extends State<FindWhatYouLike_widget>{
 }
 
 class finds extends StatefulWidget{
-  const finds({super.key});
+  final String image;
+  final String name;
+  const finds({super.key
+  ,required this.name,
+  required this.image
+  });
 
     @override
   _findsState createState() => _findsState();
@@ -59,7 +67,9 @@ class _findsState extends State<finds>{
       width: MediaQuery.of(context).size.width * 0.36,
       height: MediaQuery.of(context).size.width * 0.5,
       child: MaterialButton(
-        onPressed: (){},
+        onPressed: (){
+          Get.to(OrderDetail());
+        },
         child:SizedBox(
           width: MediaQuery.of(context).size.width * 0.36,
       height: MediaQuery.of(context).size.width * 0.5,
@@ -71,7 +81,7 @@ class _findsState extends State<finds>{
               height: double.infinity,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(13),
-                child: Image.asset("assets/rich.jpg",
+                child: Image.asset(widget.name,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -80,7 +90,7 @@ class _findsState extends State<finds>{
               bottom: 18,
               left: 15,
             child:
-            Text("PORNO!!!!",
+            Text(widget.name,
               style: TextStyle(
               color: Colors.white,
           ),),

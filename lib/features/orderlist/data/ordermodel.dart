@@ -1,5 +1,5 @@
 class Order {
-  final String id; // Unique identifier for each order
+  final String id; 
   final String name;
   final String resto;
   final String image;
