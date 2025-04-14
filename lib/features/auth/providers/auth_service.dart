@@ -16,20 +16,24 @@ class RegisterNotifier extends StateNotifier<AsyncValue<http.Response?>> {
   RegisterNotifier(this._apiService) : super(const AsyncValue.data(null));
 
   Future<void> registerUser({
+    required String username,
     required String name,
     required String lastName,
     required String email,
     required String password,
-    required String role,
+    required String adress,
+    required int number
   }) async {
     state = const AsyncValue.loading();
     try {
       final response = await _apiService.signup(
-        name: name,
-        lastname:  lastName,
+        username: username,
+        name:name,
+        last_name:  lastName,
         email: email,
         password: password,
-        role: role,
+        adress:adress,
+        phone_number:number
       );
       state = AsyncValue.data(response);
     } catch (e) {

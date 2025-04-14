@@ -12,20 +12,7 @@ class OrderListNotifier extends StateNotifier<List<Order>> {
   final Ref ref; // 👈 hold reference to read other providers
 
   OrderListNotifier(this.ref)
-      : super([
-          Order(
-              id: "1",
-              name: "Dorse",
-              price: 1500,
-              resto: "Woody Wood",
-              image: "assets/dorse.jpeg"),
-          Order(
-              id: "2",
-              name: "Pizza",
-              price: 899,
-              resto: "Pizza House",
-              image: "assets/pizza.png"),
-        ]);
+      : super([]);
 
   void removeOrder(String orderId) {
     state = state.where((order) => order.id != orderId).toList();

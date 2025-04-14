@@ -11,7 +11,7 @@ class TodaysMenuWidget extends ConsumerWidget {
   final String restaurant;
   final int price;
 
-  TodaysMenuWidget({
+  const TodaysMenuWidget({
     super.key,
     required this.image,
     required this.name,

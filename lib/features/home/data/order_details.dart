@@ -4,18 +4,12 @@ class OrderDetails extends Order {
   final String description;
   final int quantity;
   OrderDetails({
-    required String id,
-    required String name,
-    required String resto,
-    required String image,
-    required int price,
+    required super.id,
+    required super.name,
+    required super.resto,
+    required super.image,
+    required super.price,
     required this.description,
     required this.quantity,
-  }) : super(
-          id: id,
-          name: name,
-          resto: resto,
-          image: image,
-          price: price,
-        );
+  });
 }

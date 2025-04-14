@@ -2,103 +2,118 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_2cp/core/widgets/details.dart';
 
-
-class FindWhatYouLike_text extends StatelessWidget{
-  const FindWhatYouLike_text({super.key});
+class FindWhatYouLikeText extends StatelessWidget {
+  const FindWhatYouLikeText({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return 
-         Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-             children: [ Text("Find What You Like:",style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w900,
-              fontSize: 22,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: const [
+        Text(
+          "Find What You Like:",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w900,
+            fontSize: 22,
           ),
         ),
-      ]
+      ],
     );
   }
 }
 
-class FindWhatYouLike_widget extends StatefulWidget{
-  const FindWhatYouLike_widget({super.key});
 
-  @override
-  _FindWhatYouLike_widgetState createState() => _FindWhatYouLike_widgetState();
-}
+class FindWhatYouLikeWidget extends StatelessWidget {
+  const FindWhatYouLikeWidget({super.key});
 
-class _FindWhatYouLike_widgetState extends State<FindWhatYouLike_widget>{
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          finds(name:"Turksish BBQ",image:"assets/BBQ.jpg"),
-          finds(name:"Pasta Salad",image:"assets/pasta_salad.jpg"),
-          finds(name:"Salad",image:"assets/salamon.jpg"),
-          finds(name:"cheese Pizza",image:"assets/pizza2.jpg"),
-          finds(name:"Salamon",image:"assets/salamon.jpg"),
-        ],
+    final imagesList = [
+      "assets/BBQ.jpg",
+      "assets/pasta_salad.jpg",
+      "assets/salamon.jpg",
+      "assets/pizza2.jpg",
+      "assets/salamon.jpg"
+    ];
+
+    final namesList = [
+      "Turkish BBQ",
+      "Pasta Salad",
+      "Salad",
+      "Cheese Pizza",
+      "Salmon"
+    ];
+
+    return SizedBox(
+      height: 250,
+      child: PageView.builder(
+        controller: PageController(viewportFraction: 0.85),
+        itemCount: imagesList.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Get.to(OrderDetail(image:imagesList[index],name:namesList[index],price:1500,resto:"Food Express",amount:1,description:"kzjhgvuhagcuzaevuzegcizegcuyzebfuzefvcjzevuyzevkjzevuyzibvkzrvihzkbviuzegv zkudgvozrnviuzrgvoznvoze_hvozieenv izhvoiznvzev"));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 3,
+                          blurRadius: 6,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        imagesList[index],
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                        height: 250,
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Colors.black],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 15,
+                    left: 15,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        namesList[index],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 26.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
-}
-
-class finds extends StatefulWidget{
-  final String image;
-  final String name;
-  const finds({super.key
-  ,required this.name,
-  required this.image
-  });
-
-    @override
-  _findsState createState() => _findsState();
-}
-
-class _findsState extends State<finds>{
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.36,
-      height: MediaQuery.of(context).size.width * 0.5,
-      child: MaterialButton(
-        onPressed: (){
-          Get.to(OrderDetail());
-        },
-        child:SizedBox(
-          width: MediaQuery.of(context).size.width * 0.36,
-      height: MediaQuery.of(context).size.width * 0.5,
-          child: Stack(
-            fit: StackFit.expand,
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(13),
-                child: Image.asset(widget.name,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 18,
-              left: 15,
-            child:
-            Text(widget.name,
-              style: TextStyle(
-              color: Colors.white,
-          ),),
-          )
-                  ],
-                ),
-        ),   
-   ),
-  );
- }
 }

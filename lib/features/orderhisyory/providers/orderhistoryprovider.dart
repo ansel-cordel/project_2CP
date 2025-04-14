@@ -5,8 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class OrderHistoryNotifier extends StateNotifier<List<OrderHistory>> {
   OrderHistoryNotifier() : super([
-OrderHistory(date: "DD-MM-YYYY", price: 1500, state: 1, time: "HH-MM-SS"),
-OrderHistory(date: "DD-MM-YYYY", price: 3500, state: 3, time: "HH-MM-SS")
+
 
   ]);
 
