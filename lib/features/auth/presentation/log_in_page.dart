@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:get/get.dart';
-import 'package:project_2cp/core/widgets/text_field.dart';
-import 'package:project_2cp/features/auth/presentation/sign_up_as.dart'; // Import the signup screen
-import 'package:project_2cp/main.dart';
-import '../presentation/forgotpassword.dart';
 
-class LoginScreen extends StatefulWidget {
+import 'package:project_2cp/core/widgets/text_field.dart';
+
+import 'package:project_2cp/features/auth/providers/auth_service.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -24,15 +25,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double textScale =
-        MediaQuery.of(context).textScaleFactor; // Fixed syntax error
+    final double textScale = MediaQuery.of(context).textScaleFactor;
+
+    final loginState = ref.watch(loginResponseProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
-           SizedBox(
+            SizedBox(
               height: screenHeight * 0.4,
               width: screenWidth,
               child: Stack(
@@ -61,7 +63,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
             SizedBox(height: screenHeight * 0.02),
 
-            // Welcome Text
             Text(
               "Welcome!",
               style: GoogleFonts.poppins(
@@ -106,119 +107,75 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: _passwordController,
                       isEmail: false,
                     ),
-                    SizedBox(height: screenHeight * 0.03),
+                    SizedBox(height: screenHeight * 0.04),
 
-                    // Login Button with GestureDetector
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          setState(() {
-                            _isButtonPressed = true;
-                            Get.to(HomePage());
-                          });
+                          setState(() => _isButtonPressed = true);
 
-                          // Delay before resetting button color
-                          Future.delayed(Duration(milliseconds: 300), () {
-                            setState(() {
-                              _isButtonPressed = false;
-                            });
-                          });
+                          final loginNotifier =
+                              ref.read(loginResponseProvider.notifier);
+                          await loginNotifier.loginUser(
+                            username: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          );
 
-                          // TODO: Add authentication logic here
+                          final loginState =
+                              ref.read(loginResponseProvider);
+
+                          if (loginState.hasError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Login failed: ${loginState.error}"),
+                              ),
+                            );
+                          } else {
+                            // Navigate to home screen
+                            Navigator.pushReplacementNamed(context, '/home');
+                          }
+
+                          setState(() => _isButtonPressed = false);
                         }
                       },
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
+                        duration: Duration(milliseconds: 200),
                         width: double.infinity,
                         height: screenHeight * 0.07,
                         decoration: BoxDecoration(
+                          color: _isButtonPressed
+                              ? Colors.deepOrange.shade300
+                              : Colors.deepOrange,
+                          borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 10,
-                              offset: Offset(4, 4),
-                            ),
-                          ],
-                          color: _isButtonPressed
-                              ? Colors.white
-                              : Color(0xFFFF7700),
-                          borderRadius: BorderRadius.circular(20),
-                          border:
-                              Border.all(color: Color(0xFFFF7700), width: 2),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                            fontSize: screenHeight * 0.03 * textScale,
-                            color: _isButtonPressed
-                                ? Color(0xFFFF7700)
-                                : Colors.white,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    // Forgot Password
-                    TextButton(
-                      onPressed: () {
-                        Get.to(ForgotPasswordPage());
-                      },
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.2),
-                              offset: Offset(2, 2),
-                              blurRadius: 4,
+                              color: Colors.black.withOpacity(0.15),
+                              offset: Offset(0, 3),
+                              blurRadius: 8,
                             )
                           ],
-                          color: Color(0xFFFF7700),
-                          fontSize: screenHeight * 0.022 * textScale,
                         ),
+                        alignment: Alignment.center,
+                        child: loginState.isLoading
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : Text(
+                                "Login",
+                                style: GoogleFonts.poppins(
+                                  fontSize: screenHeight * 0.025 * textScale,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
                       ),
-                    ),
-
-                    // Sign Up
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "New to our App?",
-                          style: TextStyle(
-                              fontSize: screenHeight * 0.025 * textScale),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Get.to(() => SignUpAs(),
-                                transition: Transition
-                                    .rightToLeft); // Use GetX for navigation
-                          },
-                          child: Text(
-                            "Sign Up >",
-                            style: TextStyle(
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  offset: Offset(2, 2),
-                                  blurRadius: 4,
-                                )
-                              ],
-                              fontSize: screenHeight * 0.024 * textScale,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
               ),
             ),
+
+            SizedBox(height: screenHeight * 0.02),
           ],
         ),
       ),

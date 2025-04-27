@@ -19,7 +19,7 @@ class OrderHistoryPage extends ConsumerWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              child: search(),
+              child: Search(),
             ),
             SizedBox(height: 8),
             Align(

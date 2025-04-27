@@ -24,4 +24,7 @@ class OrderListNotifier extends StateNotifier<List<Order>> {
     state = [...state, addedorder];
     
   }
+  void clearOrders() {
+  state = [];
+}
 }

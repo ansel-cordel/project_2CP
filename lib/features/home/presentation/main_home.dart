@@ -10,20 +10,21 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children:[
-             search(),
+             Search(),
              TodaysMenu_text(),
-             TodaysMenuWidget(name:"PB & Pickle Sandwich",price: 1500,restaurant:"Fancy Food Studious TM" ,image: "assets/rich.jpg",),
+             TodaysMenuWidget(name:"pizza",price: 1500,restaurant:"Fancy Food Studious TM" ,image: "assets/pizza2.jpg",),
              SizedBox(height: 10,),
              FindWhatYouLikeText(), 
              FindWhatYouLikeWidget(),
              SizedBox(height: 10,),
-             ourrestaurants(),
+            OurRestaurants(),
              ]),
           ),
       ),

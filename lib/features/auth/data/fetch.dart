@@ -1,8 +1,5 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-final loginProvider = Provider((ref) => Auth());
 
 class Auth {
   Future<http.Response> signup({
@@ -13,24 +10,35 @@ class Auth {
     required String password,
     required String email,
     required String adress,
-
-    
   }) async {
-    const String url = "https://curvy-icons-fix.loca.lt/api/register/";
-    final response = await http.post(
+    const url = "https://curvy-icons-fix.loca.lt/api/register/";
+    return await http.post(
       Uri.parse(url),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "email": email,
         "username": username,
-        "name":name,
+        "name": name,
         "last_name": last_name,
         "password": password,
-        "phone_number":phone_number,
-        "adress":adress,
-
+        "phone_number": phone_number,
+        "adress": adress,
       }),
     );
-    return response;
+  }
+
+  Future<http.Response> login({
+    required String username,
+    required String password,
+  }) async {
+    const url = "https://curvy-icons-fix.loca.lt/api/login/";
+    return await http.post(
+      Uri.parse(url),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({
+        "username": username,
+        "password": password,
+      }),
+    );
   }
 }
