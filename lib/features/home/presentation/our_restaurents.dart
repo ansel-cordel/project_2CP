@@ -1,44 +1,59 @@
 import 'package:flutter/material.dart';
-import 'package:project_2cp/features/profile/presentation/main_profile.dart';
-import 'package:get/get.dart';
+import 'package:project_2cp/features/home/presentation/our_restaurents_widget.dart';
 
-class ourrestaurants extends StatefulWidget {
-  const ourrestaurants({super.key});
+class OurRestaurants extends StatefulWidget {
+  const OurRestaurants({super.key});
 
   @override
-  _ourrestaurantsState createState() => _ourrestaurantsState();
+  State<OurRestaurants> createState() => _OurRestaurantsState();
 }
 
-class _ourrestaurantsState extends State<ourrestaurants> {
+class _OurRestaurantsState extends State<OurRestaurants> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Our Restaurants:",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w900,
-              fontSize: 22,
-            )),
-        MaterialButton(
-            child: Row(children: [
-              Text(
-                "See All",
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.orange[800],
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Our Restaurants:",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w900,
+                fontSize: 22,
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.orange[800],
-                size: 22,
-              )
-            ]),
-            onPressed: () {
-              Get.to(() => ProfileScreen());
-            })
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Row(
+                children: [
+                  Text(
+                    "See All",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.orange[800],
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.orange[800],
+                    size: 18,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        OurRestaurentsWidget(
+          name: "McHabibi",
+          image: "assets/restaurant.jpg",
+          location: "Dar Mok & Babak, Alger",
+          specialities: "Fast Food - Sandwich - Pizzeria",
+          rate: 8,
+        ),
       ],
     );
   }
