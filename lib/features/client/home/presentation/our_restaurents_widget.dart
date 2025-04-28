@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:project_2cp/features/home/presentation/todays_menu_widget.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OurRestaurentsWidget extends StatelessWidget {
+import 'package:project_2cp/features/client/home/providers/amountprovider.dart';
+import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderlist/providers/addorderidprovider.dart';
+import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
+
+class OurRestaurentsWidget extends ConsumerWidget {
   final String name;
   final String specialities;
   final String location;
@@ -18,7 +23,9 @@ class OurRestaurentsWidget extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final amount = ref.watch(amountHandler);
+    final currentId = ref.read(idcountprovider).toString();
     final double screenWidth = MediaQuery.of(context).size.width;
     final double textScale = screenWidth / 400;
 
@@ -27,13 +34,10 @@ class OurRestaurentsWidget extends StatelessWidget {
       children: [
         Center(
           child: Container(
-            // Removed fixed height
-            width: screenWidth * 1,
-           
+            width: screenWidth,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-             
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,40 +75,39 @@ class OurRestaurentsWidget extends StatelessWidget {
                               ),
                             ),
                             Card(
-                        elevation: 2,
-                        shadowColor: Colors.black,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 1.7,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.orange[800],
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "4.8",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
+                              elevation: 2,
+                              shadowColor: Colors.black,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 1.7,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.orange[800],
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Text(
+                                      "4.8",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.white,
+                                      size: 16,
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(width: 4),
-                              Icon(
-                                Icons.star,
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                            ),
                           ],
                         ),
-                        
                         Text(
                           specialities,
                           style: TextStyle(
@@ -137,25 +140,216 @@ class OurRestaurentsWidget extends StatelessWidget {
           padding: EdgeInsets.only(left: 16.0),
           child: Text(
             "Best Menus:",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w900,
-                fontSize: 22,
-              ),
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w900,
+              fontSize: 22,
+            ),
           ),
         ),
         const SizedBox(height: 4),
         SizedBox(
-          height: 130,
+          height:200,
+          
           child: PageView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 4,
+            controller: PageController(viewportFraction: 0.5),
+            itemCount: 2,
             itemBuilder: (context, index) {
-              return TodaysMenuWidget(
-                image: image,
-                name: name,
-                price: 1500,
-                restaurant: specialities,
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 3,
+                      blurRadius: 6,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(16),
+                              ),
+                              child: Image.asset(
+                                image,
+                                height: 150,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned(
+                              top: 15,
+                              left: 15,
+                              child: Card(
+                                elevation: 2,
+                                shadowColor: Colors.black,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 1.7,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange[800],
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: const [
+                                      Text(
+                                        "4.8",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4),
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      name,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            ref.read(amountHandler.notifier).decrement();
+                                          },
+                                          icon: const Icon(
+                                            Icons.arrow_back_ios,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        Text(
+                                          amount.toString(),
+                                          style: const TextStyle(
+                                            fontSize: 23,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            ref.read(amountHandler.notifier).increment();
+                                          },
+                                          icon: const Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    "Restaurant Name",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    " * ",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Fast Food",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: const [
+                                  Text(
+                                    "\$Price",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 27,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      bottom: 21,
+                      right: 18,
+                      child: FloatingActionButton(
+                        mini: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        onPressed: () {
+                          ref.read(orderListProvider.notifier).addorder(
+                                Order(
+                                  id: currentId,
+                                  image: image,
+                                  name: name,
+                                  price: 0, // <-- You have to replace 0 with the real `price` variable
+                                  resto: "Restaurant Name", // <-- replace with real `restaurant`
+                                ),
+                              );
+                        },
+                        backgroundColor: Colors.orange[800],
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 34,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           ),

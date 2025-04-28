@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project_2cp/features/client/home/presentation/find_what_you_like.dart';
-import 'package:project_2cp/features/home/presentation/our_restaurents.dart';
+import 'package:project_2cp/features/client/home/presentation/our_restaurents.dart';
 import 'package:project_2cp/features/client/home/presentation/todays_menu.dart';
 import 'package:project_2cp/core/widgets/search_widget.dart';
-import 'package:project_2cp/features/home/presentation/todays_menu_widget.dart';
+import 'package:project_2cp/features/client/home/presentation/todays_menu_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_2cp/main.dart';
+import 'package:project_2cp/features/client/home/presentation/main_home_fr.dart';
+
 class Congratulations extends StatelessWidget {
   const Congratulations({super.key});
  

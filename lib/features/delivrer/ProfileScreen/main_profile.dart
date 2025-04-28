@@ -1,16 +1,18 @@
 
 import 'package:flutter/material.dart';
-import 'package:project_2cp/features/client/profile/presentation/Profile_pic.dart';
-import 'package:project_2cp/features/client/profile/presentation/Profile_text.dart';
-import 'package:project_2cp/features/client/profile/presentation/contact_info.dart';
-import 'package:project_2cp/features/client/profile/presentation/edit.dart';
-import 'package:project_2cp/features/client/profile/presentation/personal_info.dart';
+import 'package:project_2cp/features/delivrer/ProfileScreen/Profile_pic.dart';
+import 'package:project_2cp/features/delivrer/ProfileScreen/Profile_text.dart';
+import 'package:project_2cp/features/delivrer/ProfileScreen/contact_info.dart';
+import 'package:project_2cp/features/delivrer/ProfileScreen/edit.dart';
+import 'package:project_2cp/features/delivrer/ProfileScreen/personal_info.dart';
 
-class ProfileScreen extends StatelessWidget{
-  const ProfileScreen({super.key});
+
+class DelivererProfileScreen extends StatelessWidget{
+  const DelivererProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
+      
         height: MediaQuery.of(context).size.height*1,
         width: MediaQuery.of(context).size.width*1,
         padding: EdgeInsets.fromLTRB(26, 50, 26, 20),

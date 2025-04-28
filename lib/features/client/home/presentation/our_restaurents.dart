@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_2cp/features/home/presentation/our_restaurents_widget.dart';
+import 'package:project_2cp/features/client/home/presentation/our_restaurents_widget.dart';
 
 class OurRestaurants extends StatefulWidget {
   const OurRestaurants({super.key});
