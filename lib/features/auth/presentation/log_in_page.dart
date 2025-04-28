@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:project_2cp/core/widgets/text_field.dart';
@@ -6,6 +8,8 @@ import 'package:project_2cp/core/widgets/text_field.dart';
 import 'package:project_2cp/features/auth/providers/auth_service.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_2cp/features/client/home/presentation/main_home_fr.dart';
+import 'package:project_2cp/features/delivrer/OrdersScreen/main_orders_fr.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -60,9 +64,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ],
               ),
             ),
-
             SizedBox(height: screenHeight * 0.02),
-
             Text(
               "Welcome!",
               style: GoogleFonts.poppins(
@@ -77,7 +79,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-
             Text(
               "Sign in to your account:",
               style: GoogleFonts.poppins(
@@ -85,9 +86,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-
             SizedBox(height: screenHeight * 0.03),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
               child: Form(
@@ -108,11 +107,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       isEmail: false,
                     ),
                     SizedBox(height: screenHeight * 0.04),
-
                     GestureDetector(
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          setState(() => _isButtonPressed = true);
+                          /* setState(() => _isButtonPressed = true);
 
                           final loginNotifier =
                               ref.read(loginResponseProvider.notifier);
@@ -135,7 +133,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             Navigator.pushReplacementNamed(context, '/home');
                           }
 
+                          
                           setState(() => _isButtonPressed = false);
+                          */
+                          if (_emailController.text == "issam@deliverer.com") {
+                            Get.to(Deliverer());
+                          } else {
+                            Get.to(HomePage());
+                          }
                         }
                       },
                       child: AnimatedContainer(
@@ -174,7 +179,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ),
             ),
-
             SizedBox(height: screenHeight * 0.02),
           ],
         ),
