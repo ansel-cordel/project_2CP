@@ -1,0 +1,104 @@
+Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                Text("\\ Chakchouki",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+              
+                                Text("100 Da x 5",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+                            ],
+                        ),
+              
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                Text("\\ Fritoz",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+              
+                                Text("50 Da x 7",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+                            ],
+                        ),
+              
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                Text("\\ Rawz bl augh",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+              
+                                Text("150 Da x 3",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+                            ],
+                        ),
+              
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                Text("\\ Boukhz",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+              
+                                Text("20 Da x 12",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+                            ],
+                        ),
+              
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                                Text("\\ Feet",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+              
+                                Text("0 Da x 100",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey[800]
+                                ),
+                                ),
+                            ],
+                        ),

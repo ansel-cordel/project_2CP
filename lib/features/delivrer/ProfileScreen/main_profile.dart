@@ -1,0 +1,34 @@
+import 'package:delivrer/ProfileScreen/Profile_pic.dart';
+import 'package:delivrer/ProfileScreen/Profile_text.dart';
+import 'package:delivrer/ProfileScreen/contact_info.dart';
+import 'package:delivrer/ProfileScreen/edit.dart';
+import 'package:delivrer/ProfileScreen/personal_info.dart';
+import 'package:flutter/material.dart';
+
+class ProfileScreen extends StatelessWidget{
+  const ProfileScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: MediaQuery.of(context).size.height*1,
+        width: MediaQuery.of(context).size.width*1,
+        padding: EdgeInsets.fromLTRB(26, 50, 26, 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ProfileText(),
+            ProfilePic(),
+            PersonalInfo_text(),
+            SizedBox(height: 14,),
+            PersonalInfo(),
+            SizedBox(height: 14,),
+            ContactInfo_text(),
+            SizedBox(height: 14,),
+            ContactInfo(),
+            SizedBox(height:MediaQuery.of(context).size.height*0.02,),
+            edit(),
+          ],
+        ),
+      );
+  }
+}
