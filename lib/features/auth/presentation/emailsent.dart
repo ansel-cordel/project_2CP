@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project_2cp/features/home/presentation/main_home.dart';
+import 'package:project_2cp/features/client/home/presentation/main_home.dart';
 
 class EmailSent extends StatelessWidget {
   const EmailSent({super.key});

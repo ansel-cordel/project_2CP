@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_2cp/features/orderlist/providers/orderprovider.dart';
+import 'package:project_2cp/features/client/orderlist/providers/orderprovider.dart';
 
 class OrderCard extends ConsumerWidget {
   final String id;

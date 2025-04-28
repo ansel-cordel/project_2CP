@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project_2cp/features/profile/presentation/Profile_pic.dart';
-import 'package:project_2cp/features/profile/presentation/Personal_info.dart';
-import 'package:project_2cp/features/profile/presentation/Profile_text.dart';
-import 'package:project_2cp/features/profile/presentation/edit.dart';
-import 'package:project_2cp/features/profile/presentation/contact_info.dart';
+import 'package:project_2cp/features/client/profile/presentation/Profile_pic.dart';
+import 'package:project_2cp/features/client/profile/presentation/Personal_info.dart';
+import 'package:project_2cp/features/client/profile/presentation/Profile_text.dart';
+import 'package:project_2cp/features/client/profile/presentation/edit.dart';
+import 'package:project_2cp/features/client/profile/presentation/contact_info.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});

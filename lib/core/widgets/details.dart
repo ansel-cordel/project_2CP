@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_2cp/features/orderlist/data/ordermodel.dart';
-import 'package:project_2cp/features/orderlist/providers/addorderidprovider.dart';
-import 'package:project_2cp/features/orderlist/providers/listprovider.dart';
+import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderlist/providers/addorderidprovider.dart';
+import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
 
 class OrderDetail extends ConsumerWidget {
   final String image;

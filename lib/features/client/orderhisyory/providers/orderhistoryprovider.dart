@@ -1,5 +1,5 @@
-import 'package:project_2cp/features/orderlist/data/ordermodel.dart';
-import 'package:project_2cp/features/orderhisyory/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderhisyory/data/ordermodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 

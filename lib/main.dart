@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 import 'package:project_2cp/core/providers/navigationprovider.dart';
-import 'package:project_2cp/features/home/presentation/main_home.dart';
-import 'package:project_2cp/features/orderhisyory/presentation/orderhistory.dart';
-import 'package:project_2cp/features/orderlist/presentation/orderlistpage.dart';
-import 'package:project_2cp/features/profile/presentation/main_profile.dart';
+import 'package:project_2cp/features/client/home/presentation/main_home.dart';
+import 'package:project_2cp/features/client/orderhisyory/presentation/orderhistory.dart';
+import 'package:project_2cp/features/client/orderlist/presentation/orderlistpage.dart';
+import 'package:project_2cp/features/client/profile/presentation/main_profile.dart';
 
 import 'features/auth/presentation/log_in_page.dart';
 import 'features/auth/presentation/sign_up.dart';

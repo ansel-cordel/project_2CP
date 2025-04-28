@@ -1,4 +1,4 @@
-import 'package:project_2cp/features/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
 
 class OrderDetails extends Order {
   final String description;

@@ -1,6 +1,7 @@
-import 'package:delivrer/OrdersScreen/OnGoing_text.dart';
-import 'package:delivrer/OrdersScreen/Order_widget.dart';
+
 import 'package:flutter/material.dart';
+import 'package:project_2cp/features/delivrer/OrdersScreen/OnGoing_text.dart';
+import 'package:project_2cp/features/delivrer/OrdersScreen/Order_widget.dart';
 
 class OrdersScreen extends StatelessWidget{
   const OrdersScreen({super.key});
