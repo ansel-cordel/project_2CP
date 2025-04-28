@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_2cp/features/orderlist/data/ordermodel.dart';
-import 'package:project_2cp/features/orderlist/providers/addorderidprovider.dart';
-import 'package:project_2cp/features/orderlist/providers/listprovider.dart';
+import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderlist/providers/addorderidprovider.dart';
+import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
+
 
 class OrderDetail extends ConsumerWidget {
   final String image;
@@ -158,3 +159,39 @@ class OrderDetail extends ConsumerWidget {
     );
   }
 }
+/*
+int _selectedIndex = 0;
+
+  // List of pages for bottom navigation
+  final List<Widget> _pages = [
+    const OrdersScreen(),
+    const HistoryScreen(),
+    const ProfileScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    }); 
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_selectedIndex], // Show selected screen
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.orange[800],
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.menu_book_rounded,size: 25,), label: "Order"),
+          BottomNavigationBarItem(icon: Icon(Icons.watch_later_outlined,size: 25,), label: "History"),
+          BottomNavigationBarItem(icon: Icon(Icons.person,size: 25,), label: "Profile"),
+        ],
+      ),
+    );
+  }
+}
+
+*/

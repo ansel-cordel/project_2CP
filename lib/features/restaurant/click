@@ -1,0 +1,29 @@
+IconButton(
+                              onPressed: () {
+                                 setState(() {
+                                 if (num1 > 0) num1 = num1 - 1;
+                                });
+                              },
+                              icon: Icon(Icons.arrow_back_ios, color: Colors.black,size: 17.5,),
+                            ),
+                            Text(
+                              "$num1",
+                              style: TextStyle(
+                                fontSize: 17.5,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                 setState(() {
+                                 num1 = num1 + 1;
+                                 });
+                              },
+                              icon: Icon(Icons.arrow_forward_ios, color: Colors.black,size: 17.5,),
+                            ),
+
+
+
+
+
+                            

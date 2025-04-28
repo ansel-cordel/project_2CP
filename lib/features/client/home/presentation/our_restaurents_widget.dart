@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_2cp/features/home/presentation/todays_menu_widget.dart';
+import 'package:project_2cp/features/client/home/presentation/todays_menu_widget.dart';
 
 class OurRestaurentsWidget extends StatelessWidget {
   final String name;

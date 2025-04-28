@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'orderhistorywidget.dart';
 import 'package:project_2cp/core/widgets/search_widget.dart';
 
-import 'package:project_2cp/features/orderhisyory/providers/orderhistoryprovider.dart';
+import 'package:project_2cp/features/client/orderhisyory/providers/orderhistoryprovider.dart';
 
 class OrderHistoryPage extends ConsumerWidget {
   const OrderHistoryPage({super.key});

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/core/providers/navigationprovider.dart';
-import 'package:project_2cp/features/orderlist/presentation/orderwidget.dart';
-import 'package:project_2cp/features/orderlist/providers/totalprovider.dart';
+import 'package:project_2cp/features/client/orderlist/presentation/orderwidget.dart';
+import 'package:project_2cp/features/client/orderlist/providers/totalprovider.dart';
 import 'package:project_2cp/core/widgets/search_widget.dart';
-import 'package:project_2cp/features/orderlist/providers/listprovider.dart';
-import 'package:project_2cp/features/orderhisyory/providers/orderhistoryprovider.dart';
+import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
+import 'package:project_2cp/features/client/orderhisyory/providers/orderhistoryprovider.dart';
 // Optional: if you want to use Lottie
 // import 'package:lottie/lottie.dart';
 

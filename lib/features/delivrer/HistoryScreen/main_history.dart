@@ -1,7 +1,8 @@
-import 'package:delivrer/HistoryScreen/Ongoing_text.dart';
-import 'package:delivrer/HistoryScreen/OrderHistory_text.dart';
-import 'package:delivrer/HistoryScreen/Orders.dart';
+
 import 'package:flutter/material.dart';
+import 'package:project_2cp/features/delivrer/HistoryScreen/Ongoing_text.dart';
+import 'package:project_2cp/features/delivrer/HistoryScreen/OrderHistory_text.dart';
+import 'package:project_2cp/features/delivrer/HistoryScreen/Orders.dart';
 
 class HistoryScreen extends StatelessWidget{
   const HistoryScreen({super.key});
