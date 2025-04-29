@@ -21,7 +21,7 @@ class _HomePageState extends ConsumerState<Deliverer> {
   final List<Widget> _pages = [
  
     const DelivererOrderScreen(),
-     const DelivererHistoryScreen(),
+     const HistoryScreen(),
      const DelivererProfileScreen(),
     
   ];

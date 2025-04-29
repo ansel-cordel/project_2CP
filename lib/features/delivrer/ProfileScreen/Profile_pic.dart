@@ -21,7 +21,7 @@ class _ProfilePicState extends State<ProfilePic>{
               radius: 55,
               child: CircleAvatar(
                 radius: 45,
-                backgroundImage: AssetImage("img/lion.jpg"),
+                backgroundImage: AssetImage("assets/cat.jpg"),
               ),
             ),
             Positioned(

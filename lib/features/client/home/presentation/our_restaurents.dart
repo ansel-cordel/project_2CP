@@ -38,7 +38,7 @@ class _OurRestaurantsState extends State<OurRestaurants> {
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: Colors.orange[800],
+                    color: const Color.fromARGB(255, 55, 52, 50),
                     size: 18,
                   )
                 ],

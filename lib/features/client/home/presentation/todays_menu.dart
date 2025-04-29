@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 
-
-class TodaysMenu_text extends StatelessWidget {
-  const TodaysMenu_text({super.key});
-
-  
+class TodaysMenuText extends StatelessWidget {
+  const TodaysMenuText({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-      Text(
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
         "Today's Menu:",
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.w900,
-          fontSize: 22,
-        ),
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.w900,
+            ),
       ),
-    ]);
+    );
   }
 }
-

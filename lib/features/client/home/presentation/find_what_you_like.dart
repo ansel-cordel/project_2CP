@@ -6,18 +6,22 @@ class FindWhatYouLikeText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: const [
-        Text(
-          "Find What You Like:",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w900,
-            fontSize: 22,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Flexible(
+            child: Text(
+              "Find What You Like:",
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w900,
+                fontSize: MediaQuery.of(context).size.width * 0.05, // Responsive font
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -43,72 +47,86 @@ class FindWhatYouLikeWidget extends StatelessWidget {
       "Salmon"
     ];
 
-    return SizedBox(
-      height: 300,
-      child: PageView.builder(
-        controller: PageController(viewportFraction: 0.5),
-        itemCount: imagesList.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-onTap: ()  {
-  Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (_) => CustomSearchPage(initialQuery: namesList[index]),
-  ),
-);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double height = constraints.maxHeight == double.infinity
+            ? MediaQuery.of(context).size.height * 0.35
+            : constraints.maxHeight;
 
-},
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 3,
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
+        return SizedBox(
+          height: height ,
+          child: PageView.builder(
+            controller: PageController(viewportFraction: 0.4),
+            itemCount: imagesList.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          CustomSearchPage(initialQuery: namesList[index]),
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 3,
+                        blurRadius: 6,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.asset(
-                      imagesList[index],
-                      fit: BoxFit.cover,
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.transparent, Colors.black],
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.asset(
+                          imagesList[index],
+                          fit: BoxFit.cover,
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 15,
-                      left: 15,
-                      child: Text(
-                        namesList[index],
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
+                        Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Colors.transparent, Colors.black],
+                            ),
+                          ),
                         ),
-                      ),
+                        Positioned(
+                          bottom: 15,
+                          left: 15,
+                          right: 15,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              namesList[index],
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.045,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children:[
              Search(),
-             TodaysMenu_text(),
+             TodaysMenuText(),
              TodaysMenuWidget(name:"pizza",price: 1500,restaurant:"Fancy Food Studious TM" ,image: "assets/pizza2.jpg",),
              SizedBox(height: 10,),
              FindWhatYouLikeText(), 

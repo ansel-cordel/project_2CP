@@ -115,7 +115,7 @@ class _OrdersState extends State<Orders>{
                            ),
                         ),
 
-                        Text("- - - - - - - - -",
+                        Text("- - - - - - -",
                         style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 35
@@ -156,7 +156,7 @@ class _OrdersState extends State<Orders>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        SizedBox(
+                        Container(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                               children: [
@@ -178,7 +178,7 @@ class _OrdersState extends State<Orders>{
                           ),
                         ),
 
-                        SizedBox(
+                        Container(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -206,7 +206,7 @@ class _OrdersState extends State<Orders>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        SizedBox(
+                        Container(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                               children: [
@@ -226,7 +226,7 @@ class _OrdersState extends State<Orders>{
                           ),
                         ),
 
-                        SizedBox(
+                        Container(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,

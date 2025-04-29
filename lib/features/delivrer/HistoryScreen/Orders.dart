@@ -117,7 +117,7 @@ class _history_ordersState extends State<history_orders>{
                            ),
                         ),
 
-                        Text("- - - - - - - - -",
+                        Text("- - - - - - -",
                         style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 35
@@ -158,7 +158,7 @@ class _history_ordersState extends State<history_orders>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        SizedBox(
+                        Container(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                               children: [
@@ -180,7 +180,7 @@ class _history_ordersState extends State<history_orders>{
                           ),
                         ),
 
-                        SizedBox(
+                        Container(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -208,7 +208,7 @@ class _history_ordersState extends State<history_orders>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        SizedBox(
+                        Container(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                               children: [
@@ -228,7 +228,7 @@ class _history_ordersState extends State<history_orders>{
                           ),
                         ),
 
-                        SizedBox(
+                        Container(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,

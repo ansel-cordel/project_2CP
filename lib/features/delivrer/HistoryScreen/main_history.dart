@@ -4,15 +4,14 @@ import 'package:project_2cp/features/delivrer/HistoryScreen/Ongoing_text.dart';
 import 'package:project_2cp/features/delivrer/HistoryScreen/OrderHistory_text.dart';
 import 'package:project_2cp/features/delivrer/HistoryScreen/Orders.dart';
 
-class DelivererHistoryScreen extends StatelessWidget{
-  const DelivererHistoryScreen({super.key});
+class HistoryScreen extends StatelessWidget{
+  const HistoryScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 20,right: 20,top: 20),
+          padding: EdgeInsets.only(left: 20,right: 20,top: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children:[
