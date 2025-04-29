@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
+import 'package:project_2cp/core/widgets/details.dart';
 import 'package:project_2cp/features/client/home/providers/amountprovider.dart';
-import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
+
 import 'package:project_2cp/features/client/orderlist/providers/addorderidprovider.dart';
-import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
+
+import 'package:project_2cp/features/restaurant/main_page.dart';
 
 class OurRestaurentsWidget extends ConsumerWidget {
   final String name;
@@ -23,6 +26,21 @@ class OurRestaurentsWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final imagesList = [
+      "assets/BBQ.jpg",
+      "assets/pasta_salad.jpg",
+      "assets/salamon.jpg",
+      "assets/pizza2.jpg",
+      "assets/salamon.jpg"
+    ];
+
+    final namesList = [
+      "Turkish BBQ",
+      "Pasta Salad",
+      "Salad",
+      "Cheese Pizza",
+      "Salmon"
+    ];
     final amount = ref.watch(amountHandler);
     final currentId = ref.read(idcountprovider).toString();
 
@@ -33,6 +51,7 @@ class OurRestaurentsWidget extends ConsumerWidget {
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               decoration: BoxDecoration(
@@ -41,6 +60,7 @@ class OurRestaurentsWidget extends ConsumerWidget {
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
@@ -62,13 +82,16 @@ class OurRestaurentsWidget extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
-                                child: Text(
-                                  name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18 * textScale,
+                                child: MaterialButton(
+                                  onPressed: () => Get.to(restaurant_page()),
+                                  child: Text(
+                                    name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18 * textScale,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               _RatingBadge(rate: rate),
@@ -113,130 +136,139 @@ class OurRestaurentsWidget extends ConsumerWidget {
             ),
             const SizedBox(height: 4),
             SizedBox(
-              height: 250,
+              height: 150,
               child: PageView.builder(
-                controller: PageController(viewportFraction: 0.8),
-                itemCount: 2,
+                controller: PageController(viewportFraction: 0.5),
+                itemCount: 4,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                              child: Image.asset(
-                                image,
-                                height: 150,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              top: 12,
-                              left: 12,
-                              child: _RatingBadge(rate: rate),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
+                  return GestureDetector(
+                    onTap: ()=> Get.to(OrderDetail(name: namesList[index], resto: "Fast Order", price:1500, amount: amount, description: "this is a item thats very delicious what do u think about would like to try it ?", image:imagesList[index])),
+                    child: SizedBox(
+                            height: MediaQuery.of(context).size.width*0.4,
+                            width: MediaQuery.of(context).size.width*0.5,
+                            child: Stack( 
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text(
-                                      name,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            ref.read(amountHandler.notifier).decrement();
-                                          },
-                                          icon: const Icon(Icons.remove),
-                                        ),
-                                        Text(
-                                          amount.toString(),
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            ref.read(amountHandler.notifier).increment();
-                                          },
-                                          icon: const Icon(Icons.add),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 4),
-                              const Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Restaurant Name • Fast Food",
-                                  style: TextStyle(color: Colors.grey),
+                            Card(
+                              elevation: 5,
+                              shadowColor: Colors.black,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(
+                                  MediaQuery.of(context).size.width*0.05
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              child: Column(
                                 children: [
-                                  const Text(
-                                    "\$Price",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  FloatingActionButton(
-                                    mini: true,
-                                    backgroundColor: Colors.orange[800],
-                                    onPressed: () {
-                                      ref.read(orderListProvider.notifier).addorder(
-                                            Order(
-                                              id: currentId,
-                                              image: image,
-                                              name: name,
-                                              price: 0,
-                                              resto: "Restaurant Name",
-                                            ),
-                                          );
-                                    },
-                                    child: const Icon(Icons.add),
-                                  ),
-                                ],
+                                  Stack(
+                                    children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(
+                          MediaQuery.of(context).size.width*0.05
+                        )
+                      ),
+                      child: Image.asset(
+                        imagesList[index],
+                        height:MediaQuery.of(context).size.width*0.22,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      top: MediaQuery.of(context).size.width*0.02,
+                      left: MediaQuery.of(context).size.width*0.02,
+                      child: Card(
+                        elevation: 2,
+                        shadowColor: Colors.black,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical:MediaQuery.of(context).size.width*0.007,
+                            horizontal:MediaQuery.of(context).size.width*0.015 
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.orange[800],
+                            borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width*0.013),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "4.8",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.width*0.027,
+                                  fontWeight: FontWeight.w600
+                                ),
                               ),
+                              SizedBox(width: MediaQuery.of(context).size.width*0.01),
+                              Icon(Icons.star, color: Colors.white, size: MediaQuery.of(context).size.width*0.034),
                             ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                    height: MediaQuery.of(context).size.width*0.16,
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.width*0.008,
+                      left: MediaQuery.of(context).size.width*0.017,
+                      bottom: MediaQuery.of(context).size.width*0.04,
+                    ),
+                    child:Row(
+                      children: [
+                           SizedBox(
+                            width: MediaQuery.of(context).size.width*0.3,
+                             child: Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(namesList[index],
+                                    style: TextStyle(
+                                      fontSize:MediaQuery.of(context).size.width*0.036, 
+                                      fontWeight: FontWeight.w600
+                                    ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("1500",
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.width*0.042,
+                                      fontWeight: FontWeight.w400
+                                    ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                           ),
+                      ],
+                    ), 
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              bottom: MediaQuery.of(context).size.width*0.029,
+                              right: MediaQuery.of(context).size.width*0.029,
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.width*0.065,
+                                width: MediaQuery.of(context).size.width*0.065,
+                                child: FloatingActionButton(
+                                  shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width*0.1)) ,
+                                  onPressed: () {},
+                                  backgroundColor: Colors.orange[800],
+                                  child: Icon(Icons.add, color: Colors.white,size: MediaQuery.of(context).size.width*0.05,),
+                                ),
+                              ),
+                            ),
+                                  ],
+                                  ),
+                          ),
                   );
                 },
               ),
