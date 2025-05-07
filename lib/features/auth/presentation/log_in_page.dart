@@ -4,6 +4,7 @@ import 'package:get/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:project_2cp/core/widgets/text_field.dart';
+import 'package:project_2cp/features/auth/presentation/sign_up_as.dart';
 
 import 'package:project_2cp/features/auth/providers/auth_service.dart';
 
@@ -179,7 +180,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ),
             ),
-            SizedBox(height: screenHeight * 0.02),
+            SizedBox(height: screenHeight * 0.04),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text("New to our APP ?",style: GoogleFonts.poppins(
+                fontSize: screenHeight * 0.025 * textScale,
+                fontWeight: FontWeight.w400,
+              ),),
+                GestureDetector(
+                  onTap: () => Get.to(SignUpAs()),
+                  child: Text("Sign up >",style: GoogleFonts.poppins(
+                  fontSize: screenHeight * 0.025 * textScale,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.deepOrangeAccent
+                                ),),
+                )
+              ],
+            )
           ],
         ),
       ),
