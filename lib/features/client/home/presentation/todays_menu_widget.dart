@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:project_2cp/core/widgets/details.dart';
 import 'package:project_2cp/features/client/home/providers/amountprovider.dart';
 import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';

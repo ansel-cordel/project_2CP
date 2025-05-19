@@ -9,7 +9,6 @@ import 'package:project_2cp/features/delivrer/OrdersScreen/main_orders_fr.dart';
 import 'features/auth/presentation/log_in_page.dart';
 import 'features/auth/presentation/sign_up.dart';
 import 'features/auth/presentation/sign_up_as.dart';
-import 'package:project_2cp/features/delivrer/OrdersScreen/main_orders_fr.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -34,4 +33,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 

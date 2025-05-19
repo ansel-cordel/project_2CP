@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RestauInfo extends StatelessWidget{
+  const RestauInfo({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Card(

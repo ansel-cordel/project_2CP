@@ -24,7 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  bool _isButtonPressed = false;
+  final bool _isButtonPressed = false;
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BestMenus_Text extends StatelessWidget {
+  const BestMenus_Text({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Align(

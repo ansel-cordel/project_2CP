@@ -3,11 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:project_2cp/core/widgets/details.dart';
 import 'package:project_2cp/features/client/home/providers/amountprovider.dart';
-
 import 'package:project_2cp/features/client/orderlist/providers/addorderidprovider.dart';
-
 import 'package:project_2cp/features/restaurant/main_page.dart';
-
 class OurRestaurentsWidget extends ConsumerWidget {
   final String name;
   final String specialities;

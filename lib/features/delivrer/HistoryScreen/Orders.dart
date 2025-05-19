@@ -158,7 +158,7 @@ class _history_ordersState extends State<history_orders>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                               children: [
@@ -180,7 +180,7 @@ class _history_ordersState extends State<history_orders>{
                           ),
                         ),
 
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -208,7 +208,7 @@ class _history_ordersState extends State<history_orders>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                               children: [
@@ -228,7 +228,7 @@ class _history_ordersState extends State<history_orders>{
                           ),
                         ),
 
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,

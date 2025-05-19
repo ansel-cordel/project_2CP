@@ -156,7 +156,7 @@ class _OrdersState extends State<Orders>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                               children: [
@@ -178,7 +178,7 @@ class _OrdersState extends State<Orders>{
                           ),
                         ),
 
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -206,7 +206,7 @@ class _OrdersState extends State<Orders>{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                               children: [
@@ -226,7 +226,7 @@ class _OrdersState extends State<Orders>{
                           ),
                         ),
 
-                        Container(
+                        SizedBox(
                             width: MediaQuery.of(context).size.width*0.4,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
