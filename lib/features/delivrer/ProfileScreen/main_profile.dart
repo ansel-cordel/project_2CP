@@ -1,37 +1,43 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/features/delivrer/ProfileScreen/Profile_pic.dart';
 import 'package:project_2cp/features/delivrer/ProfileScreen/Profile_text.dart';
 import 'package:project_2cp/features/delivrer/ProfileScreen/contact_info.dart';
 import 'package:project_2cp/features/delivrer/ProfileScreen/edit.dart';
+ // renamed to EditButton
 import 'package:project_2cp/features/delivrer/ProfileScreen/personal_info.dart';
 
+import 'package:project_2cp/features/delivrer/providers/toggleprovider.dart'; // your isEditingProvider file
 
-class DelivererProfileScreen extends StatelessWidget{
+class DelivererProfileScreen extends ConsumerWidget {
   const DelivererProfileScreen({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      
-        height: MediaQuery.of(context).size.height*1,
-        width: MediaQuery.of(context).size.width*1,
-        padding: EdgeInsets.fromLTRB(26, 50, 26, 20),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isEditing = ref.watch(isEditingProvider);
+
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(26, 50, 26, 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProfileText(),
-            ProfilePic(),
-            PersonalInfo_text(),
-            SizedBox(height: 14,),
-            PersonalInfo(),
-            SizedBox(height: 14,),
-            ContactInfo_text(),
-            SizedBox(height: 14,),
-            ContactInfo(),
-            SizedBox(height:MediaQuery.of(context).size.height*0.02,),
-            edit(),
+            const ProfileText(),
+            const SizedBox(height: 20),
+            const ProfilePic(),
+            const SizedBox(height: 20),
+            const PersonalInfo_text(),
+            const SizedBox(height: 14),
+            PersonalInfo(isEditing: isEditing),
+            const SizedBox(height: 14),
+            const ContactInfo_text(),
+            const SizedBox(height: 14),
+            ContactInfo(isEditing: isEditing),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+            const EditButton(),
           ],
         ),
-      );
+      ),
+    );
   }
 }

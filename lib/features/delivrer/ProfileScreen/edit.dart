@@ -1,32 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_2cp/features/delivrer/providers/toggleprovider.dart';
+// Replace with actual path
 
-class edit extends StatefulWidget{
-  const edit({super.key});
+class EditButton extends ConsumerStatefulWidget {
+  const EditButton({super.key});
 
   @override
-  _editState createState()=> _editState();
+  _EditButtonState createState() => _EditButtonState();
 }
 
-class _editState extends State<edit>{
+class _EditButtonState extends ConsumerState<EditButton> {
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(onPressed:(){
-    },
-    color: Colors.orange[800],
-    height:MediaQuery.of(context).size.height*0.08,
-    padding: EdgeInsets.symmetric(vertical: 17),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(17),
-    ),
-    child: Center(
-      child: Text("Edit",
-      style: TextStyle(fontSize: 22,
-      fontWeight: FontWeight.w900,
-      color: Colors.white,
+    final isEditing = ref.watch(isEditingProvider);
+
+    return MaterialButton(
+      onPressed: () {
+        ref.read(isEditingProvider.notifier).toggle();
+      },
+      color: isEditing ? Colors.deepOrange.shade600 : Colors.orange.shade700,
+      height: MediaQuery.of(context).size.height * 0.08,
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 40),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
       ),
+      elevation: 8,
+      
+      child: Center(
+        child: Text(
+          isEditing ? "Confirm" : "Edit",
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+            letterSpacing: 1.2,
+          ),
+        ),
       ),
-    ),
     );
   }
-
 }

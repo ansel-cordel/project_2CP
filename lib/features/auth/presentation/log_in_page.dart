@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:project_2cp/core/widgets/text_field.dart';

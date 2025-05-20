@@ -1,41 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_2cp/features/delivrer/data/ordermodel.dart';
+import 'package:project_2cp/features/delivrer/ProfileScreen/addprovider.dart';
 
-class Orders extends StatefulWidget{
-    final String ResPic;
-    final String CliPic;
-    final String ResName;
-    final String CliName;
-    final String ResLoc;
-    final String CliLoc;
-    final String ResNum;
-    final String CliNum;
+class Orders extends ConsumerStatefulWidget {
+  final String resPic;
+  final String cliPic;
+  final String resName;
+  final String cliName;
+  final String resLoc;
+  final String cliLoc;
+  final int resNum;
+  final int cliNum;
 
-    const Orders({super.key,
-    required this.ResPic,
-    required this.CliPic,
-    required this.ResName,
-    required this.CliName,
-    required this.ResLoc,
-    required this.CliLoc,
-    required this.ResNum,
-    required this.CliNum,
-    });
-
+  const Orders({
+    super.key,
+    required this.resPic,
+    required this.cliPic,
+    required this.resName,
+    required this.cliName,
+    required this.resLoc,
+    required this.cliLoc,
+    required this.resNum,
+    required this.cliNum,
+  });
 
   @override
-  _OrdersState createState() => _OrdersState();
+  ConsumerState<Orders> createState() => _OrdersState();
 }
 
-class _OrdersState extends State<Orders>{
-    bool isExpanded = false;
-    String ResPic="img/blood.jpg";
-    String CliPic="img/crip.jpg";
-    String ResName="Blood";
-    String CliName="Crip";
-    String ResLoc="Idk where the bloods are tbh";
-    String CliLoc="Idk where the crips are too";
-    String ResNum=" 0553740984";
-    String CliNum="0671895813 ";
+class _OrdersState extends ConsumerState<Orders> with TickerProviderStateMixin {
+  bool isExpanded = false;
 
   void toggleCard() {
     setState(() {
@@ -44,317 +39,235 @@ class _OrdersState extends State<Orders>{
   }
 
   Widget buildItemRow(String item, String price) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(item,
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.grey[800])),
-        Text(price,
-            style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.grey[800])),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(item,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black87)),
+          Text(price,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black87)),
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Card(
-        elevation: 5,
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Column(
-          children: [
-
-
-
-              Container(
-                decoration:BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:   
-                    BorderRadius.vertical(
-                        top:Radius.circular(16),
-                    )
+        children: [
+          // Header: Images, names, locations, numbers
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("From:",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                    Text("To:",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black)),
+                  ],
                 ),
-                padding: EdgeInsets.only(top: 7,right: 10,left: 10,bottom: 3),
-                child: Column(
-                  children:[ 
-                    
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.grey[300],
+                      radius: 42,
+                      child: CircleAvatar(
+                        radius: 35,
+                        backgroundImage: AssetImage(widget.resPic),
+                      ),
+                    ),
+                    Text("- - - - - - -",
+                        style:
+                            TextStyle(fontSize: 32, color: Colors.grey[600])),
+                    CircleAvatar(
+                      backgroundColor: Colors.grey[300],
+                      radius: 42,
+                      child: CircleAvatar(
+                        radius: 35,
+                        backgroundImage: AssetImage(widget.cliPic),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(widget.resName,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600)),
+                    Text(widget.cliName,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600)),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: width * 0.42,
+                      child: Row(
+                        children: [
+                          const Icon(Icons.location_on_outlined, size: 18),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(widget.resLoc,
+                                style: const TextStyle(
+                                    fontSize: 13, color: Colors.grey)),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: width * 0.42,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Text(widget.cliLoc,
+                                textAlign: TextAlign.end,
+                                style: const TextStyle(
+                                    fontSize: 13, color: Colors.grey)),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(Icons.location_on_outlined, size: 18),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                          Text("From:",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w800,
-                          ),
-                          ),
-                          Text("To:",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w800,
-                          ),
-                          ),
+                        const Icon(Icons.local_phone_outlined, size: 18),
+                        const SizedBox(width: 4),
+                        Text(widget.resNum.toString(),
+                            style: const TextStyle(color: Colors.grey)),
                       ],
-                  ),
-
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                        CircleAvatar(
-                            backgroundColor:  const Color.fromARGB(55, 110, 110, 110),
-                            radius: 42,
-                            child: CircleAvatar(
-                               radius: 35,
-                               backgroundImage: AssetImage(widget.ResPic),
-                           ),
-                        ),
-
-                        Text("- - - - - - -",
-                        style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 35
-                        ),
-                        ),
-
-                        CircleAvatar(
-                            backgroundColor:  const Color.fromARGB(55, 110, 110, 110),
-                            radius: 42,
-                            child: CircleAvatar(
-                               radius: 35,
-                               backgroundImage: AssetImage(widget.CliPic),
-                           ),
-                        ),
-                    ],
-                  ),
-
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    Row(
                       children: [
-                          Text(widget.ResName,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                          ),
-                          ),
-                          Text(widget.CliName,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                          ),
-                          ),
+                        Text(widget.cliNum.toString(),
+                            style: const TextStyle(color: Colors.grey)),
+                        const SizedBox(width: 4),
+                        const Icon(Icons.local_phone_outlined, size: 18),
                       ],
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width*0.4,
-                          child: Row(
-                              children: [
-                                  Icon(Icons.location_on_outlined,
-                                  size: 18,
-                                  weight: 17,
-                                  color: Colors.grey[800],
-                                  ),
-                          
-                                  Expanded(
-                                    child: Text(widget.ResLoc,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey[600]
-                                    ),
-                                    ),
-                                  )
-                              ],
-                          ),
-                        ),
-
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width*0.4,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                  Expanded(
-                                    child: Text(widget.CliLoc,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey[600]
-                                    ),
-                                    ),
-                                  ),
-
-                                  Icon(Icons.location_on_outlined,
-                                    size: 18,
-                                    weight: 17,
-                                    color: Colors.grey[800],
-                                  ),
-                              ],
-                          ),
-                        ),
-                    ],
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width*0.4,
-                          child: Row(
-                              children: [
-                                 Icon(Icons.local_phone_outlined,
-                                    size: 18,
-                                    weight: 17,
-                                    color: Colors.grey[800],
-                                  ),
-
-                                  Text(widget.ResNum,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey[600]
-                                  ),
-                                  ),
-                              ],
-                          ),
-                        ),
-
-                        SizedBox(
-                            width: MediaQuery.of(context).size.width*0.4,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                  Text(widget.CliNum,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey[600]
-                                  ),
-                                  ),
-
-                                  Icon(Icons.local_phone_outlined,
-                                    size: 18,
-                                    weight: 17,
-                                    color: Colors.grey[800],
-                                  ),
-                              ],
-                          ),
-                        ),
-                    ],
-                  ),
-
-                  Center(
-                    child: Text("Total: 1200 Da",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20
                     ),
-                    ),
-                  ),  
-                  ]
+                  ],
                 ),
-              ),
-
-
-
-
-              Container(
-                  height: 3,
-                  color: Colors.grey[500],
-              ),
-
-
-
-// here is the middle part the expand and hide
-           // here is the middle part the expand and hide
-AnimatedSize(
-  duration: Duration(milliseconds: 300),
-  curve: Curves.easeInOut, // optional: add curve for smoothness
-  child: isExpanded
-      ? Container(
-          padding: EdgeInsets.all(10),
-          color: Colors.grey[300],
-          child: Column(
-            children: [
-              buildItemRow("- pizza", "100 Da x 5"),
-              buildItemRow("- Frit", "50 Da x 7"),
-              buildItemRow("- soup", "150 Da x 3"),
-              buildItemRow("- bourak", "20 Da x 12"),
-              buildItemRow("- salade", "0 Da x 100"),
-            ],
+                const SizedBox(height: 6),
+                const Divider(thickness: 2),
+                const SizedBox(height: 4),
+                const Text("Total: 1200 DA",
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ],
+            ),
           ),
-        )
-      : SizedBox.shrink(), // << inside the child, not outside!
-),
 
-              
+          // Expandable Section
+          AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            child: isExpanded
+                ? Container(
+                    color: Colors.grey[200],
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    child: Column(
+                      children: [
+                        buildItemRow("- Pizza", "100 DA x 5"),
+                        buildItemRow("- Frites", "50 DA x 7"),
+                        buildItemRow("- Soup", "150 DA x 3"),
+                        buildItemRow("- Bourak", "20 DA x 12"),
+                        buildItemRow("- Salade", "0 DA x 100"),
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
 
+          const Divider(thickness: 2),
 
-               Container(
-                  height: 3,
-                  color: Colors.grey[500],
-              ),
-
-
-// here is the lower part that has the buttons
-              Container(
-                  decoration:BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                    BorderRadius.vertical(
-                        bottom:Radius.circular(16),
-                    )
-                ),
-                child: Column(
-                  children:[ 
-                    Center(
-                    child: MaterialButton(
-                        onPressed: (){},
-                        color: Colors.orange[800],
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13),
-                        ),
-                        height: MediaQuery.of(context).size.width*0.09,
-                        child:Text("Take the order",
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width*0.04,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white
-                        ),
-                        ),
-                        ),
+          // Buttons
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange[800],
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(13),
+                      ),
+                    ),
+                    onPressed: () {
+                      ref.read(orderListDelProvider.notifier).addorder(order(
+                            clientimg: widget.cliPic,
+                            restoimg: widget.resPic,
+                            resto: widget.resName,
+                            client: widget.cliName,
+                            clientloc: widget.cliLoc,
+                            clientnumber: widget.cliNum,
+                            restoloc: widget.resLoc,
+                            restonumber: widget.resNum,
+                            total: 1200,
+                          ));
+                    },
+                    child: const Text(
+                      "Take the Order",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, color: Colors.white),
+                    ),
                   ),
-              
-                  MaterialButton(
-                    onPressed: toggleCard,
-                    color: Colors.orange[800],
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Icon(isExpanded
-                       ? Icons.keyboard_arrow_up
-                       :Icons.keyboard_arrow_down,
-                    color: Colors.white,
-                    size: MediaQuery.of(context).size.width*0.08,
-                    ),
-                    )
-                  ]
                 ),
-              ),
-
-
-
-
-          ],
+                const SizedBox(height: 8),
+                IconButton(
+                  onPressed: toggleCard,
+                  icon: Icon(
+                    isExpanded
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    size: 30,
+                    color: Colors.orange[800],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
-    
 }

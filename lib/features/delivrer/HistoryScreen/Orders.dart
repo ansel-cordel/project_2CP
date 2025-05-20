@@ -7,8 +7,8 @@ class history_orders extends StatefulWidget{
     final String CliName;
     final String ResLoc;
     final String CliLoc;
-    final String ResNum;
-    final String CliNum;
+    final int ResNum;
+    final int CliNum;
     final bool isExpanded;
 
     const history_orders({super.key,
@@ -218,7 +218,7 @@ class _history_ordersState extends State<history_orders>{
                                     color: Colors.grey[800],
                                   ),
 
-                                  Text(widget.ResNum,
+                                  Text(widget.ResNum.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.grey[600]
@@ -233,7 +233,7 @@ class _history_ordersState extends State<history_orders>{
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                  Text(widget.CliNum,
+                                  Text(widget.CliNum.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       color: Colors.grey[600]
