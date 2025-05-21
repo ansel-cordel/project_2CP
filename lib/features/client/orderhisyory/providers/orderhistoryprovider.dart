@@ -9,7 +9,7 @@ class OrderHistoryNotifier extends StateNotifier<List<OrderHistory>> {
 
   ]);
 
-  void addOrders(List<Order> newOrders) {
+  void addOrders(List<Item> newOrders) {
     List<OrderHistory> convertedOrders = newOrders.map((order) => OrderHistory.fromOrder(order)).toList();
     state = [...convertedOrders, ...state]; // Append converted orders
   }

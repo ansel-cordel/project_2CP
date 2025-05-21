@@ -4,11 +4,11 @@ import 'package:project_2cp/features/client/orderlist/providers/addorderidprovid
 
 // Provider for managing the list of orders
 final orderListProvider =
-    StateNotifierProvider<OrderListNotifier, List<Order>>((ref) {
+    StateNotifierProvider<OrderListNotifier, List<Item>>((ref) {
   return OrderListNotifier(ref);
 });
 
-class OrderListNotifier extends StateNotifier<List<Order>> {
+class OrderListNotifier extends StateNotifier<List<Item>> {
   final Ref ref; 
 
   OrderListNotifier(this.ref)
@@ -19,7 +19,7 @@ class OrderListNotifier extends StateNotifier<List<Order>> {
     ref.read(idcountprovider.notifier).decrementid(); // ✅ safe now
   }
 
-  void addorder(Order addedorder) {
+  void addorder(Item addedorder) {
      ref.read(idcountprovider.notifier).incrementid();
     state = [...state, addedorder];
     

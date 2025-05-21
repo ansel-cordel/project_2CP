@@ -152,12 +152,13 @@ class TodaysMenuWidget extends ConsumerWidget {
                     ),
                     onPressed: () {
                       ref.read(orderListProvider.notifier).addorder(
-                            Order(
+                            Item(
                               id: currentId,
                               image: image,
                               name: name,
                               price: price,
                               resto: restaurant,
+                              description: "",
                             ),
                           );
                     },

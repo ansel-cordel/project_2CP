@@ -137,7 +137,8 @@ class OrderDetail extends ConsumerWidget {
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 onPressed: () {
-                  ref.read(orderListProvider.notifier).addorder(Order(
+                  ref.read(orderListProvider.notifier).addorder(Item(
+                        description: "",
                         id: currentId,
                         image: image,
                         name: name,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/core/providers/navigationprovider.dart';
 import 'package:project_2cp/features/client/orderlist/presentation/orderwidget.dart';
+import 'package:project_2cp/features/client/orderlist/providers/add_order_back.dart';
 import 'package:project_2cp/features/client/orderlist/providers/totalprovider.dart';
 import 'package:project_2cp/core/widgets/search_widget.dart';
 import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
@@ -128,6 +129,7 @@ class OrderListPage extends ConsumerWidget {
                     ),
                     GestureDetector(
                       onTap: () {
+                   
                         ref
                             .read(orderHistoryProvider.notifier)
                             .addOrders(orders);

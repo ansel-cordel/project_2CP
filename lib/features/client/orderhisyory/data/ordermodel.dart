@@ -11,7 +11,7 @@ class OrderHistory {
     required this.state,
     required this.time,
   });
-  factory OrderHistory.fromOrder(Order order) {
+  factory OrderHistory.fromOrder(Item order) {
     return OrderHistory(
       time:"HH-MM-SS" ,
       

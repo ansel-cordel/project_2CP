@@ -204,7 +204,7 @@ class Bestmenus extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(30), // Smaller radius
               ),
               onPressed: () {
-                ref.read(orderListProvider.notifier).addorder(Order(id: currentId, image: image, name: name, price: price, resto: restaurant));
+                ref.read(orderListProvider.notifier).addorder(Item(id: currentId, image: image, name: name, price: price, resto: restaurant,description: ""));
               },
               backgroundColor: Colors.orange[800],
               child: Icon(
