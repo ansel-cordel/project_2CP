@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/resto',
+      initialRoute: '/home',
       getPages: [
         GetPage(name: "/resto", page:() => HomePageresto()),
         GetPage(name: "/deliverer", page:() => Deliverer()),

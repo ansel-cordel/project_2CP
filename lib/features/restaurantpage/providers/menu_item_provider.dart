@@ -11,3 +11,11 @@ final menuItemsProvider = FutureProvider<List<MenuItem>>((ref) async {
   final service = ref.watch(menuServiceProvider);
   return service.fetchMenuItems();
 });
+final confirmOrderProvider = Provider((ref) {
+  return (int orderId) async {
+    final repo = ref.read(menuServiceProvider);
+    await repo.confirmOrder(orderId);
+    // Optionally refetch orders after confirm:
+    ref.invalidate(menuItemsProvider);
+  };
+});
