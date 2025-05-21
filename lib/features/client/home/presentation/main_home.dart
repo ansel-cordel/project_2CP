@@ -9,24 +9,32 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    double a=MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children:[
-             Search(),
-             TodaysMenuText(),
-             TodaysMenuWidget(name:"pizza",price: 1500,restaurant:"Fancy Food Studious TM" ,image: "assets/pizza2.jpg",),
-             SizedBox(height: 10,),
-             FindWhatYouLikeText(), 
-             FindWhatYouLikeWidget(),
-             SizedBox(height: 10,),
-            OurRestaurants(),
-             ]),
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children:[
+           Padding(
+             padding:EdgeInsets.symmetric(horizontal: a*0.02),
+             child: Search(),
+           ),
+           Padding(
+             padding:EdgeInsets.only(left: a*0.04),
+             child: TodaysMenuText(),
+           ),
+           TodaysMenuWidget(name:"pizza",price: 1500,restaurant:"Fancy Food Studious TM" ,image: "assets/pizza2.jpg",),
+           Padding(
+             padding:EdgeInsets.only(left: a*0.04),
+             child: FindWhatYouLikeText(),
+           ), 
+           FindWhatYouLikeWidget(),
+           Padding(
+             padding: EdgeInsets.symmetric(horizontal: a*0.01),
+             child: OurRestaurants(),
+           ),
+           ]),
       ),
     );
   }

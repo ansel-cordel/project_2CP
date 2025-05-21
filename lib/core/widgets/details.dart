@@ -5,6 +5,7 @@ import 'package:project_2cp/features/client/orderlist/providers/addorderidprovid
 import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
 
 class OrderDetail extends ConsumerWidget {
+ 
   final String image;
   final String name;
   final String resto;
@@ -14,6 +15,7 @@ class OrderDetail extends ConsumerWidget {
 
   const OrderDetail({
     super.key,
+    
     required this.name,
     required this.resto,
     required this.price,
@@ -138,7 +140,8 @@ class OrderDetail extends ConsumerWidget {
                 ),
                 onPressed: () {
                   ref.read(orderListProvider.notifier).addorder(Item(
-                        description: "",
+                        
+                        description: description,
                         id: currentId,
                         image: image,
                         name: name,

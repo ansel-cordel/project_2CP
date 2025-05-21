@@ -30,7 +30,7 @@ class OrderCard extends ConsumerWidget {
 
     return Center(
       child: Container(
-        height: screenHeight * 0.10,
+        height: screenHeight * 0.11,
         width: screenWidth * 0.9,
         decoration: BoxDecoration(
           color: Colors.white,

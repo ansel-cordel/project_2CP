@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/core/providers/navigationprovider.dart';
+import 'package:project_2cp/features/client/home/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderhisyory/data/ordermodel.dart';
 import 'package:project_2cp/features/client/orderlist/presentation/orderwidget.dart';
-import 'package:project_2cp/features/client/orderlist/providers/add_order_back.dart';
 import 'package:project_2cp/features/client/orderlist/providers/totalprovider.dart';
 import 'package:project_2cp/core/widgets/search_widget.dart';
 import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
@@ -24,18 +25,13 @@ class OrderListPage extends ConsumerWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Search(),
-          ),
-          SizedBox(height: 8),
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.center,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.only(top: screenHeight*0.06),
               child: Text(
-                "Order List:",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                "Order List",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth*0.06),
               ),
             ),
           ),
@@ -103,7 +99,8 @@ class OrderListPage extends ConsumerWidget {
                       offset: const Offset(-3, 0),
                     ),
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color:
+Colors.black.withOpacity(0.1),
                       blurRadius: 6,
                       offset: const Offset(3, 0),
                     ),
@@ -129,10 +126,9 @@ class OrderListPage extends ConsumerWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                   
                         ref
                             .read(orderHistoryProvider.notifier)
-                            .addOrders(orders);
+                            .addOrders(OrderHistory(price: totalPrice,date: "11-13-2005",time: "12:00",state:1));
                         ref.read(orderListProvider.notifier).clearOrders();
                         ref.read(bottomNavIndexProvider.notifier).state = 2;
                       },

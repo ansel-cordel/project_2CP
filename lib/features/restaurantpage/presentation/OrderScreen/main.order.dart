@@ -13,13 +13,21 @@ class OrdersScreen extends StatelessWidget{
         child: Container(
           padding: EdgeInsets.only(
             top: a*0.1  ,
+            right: a*0.03,
+            left: a*0.03,
           ),
           child: Column(
             children: [
-              order(ResPic: "c1", CliPic: "c2", ResName: "a", CliName: "a", ResLoc: "b", CliLoc: "b", ResNum: "09", CliNum: "05"),
-              order(ResPic: "c3", CliPic: "c4", ResName: "a", CliName: "a", ResLoc: "b", CliLoc: "b", ResNum: "09", CliNum: "05"),
-              order(ResPic: "c5", CliPic: "c3", ResName: "a", CliName: "a", ResLoc: "b", CliLoc: "b", ResNum: "09", CliNum: "05"),
-            ],
+              Text("On Going Orders",
+              style: TextStyle(
+                fontSize: a*0.06,
+                fontWeight: FontWeight.w700
+              ),
+              ),
+              Order(cliName: "riad",cliNum: "0053740984",resPic: "res2",),
+              Order(cliName: "riad",cliNum: "0053740984",resPic: "res2",),
+              Order(cliName: "riad",cliNum: "0053740984",resPic: "res2",),
+            ]
           ),
         ),
       ),
