@@ -5,7 +5,7 @@ class OrderHistoryCard extends StatelessWidget {
   final String date;
   final String time;
   final int state;
-  final int price;
+  final double price;
   const OrderHistoryCard(
       {super.key, required this.date, required this.time, required this.state,required this.price});
   @override

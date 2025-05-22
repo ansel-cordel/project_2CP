@@ -6,7 +6,7 @@ class OrderCard extends ConsumerWidget {
   final String id;
   final String name;
   final String resto;
-  final int price;
+  final double price;
   final String image;
   final VoidCallback onDelete;
 

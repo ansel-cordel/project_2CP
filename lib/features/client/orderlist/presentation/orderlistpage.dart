@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/core/providers/navigationprovider.dart';
-import 'package:project_2cp/features/client/home/data/ordermodel.dart';
-import 'package:project_2cp/features/client/orderhisyory/data/ordermodel.dart';
 import 'package:project_2cp/features/client/orderlist/presentation/orderwidget.dart';
 import 'package:project_2cp/features/client/orderlist/providers/totalprovider.dart';
-import 'package:project_2cp/core/widgets/search_widget.dart';
 import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
 import 'package:project_2cp/features/client/orderhisyory/providers/orderhistoryprovider.dart';
 // Optional: if you want to use Lottie
@@ -66,7 +63,7 @@ class OrderListPage extends ConsumerWidget {
                             name: orders[index].name,
                             price: orders[index].price,
                             resto: orders[index].resto,
-                            image: orders[index].image,
+                            image: orders[index].image ?? "",
                             onDelete: () => ref
                                 .read(orderListProvider.notifier)
                                 .removeOrder(orders[index].id),
@@ -128,7 +125,7 @@ Colors.black.withOpacity(0.1),
                       onTap: () {
                         ref
                             .read(orderHistoryProvider.notifier)
-                            .addOrders(OrderHistory(price: totalPrice,date: "11-13-2005",time: "12:00",state:1));
+                            .addOrders(orders[0]);
                         ref.read(orderListProvider.notifier).clearOrders();
                         ref.read(bottomNavIndexProvider.notifier).state = 2;
                       },

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:project_2cp/features/auth/data/token_storage.dart';
 import 'package:project_2cp/features/client/home/data/restaurant_model.dart';
-import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderlist/data/Item_mdeol.dart';
 
 class ApiService {
   static const String baseUrl = 'https://curvy-icons-fix.loca.lt/api';
@@ -67,13 +67,13 @@ class ApiService {
 }
 
 
-  static Future<List<Restaurant>> fetchRestaurants() async {
+ static Future<List<Restaurant>> fetchRestaurants() async {
   final token = await TokenStorage.getToken();
 
   if (token == null) throw Exception('No token found');
 
   final response = await http.get(
-    Uri.parse('$baseUrl/restaurants/'),
+    Uri.parse('$baseUrl/api/restaurants/'),
     headers: {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
@@ -82,12 +82,11 @@ class ApiService {
 
   if (response.statusCode == 200) {
     final List data = jsonDecode(response.body);
-    return data.map((r) => Restaurant.fromJson(r)).toList();
+    return data.map((restaurantJson) => Restaurant.fromJson(restaurantJson)).toList();
   } else {
-    throw Exception('Failed to load restaurants');
+    throw Exception('Failed to load restaurants: ${response.statusCode}');
   }
 }
-
 
 
   static Future<Item> fetchPopularItem() async {

@@ -10,6 +10,7 @@ import 'package:project_2cp/features/auth/providers/auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/features/client/home/presentation/main_home_fr.dart';
 import 'package:project_2cp/features/delivrer/OrdersScreen/main_orders_fr.dart';
+import 'package:project_2cp/features/restaurantpage/presentation/mainpage.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -109,40 +110,43 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     SizedBox(height: screenHeight * 0.04),
                     GestureDetector(
                       onTap: () async {
-                        if (_formKey.currentState!.validate()) {
-                          /* setState(() => _isButtonPressed = true);
-
-                          final loginNotifier =
-                              ref.read(loginResponseProvider.notifier);
-                          await loginNotifier.loginUser(
-                            username: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          );
-
-                          final loginState =
-                              ref.read(loginResponseProvider);
-
-                          if (loginState.hasError) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text("Login failed: ${loginState.error}"),
-                              ),
-                            );
-                          } else {
-                            // Navigate to home screen
-                            Navigator.pushReplacementNamed(context, '/home');
-                          }
-
-                          
-                          setState(() => _isButtonPressed = false);
-                          */
-                          if (_emailController.text == "issam@deliverer.com") {
-                            Get.to(Deliverer());
-                          } else {
-                            Get.to(HomePage());
-                          }
-                        }
-                      },
+    if (_formKey.currentState!.validate()) {
+      FocusScope.of(context).unfocus(); // Dismiss keyboard
+      
+      final loginNotifier = ref.read(loginResponseProvider.notifier);
+      await loginNotifier.loginUser(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      
+      final loginResult = ref.read(loginResponseProvider);
+      
+      if (loginResult.hasError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Login failed: ${loginResult.error}"),
+          ),
+        );
+      } else if (loginResult.value != null) {
+        // Debug print to verify role value
+        print("Navigation role: ${loginResult.value!['role']}");
+        
+        final role = loginResult.value!['role'].toString().toLowerCase();
+        
+        if (role == "client") {
+          Get.to(() => HomePage());
+        } else if (role == "restaurant") {
+          Get.to(() => HomePageresto());
+        } else if (role == "deliverer") {
+          Get.to(() => Deliverer());
+        } else {
+          // Default case if role doesn't match expected values
+          print("Unknown role: $role, defaulting to client view");
+          Get.to(() => HomePage());
+        }
+      }
+    }
+  },
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 200),
                         width: double.infinity,
@@ -183,17 +187,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("New to our APP ?",style: GoogleFonts.poppins(
-                fontSize: screenHeight * 0.025 * textScale,
-                fontWeight: FontWeight.w400,
-              ),),
+                Text(
+                  "New to our APP ?",
+                  style: GoogleFonts.poppins(
+                    fontSize: screenHeight * 0.025 * textScale,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
                 GestureDetector(
                   onTap: () => Get.to(SignUpAs()),
-                  child: Text("Sign up >",style: GoogleFonts.poppins(
-                  fontSize: screenHeight * 0.025 * textScale,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.deepOrangeAccent
-                                ),),
+                  child: Text(
+                    "Sign up >",
+                    style: GoogleFonts.poppins(
+                        fontSize: screenHeight * 0.025 * textScale,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.deepOrangeAccent),
+                  ),
                 )
               ],
             )

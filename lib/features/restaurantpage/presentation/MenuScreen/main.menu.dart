@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/features/restaurantpage/presentation/ItemPage/main_ItemPage.dart';
 import 'package:project_2cp/features/restaurantpage/presentation/MenuScreen/item_widget.dart';
 import 'package:project_2cp/features/restaurantpage/presentation/search/search_bar.dart';
-import 'package:project_2cp/features/restaurantpage/providers/menu_item_provider.dart';
+import 'package:project_2cp/features/restaurantpage/providers/fetch_menu_items_fr.dart';
+
 
 class MenuScreen extends ConsumerWidget {
   const MenuScreen({super.key});
@@ -33,11 +34,13 @@ class MenuScreen extends ConsumerWidget {
                     return Column(
                       children: [
                         Item(
+                          Rate: 3,
                           ItemName: item.name,
-                          ItemPicture: item.imageUrl,
+                          ItemPicture: "",
                           ItemDescription: item.description,
                           Price: item.price,
-                          Rate: 8,
+                          id: item.id,
+                          isAvailable:item.isAvailable,
                           TotalOrders: 500,
                         ),
                         Text(

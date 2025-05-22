@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:project_2cp/core/widgets/details.dart';
 import 'package:project_2cp/features/client/home/providers/amountprovider.dart';
-import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderlist/data/Item_mdeol.dart';
 import 'package:project_2cp/features/restaurant/main_page.dart';
 
 class OurRestaurantsWidget extends ConsumerWidget {
@@ -71,16 +71,16 @@ class OurRestaurantsWidget extends ConsumerWidget {
               child: ListView.builder(
                 padding: EdgeInsets.only(left: width * 0.01),
                 scrollDirection: Axis.horizontal,
-                itemCount: namesList.length,
+                itemCount: items.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () => Get.to(
                       OrderDetail(
-                        name: namesList[index],
-                        resto: name,
-                        price: 1500,
+                        name: items[index].name,
+                        resto: items[index].resto,
+                        price: items[index].price,
                         amount: amount,
-                        description: "Delicious menu item",
+                        description: items[index].description,
                         image: imagesList[index],
                       ),
                     ),

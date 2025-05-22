@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:project_2cp/features/restaurantpage/providers/menu_item_provider.dart';
+import 'package:project_2cp/features/restaurantpage/providers/fetch_menu_items_fr.dart';
+// Removed the unused menu_item_provider import since we're using the new MenuService
 import 'Forms.dart';
 import 'Picture.dart';
 
@@ -59,6 +60,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
     }
 
     try {
+      // This line remains exactly the same - it now uses the updated MenuService
       final service = ref.read(menuServiceProvider);
       await service.addMenuItem(
         name: name,
@@ -66,8 +68,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
         price: price,
         image: selectedImage!,
       );
-
-      // Clear inputs after adding
+      
       itemNameController.clear();
       itemDescriptionController.clear();
       priceController.clear();
@@ -79,9 +80,9 @@ class _ItemPageState extends ConsumerState<ItemPage> {
         const SnackBar(content: Text('Item added successfully!')),
       );
 
-      Navigator.pop(context, true); // Success
+      Navigator.pop(context, true); // Success - this will refresh the MenuScreen
     } catch (e) {
-      print(e);
+      print('Error adding item: $e'); // Added more descriptive error logging
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Failed to add item"),
       ));
@@ -128,7 +129,6 @@ class _ItemPageState extends ConsumerState<ItemPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          
           margin: EdgeInsets.only(top: width * 0.1),
           child: Column(
             children: [
@@ -144,7 +144,7 @@ class _ItemPageState extends ConsumerState<ItemPage> {
                 child: Form(
                   key: _formKey,
                   child: Forms(
-                  itemNameController: itemNameController,
+                    itemNameController: itemNameController,
                     itemDescriptionController: itemDescriptionController,
                     priceController: priceController,
                   ),

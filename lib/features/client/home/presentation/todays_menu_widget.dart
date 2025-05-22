@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:project_2cp/core/widgets/details.dart';
 import 'package:project_2cp/features/client/home/providers/amountprovider.dart';
 import 'package:project_2cp/features/client/home/providers/fetchingprovider.dart';
-import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderlist/data/Item_mdeol.dart';
 import 'package:project_2cp/features/client/orderlist/providers/addorderidprovider.dart';
 import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
 
@@ -24,12 +24,12 @@ class TodaysMenuWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final popularitemAsync = ref.watch(popularItemProvider);
+    final restaurants = ref.watch(restaurantsProvider);
     final amount = ref.watch(amountHandler);
     final currentId = ref.read(idcountprovider).toString();
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return popularitemAsync.when(
+    return restaurants.when(
       loading: () => const Center(
         child: CircularProgressIndicator(),
       ),
@@ -39,12 +39,12 @@ class TodaysMenuWidget extends ConsumerWidget {
       data: (popularitem2) {
         return GestureDetector(
           onTap: () => Get.to(OrderDetail(
-              name: popularitem2.name,
-              resto: popularitem2.resto,
-              price: popularitem2.price,
+              name: popularitem2[0].items[0].name,
+              resto: popularitem2[0].items[0].resto,
+              price: popularitem2[0].items[0].price,
               amount: amount,
-              description: popularitem2.description,
-              image: popularitem2.image)),
+              description: popularitem2[0].items[0].description,
+              image: popularitem2[0].items[0].image ?? "")),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: LayoutBuilder(
@@ -66,7 +66,7 @@ class TodaysMenuWidget extends ConsumerWidget {
                               top: Radius.circular(20),
                             ),
                             child: Image.asset(
-                              popularitem2.image,
+                              popularitem2[0].items[0].image ?? "",
                               height: screenWidth * 0.4,
                               width: double.infinity,
                               fit: BoxFit.cover,
@@ -80,7 +80,7 @@ class TodaysMenuWidget extends ConsumerWidget {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        popularitem2.name,
+                                        popularitem2[0].items[0].name,
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,
@@ -125,7 +125,7 @@ class TodaysMenuWidget extends ConsumerWidget {
                                     spacing: 4,
                                     children: [
                                       Text(
-                                        popularitem2.resto,
+                                        popularitem2[0].items[0].resto,
                                         style: TextStyle(color: Colors.grey[850]),
                                       ),
                                       const Text("•"),
@@ -137,7 +137,7 @@ class TodaysMenuWidget extends ConsumerWidget {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "${popularitem2.price} DA",
+                                    "${popularitem2[0].items[0].price} DA",
                                     style: const TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.w600,
@@ -162,12 +162,13 @@ class TodaysMenuWidget extends ConsumerWidget {
                         onPressed: () {
                           ref.read(orderListProvider.notifier).addorder(
                                 Item(
+                                  isAvailable: true,
                                   id: currentId,
-                                  image: popularitem2.image,
-                                  name: popularitem2.name,
-                                  price: popularitem2.price,
-                                  resto: popularitem2.resto,
-                                  description: popularitem2.description,
+                                  image: popularitem2[0].items[0].image,
+                                  name: popularitem2[0].items[0].name,
+                                  price: popularitem2[0].items[0].price,
+                                  resto: popularitem2[0].items[0].resto,
+                                  description: popularitem2[0].items[0].description,
                                 ),
                               );
                         },

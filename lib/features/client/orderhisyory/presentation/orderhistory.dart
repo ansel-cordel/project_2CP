@@ -44,9 +44,9 @@ class OrderHistoryPage extends ConsumerWidget {
                 return Column(
                   children: [
                     OrderHistoryCard(
-                      date: confirmedOrders[index].date,
-                      time: confirmedOrders[index].time,
-                      state: confirmedOrders[index].state,
+                      date: "5555",
+                      time: "è(è(è(è)))",
+                      state: 1,
                       price: confirmedOrders[index].price,
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.01),

@@ -1,7 +1,9 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:project_2cp/features/client/home/providers/amountprovider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project_2cp/features/client/orderlist/data/ordermodel.dart';
+import 'package:project_2cp/features/client/orderlist/data/Item_mdeol.dart';
 import 'package:project_2cp/features/client/orderlist/providers/addorderidprovider.dart';
 import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
 
@@ -9,7 +11,7 @@ class Bestmenus extends ConsumerWidget {
   final String image;
   final String name;
   final String restaurant;
-  final int price;
+  final double price;
 
   const Bestmenus({
     super.key,
@@ -204,7 +206,7 @@ class Bestmenus extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(30), // Smaller radius
               ),
               onPressed: () {
-                ref.read(orderListProvider.notifier).addorder(Item(id: currentId, image: image, name: name, price: price, resto: restaurant,description: ""));
+                ref.read(orderListProvider.notifier).addorder(Item(isAvailable: true,id: currentId, image: image, name: name, price: price, resto: restaurant,description: ""));
               },
               backgroundColor: Colors.orange[800],
               child: Icon(

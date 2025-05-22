@@ -2,43 +2,82 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Auth {
-  Future<http.Response> signup({
+  Future<Map<String, dynamic>> signup({
     required String username,
-    required int phone_number,
+    required int phoneNumber,
     required String name,
-    required String last_name,
+    required String lastName,
     required String password,
     required String email,
-    required String adress,
+    required String address,
+    required String role, // 'client', 'restaurant', or 'deliverer'
   }) async {
-    const url = "https://curvy-icons-fix.loca.lt/api/register/";
-    return await http.post(
+    const url = "https://free-dogs-work.loca.lt/api/register/";
+    final response = await http.post(
       Uri.parse(url),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
         "email": email,
         "username": username,
         "name": name,
-        "last_name": last_name,
+        "last_name": lastName,
         "password": password,
-        "phone_number": phone_number,
-        "adress": adress,
+        "phone_number": phoneNumber,
+        "address": address,
+        "role": role,
       }),
     );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to sign up: ${response.body}');
+    }
   }
 
-  Future<http.Response> login({
-    required String username,
+  Future<Map<String, dynamic>> login({
+    required String email,
     required String password,
   }) async {
-    const url = "https://curvy-icons-fix.loca.lt/api/login/";
-    return await http.post(
-      Uri.parse(url),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "username": username,
-        "password": password,
-      }),
-    );
+    const url = "https://free-dogs-work.loca.lt/api/login/";
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          "email": email,
+          "password": password,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        
+        // Print for debugging
+        print("API Response: $data");
+        
+        // Extract role from nested user object
+        String? role;
+        if (data['user'] != null && data['user']['role'] != null) {
+          role = data['user']['role'];
+        } else {
+          role = 'client'; // Default to client if role is missing
+        }
+
+        // Return data in the same format as before, but with additional profile info
+        return {
+          'token': data['token'],
+          'role': role,
+          // Add profile data but keep it optional so existing UI won't break
+          'profile': data['profile'],
+          'user': data['user'],
+        };
+      } else {
+        throw Exception('Failed to login: ${response.body}');
+      }
+    } catch (e) {
+      print("Login error: $e");
+      throw Exception('Failed to login: $e');
+    }
   }
 }

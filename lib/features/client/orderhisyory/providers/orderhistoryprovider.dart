@@ -1,16 +1,17 @@
 
-import 'package:project_2cp/features/client/orderhisyory/data/ordermodel.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class OrderHistoryNotifier extends StateNotifier<List<OrderHistory>> {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_2cp/features/client/orderlist/data/Item_mdeol.dart';
+
+class OrderHistoryNotifier extends StateNotifier<List<Item>> {
   OrderHistoryNotifier() : super([]);
 
-  void addOrders(OrderHistory newOrders) {
+  void addOrders(Item newOrders) {
     state.add(newOrders); // Append converted orders
   }
 }
 
 final orderHistoryProvider =
-    StateNotifierProvider<OrderHistoryNotifier, List<OrderHistory>>(
+    StateNotifierProvider<OrderHistoryNotifier, List<Item>>(
   (ref) => OrderHistoryNotifier(),
 );
