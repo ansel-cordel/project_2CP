@@ -44,7 +44,6 @@ class _HomePageState extends State<HomePageresto> {
           BottomNavigationBarItem(icon: Icon(Icons.menu_book_rounded,size: 25,), label: "Order"),
           BottomNavigationBarItem(icon: Icon(Icons.list,size: 25,), label: "Menu"),
           BottomNavigationBarItem(icon: Icon(Icons.person,size: 25,), label: "Profile"),
-        
         ],
       ),
     );

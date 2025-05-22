@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:project_2cp/features/delivrer/data/ordermodel.dart';
 
 class DelivererService {
-  final String baseUrl = 'http://localhost:8000/api/deliverer/orders/';
+  final String baseUrl = 'http://127.0.0.1:8000/api/deliverer/orders/';
 
   // Fetch orders the deliverer can take
   Future<List<order>> fetchAvailableOrders() async {

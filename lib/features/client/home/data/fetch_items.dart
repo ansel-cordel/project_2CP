@@ -5,7 +5,7 @@ import 'package:project_2cp/features/client/home/data/restaurant_model.dart';
 import 'package:project_2cp/features/client/orderlist/data/Item_mdeol.dart';
 
 class ApiService {
-  static const String baseUrl = 'https://giant-cups-swim.loca.lt';
+  static const String baseUrl = 'hhttps://tough-glasses-itch.loca.lt/api';
 
    // ✅ [1] Confirm that the client has received the order
   static Future<void> confirmOrderReceived(int orderId) async {

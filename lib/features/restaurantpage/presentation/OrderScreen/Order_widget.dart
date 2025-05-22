@@ -134,7 +134,7 @@ class _OrderState extends State<Order> {
                       children: [
                         Text("Order List:",
                             style: TextStyle(
-fontSize: width * 0.05,
+                            fontSize: width * 0.05,
                                 fontWeight: FontWeight.w600)),
                         _buildItemRow("Pizza", "100 Da x 5", width),
                         _buildItemRow("Fries", "50 Da x 7", width),
@@ -222,7 +222,7 @@ fontSize: width * 0.05,
                         backgroundColor: orangeColor,
                         padding: EdgeInsets.symmetric(
                           vertical: width * 0.03,
-horizontal: width * 0.1,
+                          horizontal: width * 0.1,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),

@@ -47,7 +47,7 @@ class Auth {
     required String address,
     // 'client', 'restaurant', or 'deliverer'
   }) async {
-    const url = "https://loud-shrimps-marry.loca.lt/api/restaurant/singup/";
+    const url = 'https://tough-glasses-itch.loca.lt/api/restaurant/singup/';
     final response = await http.post(
       Uri.parse(url),
       headers: {"Content-Type": "application/json"},
@@ -74,7 +74,7 @@ class Auth {
     required String email,
     required String password,
   }) async {
-    const url = "https://giant-cups-swim.loca.lt/api/login/";
+    const url = 'https://tough-glasses-itch.loca.lt/api/login/';
     try {
       final response = await http.post(
         Uri.parse(url),

@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 import 'package:project_2cp/features/restaurantpage/data/itemmodel.dart';
 
 class MenuItemService {
-  final String baseUrl = 'https://loud-shrimps-marry.loca.lt/';
+  final String baseUrl = 'http://127.0.0.1:8000/api';
 
   // Fetch menu items
   Future<List<MenuItem>> fetchMenuItems() async {

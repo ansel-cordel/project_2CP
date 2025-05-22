@@ -6,7 +6,7 @@ import 'package:project_2cp/features/auth/data/token_storage.dart';
 import 'package:project_2cp/features/restaurantpage/data/itemmodel.dart';
 
 class MenuService {
-  static const String baseUrl = "https://giant-cups-swim.loca.lt/api";
+  static const String baseUrl = "https://tough-glasses-itch.loca.lt/api";
 
   // Method 1: Fetch menu items only (returns just the menu items list)
   Future<List<MenuItem>> fetchMenuItems() async {

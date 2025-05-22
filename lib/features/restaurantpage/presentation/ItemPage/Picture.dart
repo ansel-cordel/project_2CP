@@ -1,5 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:http/http.dart';
+import 'package:project_2cp/features/restaurantpage/presentation/MenuScreen/main.menu.dart';
 
 class Picture extends StatelessWidget {
   final File? selectedImage;
@@ -33,16 +37,42 @@ class Picture extends StatelessWidget {
           Positioned(
             bottom: width * 0.02,
             right: width * 0.02,
-            child: FloatingActionButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(width * 0.1),
+            child: SizedBox(
+              height: width*0.1,
+              width: width*0.1,
+              child: FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(width * 0.1),
+                ),
+                backgroundColor: const Color.fromARGB(113, 251, 138, 0),
+                onPressed: onPickImage,
+                child: Icon(
+                  Icons.edit_outlined,
+                  size: width * 0.06,
+                  color: Colors.orange[800],
+                ),
               ),
-              backgroundColor: const Color.fromARGB(25, 251, 138, 0),
-              onPressed: onPickImage,
-              child: Icon(
-                Icons.edit_outlined,
-                size: width * 0.06,
-                color: Colors.orange[800],
+            ),
+          ),
+          Positioned(
+            top: width * 0.02,
+            left: width * 0.02,
+            child: SizedBox(
+              height: width*0.06,
+              width: width*0.1,
+              child: FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(width * 0.02),
+                ),
+                backgroundColor: const Color.fromARGB(133, 251, 138, 0),
+                onPressed:(){
+                  Navigator.pop(context); 
+                },
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  size: width * 0.04,
+                  color: Colors.orange[800],
+                ),
               ),
             ),
           ),
