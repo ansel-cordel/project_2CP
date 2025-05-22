@@ -3,14 +3,12 @@ import 'package:get/get.dart';
 import 'package:project_2cp/features/auth/presentation/sign_up_as.dart';
 import 'package:project_2cp/core/widgets/text_field.dart';
 import 'package:project_2cp/features/auth/presentation/congratulations.dart';
-//import 'package:project_2cp/features/auth/providers/auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/features/auth/providers/signup.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   final String role;
-  const SignUpScreen({super.key,
-  required this.role});
+  const SignUpScreen({super.key, required this.role});
 
   @override
   ConsumerState<SignUpScreen> createState() => _SignupScreenState();
@@ -24,39 +22,66 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
       TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
- @override
+
+  String? _selectedZone;
+  String? _selectedVehicleType;
+
+  final List<String> _zones = ['Zone 1', 'Zone 2', 'Zone 3'];
+  final List<String> _vehicleTypes = ['Bike', 'Car', 'Scooter', 'Truck'];
+
+  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
-    
     _confirmPasswordController.dispose();
     _phoneNumberController.dispose();
-    
     super.dispose();
   }
 
-  Future<void> _submitForm() async {
-    if (!_formKey.currentState!.validate()) return;
+ Future<void> _submitForm() async {
+  if (!_formKey.currentState!.validate()) return;
 
-    // Check if passwords match
-    if (_passwordController.text != _confirmPasswordController.text) {
+  if (_passwordController.text != _confirmPasswordController.text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Passwords do not match")),
+    );
+    return;
+  }
+
+  if (widget.role == 'Deliverer') {
+    if (_selectedZone == null || _selectedVehicleType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Passwords do not match")),
+        const SnackBar(
+            content:
+                Text("Please select both working zone and vehicle type")),
       );
       return;
     }
+  }
 
-    try {
-      // Parse phone number
-      final phoneNumber = int.tryParse(_phoneNumberController.text);
-      if (phoneNumber == null) {
-        throw Exception("Please enter a valid phone number");
-      }
+  try {
+    final phoneNumber = int.tryParse(_phoneNumberController.text);
+    if (phoneNumber == null) {
+      throw Exception("Please enter a valid phone number");
+    }
 
-      // Call the signup function through the provider
+    if (widget.role == 'Deliverer') {
+      // Use deliverer registration provider
+      await ref.read(registerDelivererResponseProvider.notifier).registerDeliverer(
+        username: _emailController.text,
+        phoneNumber: phoneNumber,
+        name: _nameController.text,
+        lastName: "_lastNameController.text",
+        password: _passwordController.text,
+        email: _emailController.text,
+        workingZone: _selectedZone!,
+        vehicleType: _selectedVehicleType!,
+      );
+    } else {
+      // Use regular registration provider
       await ref.read(registerResponseProvider.notifier).register(
-        username: _emailController.text, // Using email as username
+        username: _emailController.text,
         phoneNumber: phoneNumber,
         name: _nameController.text,
         lastName: "_lastNameController.text",
@@ -65,19 +90,18 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
         address: "_addressController.text",
         role: widget.role,
       );
-
-      // If successful, navigate to congratulations screen
-      Get.to(() => Congratulations(), transition: Transition.rightToLeft);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${e.toString()}")),
-      );
     }
+
+    Get.to(() => Congratulations(), transition: Transition.rightToLeft);
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error: ${e.toString()}")),
+    );
   }
+}
+
   @override
   Widget build(BuildContext context) {
-    
-
     return LayoutBuilder(
       builder: (context, constraints) {
         double screenHeight = constraints.maxHeight;
@@ -146,14 +170,60 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
                     controller: _confirmPasswordController,
                     isEmail: false,
                   ),
-                  SizedBox(height: screenHeight * 0.045),
+                  if (widget.role == 'Deliverer') ...[
+                    SizedBox(height: screenHeight * 0.045),
+                    Text("Working Zone",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    DropdownButtonFormField<String>(
+                      value: _selectedZone,
+                      items: _zones.map((zone) {
+                        return DropdownMenuItem(
+                          value: zone,
+                          child: Text(zone),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedZone = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                      validator: (value) => value == null
+                          ? 'Please select a working zone'
+                          : null,
+                    ),
+                    SizedBox(height: screenHeight * 0.045),
+                    Text("Vehicle Type",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    DropdownButtonFormField<String>(
+                      value: _selectedVehicleType,
+                      items: _vehicleTypes.map((vehicle) {
+                        return DropdownMenuItem(
+                          value: vehicle,
+                          child: Text(vehicle),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedVehicleType = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                      validator: (value) => value == null
+                          ? 'Please select a vehicle type'
+                          : null,
+                    ),
+                  ],
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () => _submitForm,
-                        
-                        
-                      
+                      onPressed: _submitForm,
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 24),
                         child: Text(

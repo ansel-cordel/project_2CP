@@ -12,7 +12,11 @@ class SignUpAs extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedOption = ref.watch(toggleNotifierProvider);
     print("THIS IS YOUR SELECTED OPTION PLEASE BEHOLD IT");
-    print("Caution");print("Caution");print("Caution");print("Caution");print("Caution");
+    print("Caution");
+    print("Caution");
+    print("Caution");
+    print("Caution");
+    print("Caution");
     print(selectedOption);
 
     return Scaffold(
@@ -91,7 +95,10 @@ class SignUpAs extends ConsumerWidget {
                   child: TextButton(
                     onPressed: () {
                       if (selectedOption != null) {
-                        Get.to(() =>  SignUpScreen(role: selectedOption,),
+                        Get.to(
+                            () => SignUpScreen(
+                                  role: selectedOption,
+                                ),
                             transition: Transition.rightToLeft);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
