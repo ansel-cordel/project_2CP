@@ -5,9 +5,12 @@ import 'package:project_2cp/core/widgets/text_field.dart';
 import 'package:project_2cp/features/auth/presentation/congratulations.dart';
 //import 'package:project_2cp/features/auth/providers/auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_2cp/features/auth/providers/signup.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
-  const SignUpScreen({super.key});
+  final String role;
+  const SignUpScreen({super.key,
+  required this.role});
 
   @override
   ConsumerState<SignUpScreen> createState() => _SignupScreenState();
@@ -21,10 +24,59 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
       TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+ @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _nameController.dispose();
+    
+    _confirmPasswordController.dispose();
+    _phoneNumberController.dispose();
+    
+    super.dispose();
+  }
 
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    // Check if passwords match
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match")),
+      );
+      return;
+    }
+
+    try {
+      // Parse phone number
+      final phoneNumber = int.tryParse(_phoneNumberController.text);
+      if (phoneNumber == null) {
+        throw Exception("Please enter a valid phone number");
+      }
+
+      // Call the signup function through the provider
+      await ref.read(registerResponseProvider.notifier).register(
+        username: _emailController.text, // Using email as username
+        phoneNumber: phoneNumber,
+        name: _nameController.text,
+        lastName: "_lastNameController.text",
+        password: _passwordController.text,
+        email: _emailController.text,
+        address: "_addressController.text",
+        role: widget.role,
+      );
+
+      // If successful, navigate to congratulations screen
+      Get.to(() => Congratulations(), transition: Transition.rightToLeft);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${e.toString()}")),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    //final state = ref.watch(registerResponseProvider);
+    
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -98,48 +150,10 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-
-                         /*
-                         this is sign up logic
-                          state.when(
-                            data: (_) {
-                              Get.to(() => Congratulations(),
-                                  transition: Transition.rightToLeft);
-                            },
-                            error: (err, stack) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Error: $err"),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-                            },
-                            loading: () {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (context) => const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            },
-                          );
-                         */
-                          Get.to(() => Congratulations(),
-                                  transition: Transition.rightToLeft);
-                             
-                          } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content:
-                                  Text("Please fill out all fields correctly"),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        }
-                      },
+                      onPressed: () => _submitForm,
+                        
+                        
+                      
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 24),
                         child: Text(

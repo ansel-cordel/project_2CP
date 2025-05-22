@@ -9,8 +9,11 @@ class SignUpAs extends ConsumerWidget {
   const SignUpAs({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) { 
-    final selectedOption = ref.watch(toggleNotifierProvider); 
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedOption = ref.watch(toggleNotifierProvider);
+    print("THIS IS YOUR SELECTED OPTION PLEASE BEHOLD IT");
+    print("Caution");print("Caution");print("Caution");print("Caution");print("Caution");
+    print(selectedOption);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -18,7 +21,7 @@ class SignUpAs extends ConsumerWidget {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            Get.to(() =>  LoginScreen(), transition: Transition.leftToRight);
+            Get.to(() => LoginScreen(), transition: Transition.leftToRight);
           },
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
         ),
@@ -88,7 +91,7 @@ class SignUpAs extends ConsumerWidget {
                   child: TextButton(
                     onPressed: () {
                       if (selectedOption != null) {
-                        Get.to(() => const SignUpScreen(),
+                        Get.to(() =>  SignUpScreen(role: selectedOption,),
                             transition: Transition.rightToLeft);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -118,7 +121,8 @@ class SignUpAs extends ConsumerWidget {
       ),
     );
   }
-   Widget buildOption({
+
+  Widget buildOption({
     required WidgetRef ref,
     required String title,
     required String description,
@@ -134,7 +138,8 @@ class SignUpAs extends ConsumerWidget {
       borderRadius: BorderRadius.circular(12),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () => ref.read(toggleNotifierProvider.notifier).toggle(optionType),
+        onTap: () =>
+            ref.read(toggleNotifierProvider.notifier).toggle(optionType),
         child: Padding(
           padding:
               EdgeInsets.symmetric(vertical: 16, horizontal: imageSize * 0.5),

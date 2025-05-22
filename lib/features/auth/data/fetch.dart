@@ -27,7 +27,7 @@ class Auth {
         "role": role,
       }),
     );
-
+    
     if (response.statusCode == 200 || response.statusCode == 201) {
       return jsonDecode(response.body);
     } else {
