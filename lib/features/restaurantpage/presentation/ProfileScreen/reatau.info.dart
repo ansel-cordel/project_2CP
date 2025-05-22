@@ -112,7 +112,7 @@ class _RestauInfoState extends State<RestauInfo> {
                         buttonStyleData: ButtonStyleData(
                           height: 40,
                           width: 80,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 2),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
@@ -152,7 +152,7 @@ class _RestauInfoState extends State<RestauInfo> {
                         buttonStyleData: ButtonStyleData(
                           height: 40,
                           width: 80,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 2),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(

@@ -6,7 +6,7 @@ import 'package:project_2cp/features/auth/data/token_storage.dart';
 import 'package:project_2cp/features/restaurantpage/data/itemmodel.dart';
 
 class MenuService {
-  static const String baseUrl = "https://free-dogs-work.loca.lt/api";
+  static const String baseUrl = "https://giant-cups-swim.loca.lt/api";
 
   // Method 1: Fetch menu items only (returns just the menu items list)
   Future<List<MenuItem>> fetchMenuItems() async {
@@ -30,7 +30,7 @@ class MenuService {
 
       // Make the API call
       final response = await http.get(
-        Uri.parse('$baseUrl/restaurant/$restaurantId/menu/'),
+        Uri.parse('$baseUrl/restaurants/4/menu/'),
         headers: {
           'Authorization': 'Token $token',
           'Content-Type': 'application/json',
@@ -40,6 +40,8 @@ class MenuService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final List menuItemsJson = data['menu_items'];
+        print("THIS IS THE MENU ITEMS");
+        print(menuItemsJson);
         return menuItemsJson.map((json) => MenuItem.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load menu items: ${response.body}');
@@ -82,7 +84,7 @@ class MenuService {
       request.fields['name'] = name;
       request.fields['description'] = description;
       request.fields['price'] = price.toString();
-      request.fields['is_available'] = isAvailable.toString();
+      request.fields['is_available'] = "true";
 
       // Add image file
       request.files.add(await http.MultipartFile.fromPath(
@@ -96,7 +98,7 @@ class MenuService {
 
       // Send request
       final response = await request.send();
-      
+
       print('Response status code: ${response.statusCode}'); // Debug print
 
       if (response.statusCode == 201 || response.statusCode == 200) {
@@ -104,7 +106,8 @@ class MenuService {
       } else {
         final responseBody = await response.stream.bytesToString();
         print('Error response body: $responseBody'); // Debug print
-        throw Exception('Failed to add menu item: Status ${response.statusCode}, Body: $responseBody');
+        throw Exception(
+            'Failed to add menu item: Status ${response.statusCode}, Body: $responseBody');
       }
     } catch (e) {
       print('Error adding menu item: $e');
@@ -154,10 +157,11 @@ class MenuService {
         ));
 
         final response = await request.send();
-        
+
         if (response.statusCode != 200) {
           final responseBody = await response.stream.bytesToString();
-          throw Exception('Failed to update menu item: Status ${response.statusCode}, Body: $responseBody');
+          throw Exception(
+              'Failed to update menu item: Status ${response.statusCode}, Body: $responseBody');
         }
       } else {
         // If no image, use regular JSON request

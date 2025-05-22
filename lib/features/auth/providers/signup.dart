@@ -28,7 +28,7 @@ class RegisterNotifier extends StateNotifier<AsyncValue<void>> {
         password: password,
         email: email,
         address: address,
-        role: role,
+        
       );
       state = const AsyncValue.data(null);
     } catch (e, st) {

@@ -41,7 +41,10 @@ class DelivererOrderScreen extends ConsumerWidget {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          ongoingText(),
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
+            child: ongoingText(),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: orders.length,
@@ -49,10 +52,13 @@ class DelivererOrderScreen extends ConsumerWidget {
                 final currentOrder = orders[index];
                 return GestureDetector(
                   onTap: () {
-                    ref.read(orderListDelProvider.notifier).addorder(currentOrder);
+                    ref
+                        .read(orderListDelProvider.notifier)
+                        .addorder(currentOrder);
                   },
                   child: Container(
-                    padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: Orders(
                       resPic: currentOrder.restoimg,
                       cliPic: currentOrder.clientimg,

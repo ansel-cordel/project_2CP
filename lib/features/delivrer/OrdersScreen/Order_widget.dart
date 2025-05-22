@@ -70,7 +70,7 @@ class _OrdersState extends ConsumerState<Orders> with TickerProviderStateMixin {
         children: [
           // Header: Images, names, locations, numbers
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(3),
             child: Column(
               children: [
                 const Row(
@@ -120,9 +120,12 @@ class _OrdersState extends ConsumerState<Orders> with TickerProviderStateMixin {
                     Text(widget.resName,
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w600)),
-                    Text(widget.cliName,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600)),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(widget.cliName,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600)),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -200,8 +203,8 @@ class _OrdersState extends ConsumerState<Orders> with TickerProviderStateMixin {
             child: isExpanded
                 ? Container(
                     color: Colors.grey[200],
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 10),
                     child: Column(
                       children: [
                         buildItemRow("- Pizza", "100 DA x 5"),

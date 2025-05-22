@@ -19,17 +19,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/signupas',
+      initialRoute: '/login',
       getPages: [
-        GetPage(name: "/resto", page:() => HomePageresto()),
-        GetPage(name: "/deliverer", page:() => Deliverer()),
+        GetPage(name: "/resto", page: () => HomePageresto()),
+        GetPage(name: "/deliverer", page: () => Deliverer()),
         GetPage(name: '/home', page: () => const HomePage()),
         GetPage(name: '/login', page: () => const LoginScreen()),
-       // GetPage(name: '/signup', page: () => const SignUpScreen()),
+        // GetPage(name: '/signup', page: () => const SignUpScreen()),
         GetPage(name: '/signupas', page: () => const SignUpAs()),
-      ],        
+      ],
     );
   }
 }
-
-
