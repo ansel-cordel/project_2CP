@@ -37,57 +37,57 @@ class _ItemPageState extends ConsumerState<ItemPage> {
   }
 
   Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
-    if (selectedImage == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select an image')),
-      );
-      return;
-    }
-
-    final String name = itemNameController.text.trim();
-    final String description = itemDescriptionController.text.trim();
-    final double? price = double.tryParse(priceController.text.trim());
-
-    if (price == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid price')),
-      );
-      return;
-    }
-
-    try {
-      // This line remains exactly the same - it now uses the updated MenuService
-      final service = ref.read(menuServiceProvider);
-      await service.addMenuItem(
-        name: name,
-        description: description,
-        price: price,
-        image: selectedImage!,
-      );
-      
-      itemNameController.clear();
-      itemDescriptionController.clear();
-      priceController.clear();
-      setState(() {
-        selectedImage = null;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Item added successfully!')),
-      );
-
-      Navigator.pop(context, true); // Success - this will refresh the MenuScreen
-    } catch (e) {
-      print('Error adding item: $e'); // Added more descriptive error logging
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Failed to add item"),
-      ));
-    }
+  if (!_formKey.currentState!.validate()) {
+    return;
   }
+
+  if (selectedImage == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please select an image')),
+    );
+    return;
+  }
+
+  final String name = itemNameController.text.trim();
+  final String description = itemDescriptionController.text.trim();
+  final double? price = double.tryParse(priceController.text.trim());
+
+  if (price == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please enter a valid price')),
+    );
+    return;
+  }
+
+  try {
+    // Use the provider instead of calling the service directly
+    final addMenuItem = ref.read(addMenuItemProvider);
+    await addMenuItem(
+      name: name,
+      description: description,
+      price: price,
+      image: selectedImage!,
+    );
+    
+    itemNameController.clear();
+    itemDescriptionController.clear();
+    priceController.clear();
+    setState(() {
+      selectedImage = null;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Item added successfully!')),
+    );
+
+    Navigator.pop(context, true); // Success - this will refresh the MenuScreen
+  } catch (e) {
+    print('Error adding item: $e');
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Failed to add item"),
+    ));
+  }
+}
 
   @override
   void dispose() {
