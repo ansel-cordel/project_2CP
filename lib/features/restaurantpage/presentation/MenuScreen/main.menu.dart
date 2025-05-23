@@ -5,12 +5,28 @@ import 'package:project_2cp/features/restaurantpage/presentation/MenuScreen/item
 import 'package:project_2cp/features/restaurantpage/presentation/search/search_bar.dart';
 import 'package:project_2cp/features/restaurantpage/providers/fetch_menu_items_fr.dart';
 
-
-class MenuScreen extends ConsumerWidget {
+class MenuScreen extends ConsumerStatefulWidget {
   const MenuScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _MenuScreenState createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends ConsumerState<MenuScreen> {
+  bool _initialized = false;
+
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  if (!_initialized) {
+    ref.invalidate(menuItemsProvider);
+    _initialized = true;
+  }
+}
+
+  @override
+
+  Widget build(BuildContext context) {
     final menuItemsAsync = ref.watch(menuItemsProvider);
 
     return Scaffold(
@@ -40,7 +56,7 @@ class MenuScreen extends ConsumerWidget {
                           ItemDescription: item.description,
                           Price: item.price,
                           id: item.id,
-                          isAvailable:item.isAvailable,
+                          isAvailable: item.isAvailable,
                           TotalOrders: 500,
                         ),
                         Text(
@@ -75,8 +91,12 @@ class MenuScreen extends ConsumerWidget {
             context,
             MaterialPageRoute(builder: (_) => const ItemPage()),
           );
+
           if (added == true) {
-            ref.invalidate(menuItemsProvider);
+             setState(() {
+                  ref.invalidate(menuItemsProvider); // 🔁 Re-fetch data
+            setState(() {});
+             });
           }
         },
         backgroundColor: Colors.orange[800],

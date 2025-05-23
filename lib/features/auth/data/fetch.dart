@@ -1,7 +1,30 @@
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:project_2cp/features/auth/presentation/log_in_page.dart';
+
 class Auth {
+  static const String baseUrl = 'https://thirty-poems-talk.loca.lt/api';
+  Future<void> logout(String token) async {
+
+
+  final response = await http.post(
+    Uri.parse('$baseUrl/logout/'),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    },
+  );
+
+  if (response.statusCode == 200 || response.statusCode == 204) {
+    print('Logout successful');
+    //Get.to(LoginScreen());
+  } else {
+    print("WHAT THE HELL I; DOING HERE I DONT BELONG HERE");
+    throw Exception('Failed to logout: ${response.body}');
+  }
+}
   Future<Map<String, dynamic>> signupDeliverer({
   required String username,
   required int phoneNumber,
@@ -13,7 +36,7 @@ class Auth {
   required String workingZone,
   required String vehicleType,
 }) async {
-  const url = "https://loud-shrimps-marry.loca.lt/api/restaurant/singup/"; // change this URL if it's different for deliverers
+  const url = "$baseUrl/restaurant/singup/"; 
   final response = await http.post(
     Uri.parse(url),
     headers: {"Content-Type": "application/json"},
@@ -47,7 +70,7 @@ class Auth {
     required String address,
     // 'client', 'restaurant', or 'deliverer'
   }) async {
-    const url = 'https://tough-glasses-itch.loca.lt/api/restaurant/singup/';
+    const url = '$baseUrl/restaurant/singup/';
     final response = await http.post(
       Uri.parse(url),
       headers: {"Content-Type": "application/json"},
@@ -74,7 +97,7 @@ class Auth {
     required String email,
     required String password,
   }) async {
-    const url = 'https://tough-glasses-itch.loca.lt/api/login/';
+    const url = '$baseUrl/login/';
     try {
       final response = await http.post(
         Uri.parse(url),

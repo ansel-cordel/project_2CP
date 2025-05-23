@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:project_2cp/features/auth/data/token_storage.dart';
 import 'package:project_2cp/features/restaurantpage/data/itemmodel.dart';
+import 'package:project_2cp/features/restaurantpage/providers/fetch_menu_items_fr.dart';
 
 class MenuService {
-  static const String baseUrl = "https://tough-glasses-itch.loca.lt/api";
+  static const String baseUrl = "https://slimy-papers-end.loca.lt/api";
 
   // Method 1: Fetch menu items only (returns just the menu items list)
   Future<List<MenuItem>> fetchMenuItems() async {
@@ -54,66 +56,80 @@ class MenuService {
 
   // Method 2: Add new menu item
   Future<void> addMenuItem({
-    required String name,
-    required String description,
-    required double price,
-    required File image,
-    bool isAvailable = true,
-  }) async {
-    try {
-      // Get the auth token
-      final token = await TokenStorage.getToken();
-      if (token == null) {
-        throw Exception('Authentication token not found');
-      }
+  required String name,
+  required String description,
+  required double price,
+  File? image, // Optional image
+  bool isAvailable = true,
+  WidgetRef? ref,
+}) async {
+  try {
+    // Get the auth token
+    final token = await TokenStorage.getToken();
+    if (token == null) {
+      throw Exception('Authentication token not found');
+    }
 
-      print('Adding menu item: $name, $description, $price'); // Debug print
-
-      // Create multipart request for file upload
+    if (image != null) {
+      // If image is provided, use multipart/form-data
       final request = http.MultipartRequest(
         'POST',
         Uri.parse('$baseUrl/menu/item/add/'),
       );
 
-      // Add headers
       request.headers.addAll({
         'Authorization': 'Token $token',
       });
 
-      // Add fields
       request.fields['name'] = name;
       request.fields['description'] = description;
       request.fields['price'] = price.toString();
-      request.fields['is_available'] = "true";
+      request.fields['is_available'] = isAvailable.toString();
 
-      // Add image file
       request.files.add(await http.MultipartFile.fromPath(
         'image',
         image.path,
         filename: path.basename(image.path),
       ));
 
-      print('Sending request to: ${request.url}'); // Debug print
-      print('Request fields: ${request.fields}'); // Debug print
-
-      // Send request
       final response = await request.send();
 
-      print('Response status code: ${response.statusCode}'); // Debug print
-
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        print('Menu item added successfully');
-      } else {
+      if (response.statusCode != 201 && response.statusCode != 200) {
         final responseBody = await response.stream.bytesToString();
-        print('Error response body: $responseBody'); // Debug print
         throw Exception(
             'Failed to add menu item: Status ${response.statusCode}, Body: $responseBody');
       }
-    } catch (e) {
-      print('Error adding menu item: $e');
-      throw Exception('Failed to add menu item: $e');
+    } else {
+      // No image: use JSON body
+      final response = await http.post(
+        Uri.parse('$baseUrl/menu/item/add/'),
+        headers: {
+          'Authorization': 'Token $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'name': name,
+          'description': description,
+          'price': price.toString(),
+          'is_available': isAvailable,
+        }),
+      );
+     if(response.statusCode == 200){
+      final menuitems = ref?.watch(menuItemsProvider);
+     }
+
+      if (response.statusCode != 201 && response.statusCode != 200) {
+        throw Exception('Failed to add menu item: ${response.body}');
+      }
     }
+    
+
+    print('Menu item added successfully');
+  } catch (e) {
+    print('Error adding menu item: $e');
+    throw Exception('Failed to add menu item: $e');
   }
+}
 
   // Method 3: Update menu item
   Future<void> updateMenuItem({
@@ -135,7 +151,7 @@ class MenuService {
         // If image is provided, use multipart request
         final request = http.MultipartRequest(
           'PUT',
-          Uri.parse('$baseUrl/menu/item/update/$itemId/'),
+          Uri.parse('$baseUrl/menu/item/$itemId/update/'),
         );
 
         // Add headers
@@ -166,7 +182,7 @@ class MenuService {
       } else {
         // If no image, use regular JSON request
         final response = await http.put(
-          Uri.parse('$baseUrl/menu/item/update/$itemId/'),
+          Uri.parse('$baseUrl/menu/item/$itemId/update/'),
           headers: {
             'Authorization': 'Token $token',
             'Content-Type': 'application/json',
@@ -199,7 +215,7 @@ class MenuService {
       }
 
       final response = await http.delete(
-        Uri.parse('$baseUrl/menu/item/delete/$itemId/'),
+        Uri.parse('$baseUrl/menu/item/$itemId/delete/'),
         headers: {
           'Authorization': 'Token $token',
           'Content-Type': 'application/json',

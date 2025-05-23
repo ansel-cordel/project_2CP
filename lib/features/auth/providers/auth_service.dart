@@ -62,7 +62,16 @@ class LoginNotifier extends StateNotifier<AsyncValue<Map<String, dynamic>?>> {
   }
 
   Future<void> logout() async {
+  try {
+    final token = await TokenStorage.getToken();
+    if (token != null) {
+      await _apiService.logout(token); // Call the backend
+    }
+  } catch (e) {
+    print("Logout API failed: $e");
+  } finally {
     await TokenStorage.clearAll();
     state = const AsyncValue.data(null);
   }
+}
 }

@@ -5,7 +5,8 @@ import 'package:project_2cp/core/widgets/text_field.dart';
 import 'package:project_2cp/features/auth/presentation/congratulations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/features/auth/providers/signup.dart';
-
+import 'package:project_2cp/features/restaurantpage/presentation/ProfileScreen/food_types.dart/type.dart';
+import 'package:project_2cp/features/auth/providers/signup.dart';
 class SignUpScreen extends ConsumerStatefulWidget {
   final String role;
   const SignUpScreen({super.key, required this.role});
@@ -26,8 +27,68 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
   String? _selectedZone;
   String? _selectedVehicleType;
 
-  final List<String> _zones = ['Zone 1', 'Zone 2', 'Zone 3'];
-  final List<String> _vehicleTypes = ['Bike', 'Car', 'Scooter', 'Truck'];
+  final List<String> _zones = [
+    'Adrar',
+    'Chlef',
+    'Laghouat',
+    'Oum El Bouaghi',
+    'Batna',
+    'Béjaïa',
+    'Biskra',
+    'Béchar',
+    'Blida',
+    'Bouira',
+    'Tamanrasset',
+    'Tébessa',
+    'Tlemcen',
+    'Tiaret',
+    'Tizi Ouzou',
+    'Algiers',
+    'Djelfa',
+    'Jijel',
+    'Sétif',
+    'Saïda',
+    'Skikda',
+    'Sidi Bel Abbès',
+    'Annaba',
+    'Guelma',
+    'Constantine',
+    'Médéa',
+    'Mostaganem',
+    'MSila',
+    'Mascara',
+    'Ouargla',
+    'Oran',
+    'El Bayadh',
+    'Illizi',
+    'Bordj Bou Arreridj',
+    'Boumerdès',
+    'El Tarf',
+    'Tindouf',
+    'Tissemsilt',
+    'El Oued',
+    'Khenchela',
+    'Souk Ahras',
+    'Tipaza',
+    'Mila',
+    'Aïn Defla',
+    'Naâma',
+    'Aïn Témouchent',
+    'Ghardaïa',
+    'Relizane',
+    'Timimoun',
+    'Bordj Badji Mokhtar',
+    'Ouled Djellal',
+    'Béni Abbès',
+    'In Salah',
+    'In Guezzam',
+    'Touggourt',
+    'Djanet',
+    'El M`Ghair',
+    'El Menia'
+  ];
+
+  final List<String> _vehicleTypes = ['Bike', 'Car', 'Motorcycle', 'Van'];
 
   @override
   void dispose() {
@@ -39,66 +100,69 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
     super.dispose();
   }
 
- Future<void> _submitForm() async {
-  if (!_formKey.currentState!.validate()) return;
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) return;
 
-  if (_passwordController.text != _confirmPasswordController.text) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Passwords do not match")),
-    );
-    return;
-  }
-
-  if (widget.role == 'Deliverer') {
-    if (_selectedZone == null || _selectedVehicleType == null) {
+    if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content:
-                Text("Please select both working zone and vehicle type")),
+        const SnackBar(content: Text("Passwords do not match")),
       );
       return;
     }
-  }
-
-  try {
-    final phoneNumber = int.tryParse(_phoneNumberController.text);
-    if (phoneNumber == null) {
-      throw Exception("Please enter a valid phone number");
-    }
 
     if (widget.role == 'Deliverer') {
-      // Use deliverer registration provider
-      await ref.read(registerDelivererResponseProvider.notifier).registerDeliverer(
-        username: _emailController.text,
-        phoneNumber: phoneNumber,
-        name: _nameController.text,
-        lastName: "_lastNameController.text",
-        password: _passwordController.text,
-        email: _emailController.text,
-        workingZone: _selectedZone!,
-        vehicleType: _selectedVehicleType!,
-      );
-    } else {
-      // Use regular registration provider
-      await ref.read(registerResponseProvider.notifier).register(
-        username: _emailController.text,
-        phoneNumber: phoneNumber,
-        name: _nameController.text,
-        lastName: "_lastNameController.text",
-        password: _passwordController.text,
-        email: _emailController.text,
-        address: "_addressController.text",
-        role: widget.role,
-      );
+      if (_selectedZone == null || _selectedVehicleType == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content:
+                  Text("Please select both working zone and vehicle type")),
+        );
+        return;
+      }
     }
 
-    Get.to(() => Congratulations(), transition: Transition.rightToLeft);
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Error: ${e.toString()}")),
-    );
+    try {
+      final phoneNumber = int.tryParse(_phoneNumberController.text);
+      if (phoneNumber == null) {
+        throw Exception("Please enter a valid phone number");
+      }
+
+      if (widget.role == 'Deliverer') {
+        // Use deliverer registration provider
+        await ref
+            .read(registerDelivererResponseProvider.notifier)
+            .registerDeliverer(
+              username: _emailController.text,
+              phoneNumber: phoneNumber,
+              name: _nameController.text,
+              lastName: "_lastNameController.text",
+              password: _passwordController.text,
+              email: _emailController.text,
+              workingZone: _selectedZone!,
+              vehicleType: _selectedVehicleType!,
+            );
+      } else {
+        // Use regular registration provider
+        await
+ref.read(registerResponseProvider.notifier).register(
+              username: _emailController.text,
+              phoneNumber: phoneNumber,
+              name: _nameController.text,
+              lastName: "_lastNameController.text",
+              password: _passwordController.text,
+              email: _emailController.text,
+              address: "_addressController.text",
+              role: widget.role,
+            );
+      }
+
+      Get.to(() => Congratulations(), transition: Transition.rightToLeft);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${e.toString()}")),
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -188,22 +252,28 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
                         });
                       },
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.02,
+                            vertical: screenWidth * 0.03),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.circular(screenWidth * 0.04),
+                            borderSide: BorderSide(color: Colors.transparent)),
                       ),
-                      validator: (value) => value == null
-                          ? 'Please select a working zone'
-                          : null,
+                      validator: (value) =>
+                          value == null ? 'Please select a working zone' : null,
                     ),
                     SizedBox(height: screenHeight * 0.045),
                     Text("Vehicle Type",
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     DropdownButtonFormField<String>(
                       value: _selectedVehicleType,
-                      items: _vehicleTypes.map((vehicle) {
+                      items: _vehicleTypes.map((type) {
                         return DropdownMenuItem(
-                          value: vehicle,
-                          child: Text(vehicle),
+                          value: type,
+                          child: Text(type),
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -212,12 +282,18 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
                         });
                       },
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.02,
+                            vertical: screenWidth * 0.03),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.circular(screenWidth * 0.04),
+                            borderSide: BorderSide(color: Colors.transparent)),
                       ),
-                      validator: (value) => value == null
-                          ? 'Please select a vehicle type'
-                          : null,
+                      validator: (value) =>
+                          value == null ? 'Please select a working zone' : null,
                     ),
                   ],
                   Align(

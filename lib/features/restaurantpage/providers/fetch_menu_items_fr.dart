@@ -18,7 +18,7 @@ final addMenuItemProvider = Provider((ref) {
     required String name,
     required String description,
     required double price,
-    required File image,
+     File? image,
     bool isAvailable = true,
   }) async {
     final menuService = ref.read(menuServiceProvider);

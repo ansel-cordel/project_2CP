@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:project_2cp/features/restaurantpage/data/itemmodel.dart';
+import 'package:project_2cp/features/restaurantpage/presentation/item_edit/edit-delete.dart';
 
 class Item extends StatefulWidget {
   final String ItemPicture;
@@ -181,7 +184,9 @@ class _ItemState extends State<Item> {
           top: MediaQuery.of(context).size.width * -0.02,
           right: MediaQuery.of(context).size.width * -0.02,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(EditItemPage(menuItem: MenuItem(id: widget.id, name: widget.ItemName, description: widget.ItemDescription, price: widget.Price, isAvailable: widget.isAvailable),));
+            },
             icon: Icon(
               Icons.edit_outlined,
               size: MediaQuery.of(context).size.width * 0.06,
