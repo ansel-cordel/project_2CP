@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/features/delivrer/data/ordermodel.dart';
@@ -64,39 +66,41 @@ class _OrdersState extends ConsumerState<Orders> with TickerProviderStateMixin {
     final width = MediaQuery.of(context).size.width;
 
     return Card(
-      elevation: 4,
+      elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Column(
         children: [
           // Header: Images, names, locations, numbers
           Padding(
-            padding: const EdgeInsets.all(3),
+            padding: EdgeInsets.all(2),
             child: Column(
               children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("From:",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black)),
-                    Text("To:",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black)),
-                  ],
-                ),
-                const SizedBox(height: 5),
+                 Padding(
+                   padding:  EdgeInsets.symmetric(horizontal: width*0.01),
+                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("From:",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                      Text("To:",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                    ],
+                                   ),
+                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CircleAvatar(
                       backgroundColor: Colors.grey[300],
-                      radius: 42,
+                      radius: width*0.116,
                       child: CircleAvatar(
-                        radius: 35,
+                        radius: width*0.1,
                         backgroundImage: AssetImage(widget.resPic),
                       ),
                     ),
@@ -105,30 +109,38 @@ class _OrdersState extends ConsumerState<Orders> with TickerProviderStateMixin {
                             TextStyle(fontSize: 32, color: Colors.grey[600])),
                     CircleAvatar(
                       backgroundColor: Colors.grey[300],
-                      radius: 42,
+                      radius: width*0.116,
                       child: CircleAvatar(
-                        radius: 35,
+                        radius: width*0.1,
                         backgroundImage: AssetImage(widget.cliPic),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(widget.resName,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600)),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(widget.cliName,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w600)),
-                    ),
-                  ],
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width*0.01),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: width*0.4,
+                        child: Text(widget.resName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w600)),
+                      ),
+                      SizedBox(
+                        width: width*0.4,
+                        child: Text(widget.cliName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w600)),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 4),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -136,12 +148,11 @@ class _OrdersState extends ConsumerState<Orders> with TickerProviderStateMixin {
                       width: width * 0.42,
                       child: Row(
                         children: [
-                          const Icon(Icons.location_on_outlined, size: 18),
-                          const SizedBox(width: 4),
+                          Icon(Icons.location_on_outlined, size: width*0.05),
                           Expanded(
                             child: Text(widget.resLoc,
-                                style: const TextStyle(
-                                    fontSize: 13, color: Colors.grey)),
+                                style:TextStyle(
+                                    fontSize: width*0.038, color: Colors.black)),
                           )
                         ],
                       ),
@@ -154,50 +165,46 @@ class _OrdersState extends ConsumerState<Orders> with TickerProviderStateMixin {
                           Expanded(
                             child: Text(widget.cliLoc,
                                 textAlign: TextAlign.end,
-                                style: const TextStyle(
-                                    fontSize: 13, color: Colors.grey)),
+                                style: TextStyle(
+                                    fontSize: width*.038, color: Colors.black)),
                           ),
-                          const SizedBox(width: 4),
-                          const Icon(Icons.location_on_outlined, size: 18),
+                          Icon(Icons.location_on_outlined, size: width*0.05),
                         ],
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.local_phone_outlined, size: 18),
-                        const SizedBox(width: 4),
+                        Icon(Icons.local_phone_outlined, size: width*0.05),
+                        SizedBox(width: width*0.006),
                         Text(widget.resNum.toString(),
-                            style: const TextStyle(color: Colors.grey)),
+                            style: const TextStyle(color: Colors.black)),
                       ],
                     ),
                     Row(
                       children: [
                         Text(widget.cliNum.toString(),
-                            style: const TextStyle(color: Colors.grey)),
-                        const SizedBox(width: 4),
-                        const Icon(Icons.local_phone_outlined, size: 18),
+                            style: const TextStyle(color: Colors.black)),
+                        SizedBox(width: width*0.006),
+                        Icon(Icons.local_phone_outlined, size: width*0.05),
                       ],
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
-                const Divider(thickness: 2),
-                const SizedBox(height: 4),
-                const Text("Total: 1200 DA",
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                /*Divider(thickness: width*0.005),
+                Text("Total: 1200 DA",
+                    style:TextStyle(fontSize: width*0.053, fontWeight: FontWeight.bold)
+                ),*/
               ],
             ),
           ),
 
           // Expandable Section
-          AnimatedSize(
+          /*AnimatedSize(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
             child: isExpanded
@@ -216,59 +223,100 @@ class _OrdersState extends ConsumerState<Orders> with TickerProviderStateMixin {
                     ),
                   )
                 : const SizedBox.shrink(),
-          ),
+          ),*/
 
-          const Divider(thickness: 2),
+          Divider(thickness: width*0.005),
 
           // Buttons
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          /*Padding(
+            padding: EdgeInsets.symmetric(horizontal: width*0.02),
             child: Column(
               children: [
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange[800],
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange[800],
+                          padding: EdgeInsets.symmetric(vertical: width*0.03,horizontal: width*0.03),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(width*0.04),
+                          ),
+                        ),
+                        onPressed: () {
+                          ref.read(orderListDelProvider.notifier).addorder(order(
+                                clientimg: widget.cliPic,
+                                restoimg: widget.resPic,
+                                resto: widget.resName,
+                                client: widget.cliName,
+                                clientloc: widget.cliLoc,
+                                clientnumber: widget.cliNum,
+                                restoloc: widget.resLoc,
+                                restonumber: widget.resNum,
+                                total: 1200,
+                              ));
+                        },
+                        child: SizedBox(
+                          width: width*0.39,
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            "Take the Order",
+                            style: TextStyle(
+                              fontSize: width*0.039,
+                              fontWeight: FontWeight.w600, color: Colors.white),
+                          ),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      ref.read(orderListDelProvider.notifier).addorder(order(
-                            clientimg: widget.cliPic,
-                            restoimg: widget.resPic,
-                            resto: widget.resName,
-                            client: widget.cliName,
-                            clientloc: widget.cliLoc,
-                            clientnumber: widget.cliNum,
-                            restoloc: widget.resLoc,
-                            restonumber: widget.resNum,
-                            total: 1200,
-                          ));
-                    },
-                    child: const Text(
-                      "Take the Order",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600, color: Colors.white),
-                    ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey[400],
+                          padding: EdgeInsets.symmetric(vertical: width*0.03,horizontal: width*0.03),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(width*0.04),
+                          ),
+                        ),
+                        onPressed: () {
+                          ref.read(orderListDelProvider.notifier).addorder(order(
+                                clientimg: widget.cliPic,
+                                restoimg: widget.resPic,
+                                resto: widget.resName,
+                                client: widget.cliName,
+                                clientloc: widget.cliLoc,
+                                clientnumber: widget.cliNum,
+                                restoloc: widget.resLoc,
+                                restonumber: widget.resNum,
+                                total: 1200,
+                              ));
+                        },
+                        child: SizedBox(
+                          width: width*0.2,
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            "Refuse",
+                            style: TextStyle(
+                              fontSize: width*0.03,
+                              fontWeight: FontWeight.w600, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 8),
                 IconButton(
                   onPressed: toggleCard,
                   icon: Icon(
                     isExpanded
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down,
-                    size: 30,
-                    color: Colors.orange[800],
+                    size: width*0.07,
+                    color: Colors.grey[600],
                   ),
                 ),
               ],
             ),
-          ),
+          ),*/
         ],
       ),
     );

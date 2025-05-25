@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:project_2cp/features/client/orderhisyory/presentation/track.dart';
 
 class OrderHistoryCard extends StatelessWidget {
+  final int orderId;
   final String date;
   final String time;
   final int state;
   final double price;
+  final String status;
   const OrderHistoryCard(
-      {super.key, required this.date, required this.time, required this.state,required this.price});
+      {super.key,
+      required this.orderId,
+      required this.date,
+      required this.time,
+      required this.state,
+      required this.price,
+      required this.status});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -75,9 +83,8 @@ class OrderHistoryCard extends StatelessWidget {
               // Order Tracking Bar
               OrderTracking(currentStep: state),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-
               // Price & Details Row
-              Row(
+                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
@@ -86,14 +93,7 @@ class OrderHistoryCard extends StatelessWidget {
                       fontSize: MediaQuery.of(context).size.width * 0.04,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
-                  Text(
-                    "Details >",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: MediaQuery.of(context).size.width * 0.035,
-                    ),
-                  ),
+                  ),                
                 ],
               ),
             ],

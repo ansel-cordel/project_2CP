@@ -47,7 +47,7 @@ class _ContactInfoState extends State<ContactInfo> {
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
-              " Phone number",
+              "Phone Number",
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 16,

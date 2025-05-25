@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project_2cp/core/providers/navigationprovider.dart';
+import 'package:project_2cp/features/client/home/providers/place_order_provider.dart';
 import 'package:project_2cp/features/client/orderlist/presentation/orderwidget.dart';
 import 'package:project_2cp/features/client/orderlist/providers/totalprovider.dart';
 import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
@@ -13,10 +14,42 @@ class OrderListPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final orders = ref.watch(orderListProvider);
+    final orders = ref.watch(orderListProvider); // here i am supposed to take from this all the items id and quantity thats it 
     final totalPrice = ref.watch(totalProvider);
+    final placeOrderState = ref.watch(placeOrderProvider);
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+    ref.listen<PlaceOrderState>(placeOrderProvider, (previous, next) {
+      if (next.error != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error placing order: ${next.error}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      } else if (next.orderResponse != null) {
+        // Order placed successfully
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Order placed successfully! Order ID: ${next.orderResponse!['order_id']}'),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+        
+        // Add to order history
+        ref.read(orderHistoryProvider.notifier).addOrders(orders[0]);
+        
+        // Clear the order list
+        ref.read(orderListProvider.notifier).clearOrders();
+        
+        // Navigate to order history
+        ref.read(bottomNavIndexProvider.notifier).state = 2;
+        
+        // Clear the place order state
+        ref.read(placeOrderProvider.notifier).clearState();
+      }
+    });
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -25,13 +58,14 @@ class OrderListPage extends ConsumerWidget {
           Align(
             alignment: Alignment.center,
             child: Padding(
-              padding: EdgeInsets.only(top: screenHeight*0.06),
+              padding: EdgeInsets.only(top: screenHeight*0.05),
               child: Text(
                 "Order List",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth*0.06),
+                style: TextStyle(fontWeight: FontWeight.w800, fontSize: screenWidth*0.07),
               ),
             ),
           ),
+        
           Expanded(
             child: orders.isEmpty
                 ? Center(
@@ -122,13 +156,14 @@ Colors.black.withOpacity(0.1),
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        ref
-                            .read(orderHistoryProvider.notifier)
-                            .addOrders(orders[0]);
-                        ref.read(orderListProvider.notifier).clearOrders();
-                        ref.read(bottomNavIndexProvider.notifier).state = 2;
-                      },
+                      onTap:  placeOrderState.isLoading 
+                          ? null 
+                          : () {
+                              // Place the order using the provider
+                              ref
+                                  .read(placeOrderProvider.notifier)
+                                  .placeOrder(orders, int.parse(orders[0].restaurantid));
+                            },
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
                         width: 120,

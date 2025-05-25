@@ -27,6 +27,7 @@ void didChangeDependencies() {
   @override
 
   Widget build(BuildContext context) {
+    double a=MediaQuery.of(context).size.width;
     final menuItemsAsync = ref.watch(menuItemsProvider);
 
     return Scaffold(
@@ -43,7 +44,14 @@ void didChangeDependencies() {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              search(),
+              Align(
+                child: Text("Menu",
+                style: TextStyle(
+                  fontSize: a*0.07,
+                  fontWeight: FontWeight.w800
+                ),
+                ),
+              ),
               menuItemsAsync.when(
                 data: (items) => Column(
                   children: items.map((item) {
@@ -52,7 +60,7 @@ void didChangeDependencies() {
                         Item(
                           Rate: 3,
                           ItemName: item.name,
-                          ItemPicture: "",
+                          ItemPicture: item.image ?? "",
                           ItemDescription: item.description,
                           Price: item.price,
                           id: item.id,
@@ -71,9 +79,11 @@ void didChangeDependencies() {
                 ),
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (err, stack) => Center(
-                  child: Text(
-                    "Error loading menu items",
-                    style: TextStyle(color: Colors.red),
+                  child: Center(
+                    child: Text(
+                      "No items in the menu added yet",
+                      style: TextStyle(color: Colors.red),
+                    ),
                   ),
                 ),
               ),

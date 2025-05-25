@@ -4,19 +4,24 @@ import 'package:get/get.dart';
 import 'package:project_2cp/core/widgets/details.dart';
 import 'package:project_2cp/features/client/home/providers/amountprovider.dart';
 import 'package:project_2cp/features/client/orderlist/data/Item_mdeol.dart';
+import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
 import 'package:project_2cp/features/restaurant/main_page.dart';
 
 class OurRestaurantsWidget extends ConsumerWidget {
+  final String restaurantid;
   final String name;
   final String specialities;
+  final String number;
   final String location;
   final String image;
   final int rate;
   final List<Item> items;
 
   const OurRestaurantsWidget({
-    super.key,
-    required this.items,
+super.key,
+required this.restaurantid,
+    required this.number,
+     required this.items,
     required this.name,
     required this.location,
     required this.specialities,
@@ -29,20 +34,7 @@ class OurRestaurantsWidget extends ConsumerWidget {
     final width = MediaQuery.of(context).size.width;
     final amount = ref.watch(amountHandler);
 
-    final imagesList = [
-      "assets/BBQ.jpg",
-      "assets/pasta_salad.jpg",
-      "assets/salamon.jpg",
-      "assets/pizza2.jpg",
-      "assets/salamon.jpg",
-    ];
-    final namesList = [
-      "Turkish BBQ",
-      "Pasta Salad",
-      "Salad",
-      "Cheese Pizza",
-      "Salmon"
-    ];
+    
 
     return Card(
       margin: EdgeInsets.all(width * 0.02),
@@ -76,12 +68,14 @@ class OurRestaurantsWidget extends ConsumerWidget {
                   return GestureDetector(
                     onTap: () => Get.to(
                       OrderDetail(
+                        restaurantid: restaurantid,
+                        id: items[index].id,
                         name: items[index].name,
                         resto: items[index].resto,
                         price: items[index].price,
                         amount: amount,
                         description: items[index].description,
-                        image: imagesList[index],
+                        image: items[index].image ?? "",
                       ),
                     ),
                     child: Container(
@@ -93,14 +87,24 @@ class OurRestaurantsWidget extends ConsumerWidget {
                       child: Stack(
                         children: [
                           _buildMenuCard(
-                              width, imagesList[index], namesList[index]),
+                              width, items[index].image ?? "", items[index].name,items[index].price),
                           Positioned(
                             bottom: width * 0.03,
                             right: width * 0.03,
                             child: _buildAddButton(
                               width,
                               onPressed: () {
-                                print('Added ${namesList[index]} to cart');
+                                ref.read(orderListProvider.notifier).addorder(Item(
+                    isAvailable: true,
+                        restaurantid: restaurantid,
+                        description: items[index].description,
+                        id: items[index].id,
+                        image: items[index].image,
+                        name: items[index].name,
+                        price: items[index].price,
+                        resto: name,
+                      ));
+                                
                               },
                             ),
                           ),
@@ -119,15 +123,15 @@ class OurRestaurantsWidget extends ConsumerWidget {
 
   Widget _buildRestaurantInfoSection(double width) {
     return SizedBox(
-      height: width * 0.24,
+      height: width * 0.25,
       width: double.infinity,
       child: InkWell(
-        onTap: () => Get.to(const restaurant_page()),
+        onTap: () => Get.to( restaurant_page(restaurantid: restaurantid,items:items,location: location,number:number ,name: name,image: image,)),
         borderRadius: BorderRadius.circular(width * 0.03),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(width * 0.03),
           child: Container(
-            padding: EdgeInsets.all(width * 0.01),
+padding: EdgeInsets.all(width * 0.01),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(width * 0.03),
@@ -199,7 +203,7 @@ class OurRestaurantsWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildMenuCard(double width, String image, String name) {
+  Widget _buildMenuCard(double width, String image, String name,double price) {
     return Card(
       elevation: width * 0.009,
       shape: RoundedRectangleBorder(
@@ -211,11 +215,24 @@ class OurRestaurantsWidget extends ConsumerWidget {
             borderRadius: BorderRadius.vertical(
               top: Radius.circular(width * 0.035),
             ),
-            child: Image.asset(
-              image,
+            child: Image.network(
+              "http://192.168.156.107:8000$image",
               height: width * 0.22,
               width: double.infinity,
               fit: BoxFit.cover,
+               errorBuilder: (context, error, stackTrace) {
+            return Image.asset(
+              'assets/noimage.png', 
+               height: width * 0.22,
+              width: double.infinity,
+              fit: BoxFit.cover,// your fallback image
+              
+            );
+          },
+          loadingBuilder: (context, child, progress) {
+            if (progress == null) return child;
+            return const Center(child: CircularProgressIndicator());
+          },
             ),
           ),
           Container(
@@ -239,9 +256,9 @@ class OurRestaurantsWidget extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        "1500 DA",
+                        price.toString(),
                         style: TextStyle(
-                          fontSize: width * 0.042,
+fontSize: width * 0.042,
                           fontWeight: FontWeight.w400,
                         ),
                       ),

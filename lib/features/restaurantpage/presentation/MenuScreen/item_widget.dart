@@ -30,19 +30,14 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
-  String ItemPicture = "tnakt";
-  String ItemName = "I might just end it instead of doing this shit";
-  String ItemDescription = "tnakt";
-  int TotalOrders = 700;
-  double Price = 2400;
-  double Rate = 4.8;
+  
   bool Switched = true;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.03),
-      height: MediaQuery.of(context).size.width * 0.451,
+      height: MediaQuery.of(context).size.width * 0.47,
       child: Stack(children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,8 +53,8 @@ class _ItemState extends State<Item> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.25,
                         height: MediaQuery.of(context).size.width * 0.25,
-                        child: Image.asset(
-                          "img/${widget.ItemPicture}.jpg", //the item pic
+                        child: Image.network(
+                          "http://192.168.156.107:8000${widget.ItemPicture}", //the item pic
                           fit: BoxFit.cover,
                         ),
                       ),

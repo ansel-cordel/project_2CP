@@ -5,17 +5,18 @@ import 'package:project_2cp/features/client/orderlist/providers/addorderidprovid
 import 'package:project_2cp/features/client/orderlist/providers/listprovider.dart';
 
 class OrderDetail extends ConsumerWidget {
- 
+ final String restaurantid;
   final String image;
   final String name;
   final String resto;
   final int amount;
   final String description;
   final double price;
-
+  final String id;
   const OrderDetail({
     super.key,
-    
+    required this.restaurantid,
+    required this.id,
     required this.name,
     required this.resto,
     required this.price,
@@ -38,7 +39,24 @@ class OrderDetail extends ConsumerWidget {
                 SizedBox(
                   height: 250,
                   width: double.infinity,
-                  child: Image.asset(image, fit: BoxFit.cover),
+                  child: Image.network(
+              "http://192.168.156.107:8000$image",
+         
+              fit: BoxFit.cover,
+               errorBuilder: (context, error, stackTrace) {
+            return Image.asset(
+              'assets/noimage.png', 
+              
+              
+              fit: BoxFit.cover,// your fallback image
+              
+            );
+          },
+          loadingBuilder: (context, child, progress) {
+            if (progress == null) return child;
+            return const Center(child: CircularProgressIndicator());
+          },
+            ),
                 ),
                 Positioned(
                   left: 10,
@@ -141,7 +159,7 @@ class OrderDetail extends ConsumerWidget {
                 onPressed: () {
                   ref.read(orderListProvider.notifier).addorder(Item(
                     isAvailable: true,
-                        
+                        restaurantid: restaurantid,
                         description: description,
                         id: currentId,
                         image: image,

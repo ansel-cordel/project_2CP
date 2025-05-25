@@ -56,7 +56,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               ),
             ),
             Text(
-              "Your name",
+              widget.name,
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 16,
@@ -72,7 +72,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               ),
             ),
             Text(
-              "Location",
+              "sidi bel abbes",
               style: TextStyle(
                 color: Colors.black87,
                 fontSize: 16,

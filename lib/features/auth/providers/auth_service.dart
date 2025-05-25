@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:project_2cp/features/auth/data/fetch.dart';
 import 'package:project_2cp/features/auth/data/token_storage.dart';
+import 'package:project_2cp/features/auth/presentation/log_in_page.dart';
 
 final authServiceProvider = Provider((ref) => Auth());
 
@@ -8,6 +10,27 @@ final loginResponseProvider =
     StateNotifierProvider<LoginNotifier, AsyncValue<Map<String, dynamic>?>>((ref) {
   return LoginNotifier(ref.read(authServiceProvider));
 });
+
+
+
+final fullProfileProvider = FutureProvider<Map<String, dynamic>>((ref) async {
+  final user = await TokenStorage.getUser();
+  final profile = await TokenStorage.getProfile();
+  final role = await TokenStorage.getRole();
+  final token = await TokenStorage.getToken();
+
+  if (user == null || profile == null || token == null || role == null) {
+    throw Exception('Missing user, profile, role, or token data');
+  }
+
+  return {
+    'token': token,
+    'role': role,
+    'user': user,
+    'profile': profile,
+  };
+});
+
 
 // New profile providers (optional - won't affect existing UI)
 final profileProvider = FutureProvider<Map<String, dynamic>?>((ref) async {
@@ -63,15 +86,18 @@ class LoginNotifier extends StateNotifier<AsyncValue<Map<String, dynamic>?>> {
 
   Future<void> logout() async {
   try {
-    final token = await TokenStorage.getToken();
-    if (token != null) {
-      await _apiService.logout(token); // Call the backend
-    }
+    print("Starting logout process...");
+    await _apiService.logout(); // Call the backend
+    print("API logout completed");
   } catch (e) {
     print("Logout API failed: $e");
+    // Continue with local logout even if API fails
   } finally {
+    // Always clear local state
     await TokenStorage.clearAll();
     state = const AsyncValue.data(null);
+    print("Local logout completed");
   }
 }
+
 }

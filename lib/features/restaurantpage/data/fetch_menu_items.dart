@@ -8,22 +8,27 @@ import 'package:project_2cp/features/restaurantpage/data/itemmodel.dart';
 import 'package:project_2cp/features/restaurantpage/providers/fetch_menu_items_fr.dart';
 
 class MenuService {
-  static const String baseUrl = "https://slimy-papers-end.loca.lt/api";
+  static const String baseUrl = "http://192.168.156.107:8000/api";
 
   // Method 1: Fetch menu items only (returns just the menu items list)
   Future<List<MenuItem>> fetchMenuItems() async {
     try {
       // Get the restaurant ID from stored user data
-      final user = await TokenStorage.getUser();
+      final user = await TokenStorage.getProfile();
       if (user == null) {
         throw Exception('User not logged in');
       }
 
-      final restaurantId = user['id'];
+      final restaurantId = user['restaurant_id'].toString();
       if (restaurantId == null) {
+        print("I AM HERE");
+        print("I AM HERE");
+        print("I AM HERE");
+        print("I AM HERE");
         throw Exception('Restaurant ID not found in user data');
       }
-
+       print("RESTAURANT ID");
+    print(restaurantId);
       // Get the auth token
       final token = await TokenStorage.getToken();
       if (token == null) {
@@ -32,7 +37,7 @@ class MenuService {
 
       // Make the API call
       final response = await http.get(
-        Uri.parse('$baseUrl/restaurants/4/menu/'),
+        Uri.parse('$baseUrl/restaurants/$restaurantId/menu/'),
         headers: {
           'Authorization': 'Token $token',
           'Content-Type': 'application/json',
@@ -41,7 +46,7 @@ class MenuService {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        final List menuItemsJson = data['menu_items'];
+        final List menuItemsJson = data['menu_items'] ?? [];
         print("THIS IS THE MENU ITEMS");
         print(menuItemsJson);
         return menuItemsJson.map((json) => MenuItem.fromJson(json)).toList();

@@ -51,7 +51,23 @@ class OrderCard extends ConsumerWidget {
                 width: screenWidth * 0.2,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(image, fit: BoxFit.cover),
+                  child: Image.network(
+              "http://192.168.156.107:8000$image",
+       
+              fit: BoxFit.cover,
+               errorBuilder: (context, error, stackTrace) {
+            return Image.asset(
+              'assets/noimage.png', 
+          
+              fit: BoxFit.cover,// your fallback image
+              
+            );
+          },
+          loadingBuilder: (context, child, progress) {
+            if (progress == null) return child;
+            return const Center(child: CircularProgressIndicator());
+          },
+            ),
                 ),
               ),
             ),

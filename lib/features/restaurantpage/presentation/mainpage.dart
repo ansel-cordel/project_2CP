@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_2cp/features/restaurantpage/presentation/MenuScreen/main.menu.dart';
 import 'package:project_2cp/features/restaurantpage/presentation/OrderScreen/main.order.dart';
-import 'package:project_2cp/features/restaurantpage/presentation/ProfileScreen/main.profile.dart';
+import 'package:project_2cp/features/client/profile/presentation/main_profile.dart';
 
 
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_2cp/features/auth/data/token_storage.dart';
+import 'package:project_2cp/features/auth/presentation/log_in_page.dart';
 import 'package:project_2cp/features/auth/presentation/sign_up_as.dart';
 import 'package:project_2cp/core/widgets/text_field.dart';
 import 'package:project_2cp/features/auth/presentation/congratulations.dart';
@@ -88,7 +90,7 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
     'El Menia'
   ];
 
-  final List<String> _vehicleTypes = ['Bike', 'Car', 'Motorcycle', 'Van'];
+  final List<String> _vehicleTypes = ['bike', 'car', 'motorcycle', 'van'];
 
   @override
   void dispose() {
@@ -100,69 +102,72 @@ class _SignupScreenState extends ConsumerState<SignUpScreen> {
     super.dispose();
   }
 
-  Future<void> _submitForm() async {
-    if (!_formKey.currentState!.validate()) return;
+ Future<void> _submitForm() async {
+  if (!_formKey.currentState!.validate()) return;
 
-    if (_passwordController.text != _confirmPasswordController.text) {
+  if (_passwordController.text != _confirmPasswordController.text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Passwords do not match")),
+    );
+    return;
+  }
+
+  if (widget.role == 'Deliverer') {
+    if (_selectedZone == null || _selectedVehicleType == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Passwords do not match")),
+        const SnackBar(
+            content: Text("Please select both working zone and vehicle type")),
       );
       return;
     }
+  }
+
+  try {
+    final phoneNumber = int.tryParse(_phoneNumberController.text);
+    if (phoneNumber == null) {
+      throw Exception("Please enter a valid phone number");
+    }
 
     if (widget.role == 'Deliverer') {
-      if (_selectedZone == null || _selectedVehicleType == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content:
-                  Text("Please select both working zone and vehicle type")),
-        );
-        return;
-      }
-    }
-
-    try {
-      final phoneNumber = int.tryParse(_phoneNumberController.text);
-      if (phoneNumber == null) {
-        throw Exception("Please enter a valid phone number");
-      }
-
-      if (widget.role == 'Deliverer') {
-        // Use deliverer registration provider
-        await ref
-            .read(registerDelivererResponseProvider.notifier)
-            .registerDeliverer(
-              username: _emailController.text,
-              phoneNumber: phoneNumber,
-              name: _nameController.text,
-              lastName: "_lastNameController.text",
-              password: _passwordController.text,
-              email: _emailController.text,
-              workingZone: _selectedZone!,
-              vehicleType: _selectedVehicleType!,
-            );
-      } else {
-        // Use regular registration provider
-        await
-ref.read(registerResponseProvider.notifier).register(
-              username: _emailController.text,
-              phoneNumber: phoneNumber,
-              name: _nameController.text,
-              lastName: "_lastNameController.text",
-              password: _passwordController.text,
-              email: _emailController.text,
-              address: "_addressController.text",
-              role: widget.role,
-            );
-      }
-
-      Get.to(() => Congratulations(), transition: Transition.rightToLeft);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${e.toString()}")),
+      print("Attempting deliverer registration...");
+      
+      // Use deliverer registration provider
+      await ref
+          .read(registerDelivererResponseProvider.notifier)
+          .registerDeliverer(
+            username: _emailController.text,  // You might want to have a separate username field
+            phoneNumber: phoneNumber,
+            name: _nameController.text,
+            lastName: "User", // Fixed: Remove quotes and underscore, provide actual last name
+            password: _passwordController.text,
+            email: _emailController.text,
+            workingZone: _selectedZone!,
+            vehicleType: _selectedVehicleType!,
+          );
+          Get.to(() => LoginScreen());
+          
+    
+    } else {
+      // Use regular registration provider
+      await ref.read(registerResponseProvider.notifier).register(
+        username: _emailController.text,
+        phoneNumber: phoneNumber,
+        name: _nameController.text,
+        lastName: "User", // Fixed: Remove quotes and underscore
+        password: _passwordController.text,
+        email: _emailController.text,
+        address: "Default Address", // Fixed: Remove quotes and underscore
+        role: widget.role,
       );
+      Get.to(() => LoginScreen());
     }
+  } catch (e) {
+    print("Registration error: $e");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error: ${e.toString()}")),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,5 @@
 class Item {
+  final String restaurantid;
   final String description;
   final String id;
   final String name;
@@ -12,6 +13,7 @@ class Item {
   final String resto_id;
 
   Item({
+    required this.restaurantid,
     required this.description,
     required this.id,
     required this.name,
@@ -25,6 +27,7 @@ class Item {
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
+      restaurantid: json["restaurant_id"] ?? "",
       id: json['id'].toString(),
       name: json['name'] ?? '',
       description: json['description'] ?? '',

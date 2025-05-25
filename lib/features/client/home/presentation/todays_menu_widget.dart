@@ -26,9 +26,9 @@ class TodaysMenuWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final restaurants = ref.watch(restaurantsProvider);
     final amount = ref.watch(amountHandler);
-    final currentId = ref.read(idcountprovider).toString();
+   
     final screenWidth = MediaQuery.of(context).size.width;
-
+       
     return restaurants.when(
       loading: () => const Center(
         child: CircularProgressIndicator(),
@@ -39,8 +39,10 @@ class TodaysMenuWidget extends ConsumerWidget {
       data: (popularitem2) {
         return GestureDetector(
           onTap: () => Get.to(OrderDetail(
+            restaurantid: popularitem2[0].restaurantId.toString(),
+              id: popularitem2[0].items[0].id,
               name: popularitem2[0].items[0].name,
-              resto: popularitem2[0].items[0].resto,
+              resto: popularitem2[0].name,
               price: popularitem2[0].items[0].price,
               amount: amount,
               description: popularitem2[0].items[0].description,
@@ -65,12 +67,25 @@ class TodaysMenuWidget extends ConsumerWidget {
                             borderRadius: const BorderRadius.vertical(
                               top: Radius.circular(20),
                             ),
-                            child: Image.asset(
-                              popularitem2[0].items[0].image ?? "",
-                              height: screenWidth * 0.4,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
+                            child: Image.network(
+              "http://192.168.156.107:8000${popularitem2[0].items[0].image}",
+              height: screenWidth * 0.4,
+              width: double.infinity,
+              fit: BoxFit.cover,
+               errorBuilder: (context, error, stackTrace) {
+            return Image.asset(
+              'assets/noimage.png', 
+              height: screenWidth * 0.4,
+              width: double.infinity,
+              fit: BoxFit.cover,// your fallback image
+              
+            );
+          },
+          loadingBuilder: (context, child, progress) {
+            if (progress == null) return child;
+            return const Center(child: CircularProgressIndicator());
+          },
+            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10),
@@ -162,8 +177,9 @@ class TodaysMenuWidget extends ConsumerWidget {
                         onPressed: () {
                           ref.read(orderListProvider.notifier).addorder(
                                 Item(
+                                  restaurantid: popularitem2[0].restaurantId.toString(),
                                   isAvailable: true,
-                                  id: currentId,
+                                  id: popularitem2[0].items[0].id,
                                   image: popularitem2[0].items[0].image,
                                   name: popularitem2[0].items[0].name,
                                   price: popularitem2[0].items[0].price,

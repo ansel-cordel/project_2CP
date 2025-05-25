@@ -4,7 +4,7 @@ class OrderTracking extends StatelessWidget {
   final int currentStep;
    OrderTracking({super.key, this.currentStep = 0});
 
-  final List<String> current = ["Ordered", "Picked Up", "Delivered", "Received"];
+  final List<String> current = ["Ordered", "Picked up", "Delivered"];
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,9 @@ class OrderTracking extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: List.generate(
-          4,
+          3,
           (index) => Flexible(
-            child: buildStep(index, context, index < 3, stepCircleSize, lineHeight, textSize),
+            child: buildStep(index, context, index < 2, stepCircleSize, lineHeight, textSize),
           ),
         ),
       ),

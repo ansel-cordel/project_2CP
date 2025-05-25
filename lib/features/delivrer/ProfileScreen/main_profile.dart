@@ -14,6 +14,8 @@ class DelivererProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
+    double width=MediaQuery.of(context).size.width;
     final isEditing = ref.watch(isEditingProvider);
 
     return SafeArea(
@@ -23,17 +25,15 @@ class DelivererProfileScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const ProfileText(),
-            const SizedBox(height: 20),
             const ProfilePic(),
-            const SizedBox(height: 20),
             const PersonalInfo_text(),
-            const SizedBox(height: 14),
+            SizedBox(height: width*0.01),
             PersonalInfo(isEditing: isEditing),
-            const SizedBox(height: 14),
+            SizedBox(height: width*0.01),
             const ContactInfo_text(),
-            const SizedBox(height: 14),
+            SizedBox(height:width*0.01),
             ContactInfo(isEditing: isEditing),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+            SizedBox(height: width*0.02),
             const EditButton(),
           ],
         ),

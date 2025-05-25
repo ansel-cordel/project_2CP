@@ -66,13 +66,13 @@ class FindWhatYouLikeWidget extends StatelessWidget {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    /*Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) =>
-                            CustomSearchPage(initialQuery: namesList[index]),
+                            SearchDelegateImpl(initialQuery: namesList[index]),
                       ),
-                    );
+                    );*/
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 10),

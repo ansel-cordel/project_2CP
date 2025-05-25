@@ -1,49 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:project_2cp/features/auth/providers/profile_helper.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_2cp/features/auth/providers/auth_service.dart';
 import 'package:project_2cp/features/client/profile/presentation/Profile_pic.dart';
 import 'package:project_2cp/features/client/profile/presentation/Personal_info.dart';
 import 'package:project_2cp/features/client/profile/presentation/Profile_text.dart';
 import 'package:project_2cp/features/client/profile/presentation/edit.dart';
 import 'package:project_2cp/features/client/profile/presentation/contact_info.dart';
 
-
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final profileAsync = ref.watch(fullProfileProvider);
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  late Future<Map<String, String>> _profileData;
-
-  @override
-  void initState() {
-    super.initState();
-    _profileData = ProfileHelper.getDisplayInfo(); // Fetch profile + user
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: FutureBuilder<Map<String, String>>(
-        future: _profileData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
-          } else if (!snapshot.hasData || snapshot.data == null) {
-            return const Center(child: Text("No profile data found"));
-          }
+      body: profileAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, _) => Center(child: Text("Error: \$error")),
+        data: (data) {
+          final user = data['user'];
+          final profile = data['profile'];
 
-          final data = snapshot.data!;
-          final name = data['name'] ?? '';
-          
-          final phone = data['phone'] ?? '';
-          final address = data['address'] ?? '';
-          
+          final name = profile['restaurant_id'] ?? '';
+          final phone = profile['phone_number'] ?? '';
+          final address = profile['address'] ?? '';
 
           return Container(
             height: MediaQuery.of(context).size.height,
@@ -52,17 +34,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ProfileText(),             // You can pass `username` here if needed
-                ProfilePic(),
-                PersonalInfo_text(),
+                const ProfileText(),
+                const ProfilePic(),
+                const PersonalInfo_text(),
                 const SizedBox(height: 14),
-               PersonalInfo(name: name, location: address),         // You can pass `name`, etc. here
+                PersonalInfo(name: name.toString(), location: address),
                 const SizedBox(height: 14),
-                ContactInfo_text(),
+                const ContactInfo_text(),
                 const SizedBox(height: 14),
-                ContactInfo(phonenumber: phone,),            // You can pass `email`, `phone`, etc.
+                ContactInfo(phonenumber: phone),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                edit(),                   // Optional edit button
+                const edit(),
               ],
             ),
           );

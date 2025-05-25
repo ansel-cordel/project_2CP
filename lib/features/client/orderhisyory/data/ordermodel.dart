@@ -1,22 +1,60 @@
-import 'package:project_2cp/features/client/orderlist/data/Item_mdeol.dart';
-
 class OrderHistory {
-  final String date;
-  final String time;
-  final int state;
-  final double price;
+  final int orderId;
+  final String status;
+  final double totalPrice;
+  final DateTime createdAt;
+
   OrderHistory({
-    required this.date,
-    required this.price,
-    required this.state,
-    required this.time,
+    required this.orderId,
+    required this.status,
+    required this.totalPrice,
+    required this.createdAt,
   });
-  factory OrderHistory.fromOrder(Item order) {
+
+  factory OrderHistory.fromJson(Map<String, dynamic> json) {
     return OrderHistory(
-      time:"HH-MM-SS" ,
-      price: order.price,
-      date: "DD-MM-YYYY",
-      state: 0, // Default status
+      orderId: json['order_id'] ?? 0,
+      status: json['status'] ?? '',
+      totalPrice: double.tryParse(json['total_price'].toString()) ?? 0.0,
+      createdAt: DateTime.tryParse(json['created_at'] ?? '') ?? DateTime.now(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'order_id': orderId,
+      'status': status,
+      'total_price': totalPrice,
+      'created_at': createdAt.toIso8601String(),
+    };
+  }
+
+  // Helper method to get formatted status
+  String get formattedStatus {
+    switch (status.toLowerCase()) {
+      case 'confirmed':
+        return 'Confirmed';
+      case 'ready':
+        return 'Ready for Pickup';
+      case 'delivered':
+        return 'Delivered';
+      default:
+        return status;
+    }
+  }
+
+  // Helper method to get formatted price
+  String get formattedPrice {
+    return '\$${totalPrice.toStringAsFixed(2)}';
+  }
+
+  // Helper method to get formatted date
+  String get formattedDate {
+    return '${createdAt.day}/${createdAt.month}/${createdAt.year}';
+  }
+
+  @override
+  String toString() {
+    return 'OrderHistory(orderId: $orderId, status: $status, totalPrice: $totalPrice, createdAt: $createdAt)';
   }
 }

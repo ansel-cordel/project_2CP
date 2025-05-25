@@ -137,7 +137,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           Get.to(() => HomePage());
         } else if (role == "restaurant") {
           Get.to(() => HomePageresto());
-        } else if (role == "deliverer") {
+        } else if (role == "delivery") {
           Get.to(() => Deliverer());
         } else {
           // Default case if role doesn't match expected values

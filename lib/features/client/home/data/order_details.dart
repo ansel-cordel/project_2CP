@@ -5,6 +5,7 @@ class OrderDetails extends Item {
   
    //resto id DO NO FORGET
   OrderDetails({
+    required super.restaurantid,
     required super.id,
     required super.isAvailable,
     required super.name,

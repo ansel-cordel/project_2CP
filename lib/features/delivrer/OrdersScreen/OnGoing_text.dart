@@ -5,16 +5,20 @@ class ongoingText extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    double a=MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-         Text("  On Going Orders:",
-         style: TextStyle(
-         color:Colors.black,
-         fontSize: 25,
-         fontWeight: FontWeight.w900
-          ),
-        ),
+         Align(
+          alignment: Alignment.center,
+           child: Text("On Going Orders",
+           style: TextStyle(
+           color:Colors.black,
+           fontSize:a*0.07,
+           fontWeight: FontWeight.w800
+            ),
+                   ),
+         ),
       ],
     );
   }

@@ -73,22 +73,23 @@ class Restaurant {
   });
 
   // Convenience getters for backward compatibility
-  String get id => restaurantId.toString();
-  List<Item> get items => menuList?.items ?? [];
-  String get number => phoneNumber;
+  
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
     return Restaurant(
-      restaurantId: json['restaurant_id'],
+      restaurantId: json['restaurant_id'], //here is the restaurant id 
       user: User.fromJson(json['user']),
       name: json['name'],
       address: json['address'],
       phoneNumber: json['phone_number'],
-      email: json['email'],
+      email: json['email'],  
       isAvailable: json['is_available'],
       menuList: json['menu_list'] != null 
           ? MenuList.fromJson(json['menu_list']) 
           : null,
     );
   }
+  String get id => restaurantId.toString();
+  List<Item> get items => menuList?.items ?? [];
+  String get number => phoneNumber;
 }

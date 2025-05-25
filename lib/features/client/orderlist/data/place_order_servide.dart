@@ -6,7 +6,7 @@ import 'package:web_socket_channel/io.dart';
 
 class OrderService {
   final _storage = const FlutterSecureStorage();
-  final String _baseUrl = "http://127.0.0.1:8000/api";
+  final String _baseUrl = "http://192.168.156.107:8000/api";
 
   Future<String?> getToken() async {
     return await _storage.read(key: 'auth_token');

@@ -20,6 +20,7 @@ class RegisterNotifier extends StateNotifier<AsyncValue<void>> {
     state = const AsyncValue.loading();
     try {
       await authRepository.signup(
+        role: role,
         username: username,
         phoneNumber: phoneNumber,
         name: name,

@@ -18,7 +18,7 @@ dependencies:
   http: ^1.3.0
   flutter_riverpod: ^2.6.1
   riverpod_annotation: ^2.6.1
-  flutter_secure_storage: ^8.0.0 # <-- Updated here
+  flutter_secure_storage: ^8.0.0
   image_picker: ^1.1.2
   web_socket_channel: ^3.0.3
 
@@ -29,11 +29,14 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   build_runner: ^2.4.15
   riverpod_generator: ^2.6.5
+  flutter_launcher_icons: ^0.13.1 # <-- Added here
 
 flutter:
   uses-material-design: true
 
   assets:
+    - assets/chef.png
+    - assets/noimage.png
     - assets/pizza.png
     - assets/client.png
     - assets/deliv.png
@@ -62,3 +65,10 @@ flutter:
     - assets/res3.png
     - assets/res4.png
     - assets/background.avif
+    - assets/appicon.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/appicon.png" # <-- Replace this with your actual icon path
+  min_sdk_android: 21

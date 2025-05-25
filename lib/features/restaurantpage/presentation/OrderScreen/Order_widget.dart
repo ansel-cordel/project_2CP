@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:project_2cp/features/restaurantpage/data/fetching_orders_models.dart';
+import 'package:project_2cp/features/restaurantpage/providers/fetching_orders_provider.dart';
 
-class Order extends StatefulWidget {
+class Order extends ConsumerStatefulWidget {
   final String resPic;
   final String cliName;
   final String cliNum;
+  final RestaurantOrder order; // Add the order object
+  final int orderId; // Add order ID for API calls
 
   const Order({
     super.key,
     required this.resPic,
     required this.cliName,
     required this.cliNum,
+    required this.order,
+    required this.orderId,
   });
 
   @override
-  State<Order> createState() => _OrderState();
+  ConsumerState<Order> createState() => _OrderState();
 }
 
-class _OrderState extends State<Order> {
+class _OrderState extends ConsumerState<Order> {
   bool isExpanded = false;
   int orderStatus = 0; // 0 = initial, 1 = taken, 2 = delivered
 
@@ -26,10 +33,52 @@ class _OrderState extends State<Order> {
     });
   }
 
-  void takeOrder() {
-    setState(() {
-      orderStatus = 1;
-    });
+  void takeOrder() async {
+    try {
+      // Call the mark order ready API
+      await ref.read(markOrderReadyProvider.notifier).markOrderReady(widget.orderId);
+      
+      // Check if successful
+      final state = ref.read(markOrderReadyProvider);
+      if (state.hasValue && state.value != null) {
+        setState(() {
+          orderStatus = 1;
+        });
+        
+        // Show success message
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.value!),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+        
+        // Refresh orders list
+        ref.invalidate(restaurantOrdersProvider);
+      } else if (state.hasError) {
+        // Show error message
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error: ${state.error.toString()}'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      // Handle any other errors
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   void confirmPickup() {
@@ -64,6 +113,7 @@ class _OrderState extends State<Order> {
     final width = MediaQuery.of(context).size.width;
     final orangeColor = Colors.orange[800];
     final greyColor = Colors.grey[300];
+    final markReadyState = ref.watch(markOrderReadyProvider);
 
     return Card(
       elevation: 5,
@@ -136,11 +186,14 @@ class _OrderState extends State<Order> {
                             style: TextStyle(
                             fontSize: width * 0.05,
                                 fontWeight: FontWeight.w600)),
-                        _buildItemRow("Pizza", "100 Da x 5", width),
-                        _buildItemRow("Fries", "50 Da x 7", width),
-                        _buildItemRow("Soup", "150 Da x 3", width),
-                        _buildItemRow("Bourak", "20 Da x 12", width),
-                        _buildItemRow("Salad", "0 Da x 100", width),
+                        // Display actual order items from API
+                        ...widget.order.items.map((item) => 
+                          _buildItemRow(
+                            item.itemName, 
+                            "${item.price.toStringAsFixed(2)} Da x ${item.quantity}", 
+                            width
+                          )
+                        ),
                         SizedBox(height: width * 0.02),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,7 +202,7 @@ class _OrderState extends State<Order> {
                                 style: TextStyle(
                                     fontSize: width * 0.05,
                                     fontWeight: FontWeight.w600)),
-                            Text("1000 da",
+                            Text("${widget.order.totalPrice.toStringAsFixed(2)} Da",
                                 style: TextStyle(
                                     fontSize: width * 0.05,
                                     fontWeight: FontWeight.w600)),
@@ -168,7 +221,10 @@ class _OrderState extends State<Order> {
           SizedBox(
             width: double.infinity,
             child: Container(
-              color: Colors.white,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(width*0.03)),
+                color: Colors.white
+              ),
               padding: EdgeInsets.all(width * 0.02),
               child: Column(
                 children: [
@@ -178,7 +234,7 @@ class _OrderState extends State<Order> {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: takeOrder,
+                            onPressed: markReadyState.isLoading ? null : takeOrder,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: orangeColor,
                               padding: EdgeInsets.symmetric(
@@ -187,11 +243,20 @@ class _OrderState extends State<Order> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            child: Text("Take Order",
-                                style: TextStyle(
-                                    fontSize: width * 0.04,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white)),
+                            child: markReadyState.isLoading
+                                ? SizedBox(
+                                    height: width * 0.04,
+                                    width: width * 0.04,
+                                    child: const CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text("Take Order",
+                                    style: TextStyle(
+                                        fontSize: width * 0.04,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white)),
                           ),
                         ),
                         SizedBox(width: width * 0.03),
@@ -253,7 +318,6 @@ class _OrderState extends State<Order> {
                               fontWeight: FontWeight.w600,
                               color: Colors.white)),
                     ),
-                  SizedBox(height: width * 0.02),
                   IconButton(
                     onPressed: toggleCard,
                     icon: Icon(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import 'package:project_2cp/core/widgets/snack_bar_servide.dart';
 import 'package:project_2cp/features/client/home/presentation/main_home_fr.dart';
 import 'package:project_2cp/features/delivrer/OrdersScreen/main_orders_fr.dart';
 import 'package:project_2cp/features/restaurantpage/presentation/mainpage.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/resto',
+      scaffoldMessengerKey: SnackbarService.messengerKey,
+      initialRoute: '/login',
       getPages: [
         GetPage(name: "/resto", page: () => HomePageresto()),
         GetPage(name: "/deliverer", page: () => Deliverer()),

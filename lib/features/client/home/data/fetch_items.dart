@@ -5,24 +5,36 @@ import 'package:project_2cp/features/client/home/data/restaurant_model.dart';
 import 'package:project_2cp/features/client/orderlist/data/Item_mdeol.dart';
 
 class ApiService {
-  static const String baseUrl = 'https://thirty-poems-talk.loca.lt/api';
+  static const String baseUrl = 'http://192.168.156.107:8000/api';
 
    // ✅ [1] Confirm that the client has received the order
-  static Future<void> confirmOrderReceived(int orderId) async {
+  static Future<Map<String, dynamic>> placeOrder(List<Item> orderItems, int restaurantId) async {
     final token = await TokenStorage.getToken();
 
     if (token == null) throw Exception('No token found');
 
-    final response = await http.put(
-      Uri.parse('$baseUrl/orders/$orderId/received/'),
+    // Transform List<Item> to the expected request body format
+    final requestBody = {
+      "restaurant_id": restaurantId,
+      "items": orderItems.map((item) => {
+        "item_id": int.parse(item.id), // Convert string id to int
+        "quantity": item.quantity
+      }).toList()
+    };
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/addorder/'),
       headers: {
-        'Authorization': 'Bearer $token',
+        'Authorization': "Token $token",
         'Content-Type': 'application/json',
       },
+      body: jsonEncode(requestBody),
     );
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to confirm order receipt. Status: ${response.statusCode}');
+    if (response.statusCode == 201) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to place order. Status: ${response.statusCode}, Body: ${response.body}');
     }
   }
 
@@ -73,7 +85,7 @@ class ApiService {
   if (token == null) throw Exception('No token found');
 
   final response = await http.get(
-    Uri.parse('$baseUrl/api/restaurants/'),
+    Uri.parse('$baseUrl/restaurants/'),
     headers: {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',

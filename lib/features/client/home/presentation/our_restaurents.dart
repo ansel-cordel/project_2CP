@@ -13,7 +13,7 @@ class OurRestaurants extends ConsumerStatefulWidget {
 class _OurRestaurantsState extends ConsumerState<OurRestaurants> {
   @override
   Widget build(BuildContext context) {
-    final restaurants = ref.watch(restaurantsProvider);
+    final restaurants = ref.watch(restaurantsProvider); //this nigga does have the restaurant id and the item id and the quantity
     
     double width = MediaQuery.of(context).size.width;
     return restaurants.when(
@@ -47,9 +47,11 @@ class _OurRestaurantsState extends ConsumerState<OurRestaurants> {
                 height: MediaQuery.of(context).size.height * 0.7,
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: restaurants2.length,
+                  itemCount: 1,
                   itemBuilder: (context, index) {
                     return OurRestaurantsWidget(
+                      restaurantid:restaurants2[index].restaurantId.toString(),
+                      number:restaurants2[index].number,
                       name: restaurants2[index].name,
                       image: "assets/restaurant.jpg",
                       location: restaurants2[index].address,  // Changed: Use actual address
